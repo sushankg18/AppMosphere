@@ -1,6 +1,8 @@
 import { User } from '../models/user.models.js'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import { transporter } from '../utils/emailSender.js'
+import crypto from 'crypto'
 
 export const registeruser = async (req, res) => {
 
@@ -172,11 +174,11 @@ export const deleteUser = async (req, res) => {
         const { userId } = req.params;
         const loggedInuser = req.id;
 
-        const {password} = req.body
+        const { password } = req.body
 
-        if(!password){
+        if (!password) {
             return res.status(402).json({
-                message : "Password is required for deleting account !"
+                message: "Password is required for deleting account !"
             })
         };
 
@@ -187,7 +189,7 @@ export const deleteUser = async (req, res) => {
         };
 
         const user = await User.findById(userId)
-        
+
         if (!user) {
             return res.status(402).json({
                 message: "User not found"
@@ -195,9 +197,9 @@ export const deleteUser = async (req, res) => {
         };
 
         const isPassValid = await bcrypt.compare(password, user.password)
-        if(!isPassValid){
+        if (!isPassValid) {
             return res.status(401).json({
-                message : "Incorrect password"
+                message: "Incorrect password"
             })
         };
 
@@ -211,3 +213,38 @@ export const deleteUser = async (req, res) => {
         console.log("Error while deleting user : ", error.message)
     }
 }
+
+export const sendEmail = async (req, res) => {
+
+    const randomInt = crypto.randomInt(0, 10000);
+    const otp = String(randomInt).padStart(4, '4');
+
+    const reciever = {
+        from: "no-reply@apmosphere.com",
+        to: "vasukum8368@gmail.com",
+        subject: "OTP Verification for Password Reset",
+        text: "Welcome to Appmosphere",
+        html: `
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #000;">
+            <h2>Welcome to Appmosphere</h2>
+            <p style="font-size: 1rem; color: #000;">You have requested to reset your password. Please use the OTP below to proceed:</p>
+            <p style="font-size: 1.2rem; font-weight: bold; color: #000;">OTP: ${otp}</p>
+            <p style="font-size: 1rem;color: #000;">If you did not request this change, please ignore this email.</p>
+            <p>Regards,</p>
+            <p><strong>Apmosphere Team</strong></p>
+        </div>`
+    };
+
+    try {
+        await transporter.sendMail(reciever);
+        return res.json({
+            message: "Email sent successfully!"
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: "Got error while sending email",
+            error: error.message
+        });
+    }
+
+};

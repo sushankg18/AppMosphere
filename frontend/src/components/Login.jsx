@@ -1,4 +1,4 @@
-import {  Button, Center, Flex, Heading, Image, Input, Text } from '@chakra-ui/react'
+import { Button, Center, Flex, Heading, Image, Input, Text } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
 import React from 'react'
 import { MdLogin } from "react-icons/md";
@@ -42,12 +42,19 @@ const Login = () => {
 
 
             <Flex flexDir={'column'}>
-              <Button bgColor={'#000'} color={'#fff'} _hover={{backgroundColor : "#505050"}}>Login</Button>
+              <Button bgColor={'#000'} color={'#fff'} _hover={{ backgroundColor: "#505050" }}>Login</Button>
             </Flex>
 
-            <Flex gap={'.7rem'}>
-              <Text>Don't have an account ?</Text>
-              <Link to={'/user/register'} textDecor={'underline 1px solid black'}>Register</Link>
+            <Flex flexDir={'column'} gap={'.4rem'}>
+              <Flex gap={'.3rem'}>
+                <Text>Don't have an account ?</Text>
+                <Text _hover={{ textDecor: "underline 1px solid black" }} w={'fit-content'}>
+                  <Link to={'/user/register'} textDecor={'underline 1px solid black'}>Register</Link>
+                </Text>
+              </Flex>
+              <Text _hover={{ textDecor: "underline 1px solid black" }} w={'fit-content'}>
+                <Link to={'/user/forgetpassword'} >Forget Password ?</Link>
+              </Text>
             </Flex>
           </Flex>
         </Flex>

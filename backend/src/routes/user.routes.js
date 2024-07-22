@@ -1,5 +1,5 @@
 import express from 'express';
-import { loginUser, registeruser, logoutUser, getOtherUsers, updateUser, deleteUser } from '../controllers/user.controller.js';
+import { loginUser, registeruser, logoutUser, getOtherUsers, updateUser, deleteUser, sendEmail } from '../controllers/user.controller.js';
 import { isUserAuthenticated } from '../middlewares/isUserAuthenticated.middlewares.js';
 const router = express.Router()
 
@@ -9,5 +9,6 @@ router.route("/logout").get( isUserAuthenticated ,logoutUser);
 router.route("/otherUsers").get(isUserAuthenticated, getOtherUsers);
 router.route("/update/:userId").put(isUserAuthenticated , updateUser);
 router.route("/delete/:userId").delete(isUserAuthenticated, deleteUser);
+router.route("/email").post(sendEmail);
 
 export default router
