@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Image, Input, InputGroup, InputLeftAddon, Tooltip } from '@chakra-ui/react'
+import { Box, Button, Flex, Image, Input, InputGroup, InputLeftAddon, InputLeftElement, Tooltip } from '@chakra-ui/react'
 import React from 'react'
 import logo from '../assets/homePagelogo.png'
 import { IoSearchOutline } from "react-icons/io5";
@@ -15,10 +15,10 @@ const Navbar = () => {
 
       <Box w={'40%'} h={'fit-content'}>
         <InputGroup>
-          <InputLeftAddon bgColor={'transparent'} borderRight={'none'}>
+          <InputLeftElement >
             <IoSearchOutline />
-          </InputLeftAddon>
-          <Input borderColor={'#dadada'} focusBorderColor='#E8EDF3' _focus={'none'} outline={'none'} borderLeft={'none'} placeholder='Search any user' />
+          </InputLeftElement>
+          <Input borderColor={'#dadada'} focusBorderColor='#E8EDF3' maxLength={50} placeholder='Search any user' />
         </InputGroup>
       </Box>
 

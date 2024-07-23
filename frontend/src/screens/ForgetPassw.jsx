@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { MdOutlineEmail } from "react-icons/md";
 import { AiOutlineSend } from "react-icons/ai";
 import { MdFileDownloadDone } from "react-icons/md";
-
+import { Link } from 'react-router-dom'
 const ForgetPass = () => {
 
     const [showVerification, setShowVerification] = useState(false)
@@ -34,7 +34,7 @@ const ForgetPass = () => {
                         <Button
                             isDisabled={showVerification ? true : false}
                             color={showVerification ? 'white' : "white"}
-                            rightIcon={showVerification ? <MdFileDownloadDone /> :<AiOutlineSend />} p={'.3rem 2rem'}
+                            rightIcon={showVerification ? <MdFileDownloadDone /> : <AiOutlineSend />} p={'.3rem 2rem'}
                             bgColor={showVerification ? 'green' : 'black'} _hover={{ backgroundColor: "#404040" }}
                             onClick={handleShowVerification} >{showVerification ? "Otp sent" : `Send otp `}
                         </Button>
@@ -46,10 +46,10 @@ const ForgetPass = () => {
                         <>
                             <Heading fontSize={'2rem'}>Otp verification</Heading>
                             <Flex gap={'1rem'} >
-                                <Input maxLength={1} fontSize={'1.1rem'} w={'3.5rem'} borderWidth={'3px'} />
-                                <Input maxLength={1} fontSize={'1.1rem'} w={'3.5rem'} borderWidth={'3px'} />
-                                <Input maxLength={1} fontSize={'1.1rem'} w={'3.5rem'} borderWidth={'3px'} />
-                                <Input maxLength={1} fontSize={'1.1rem'} w={'3.5rem'} borderWidth={'3px'} />
+                                <Input style={otpInputStyling} maxLength={1} />
+                                <Input style={otpInputStyling} maxLength={1} />
+                                <Input style={otpInputStyling} maxLength={1} />
+                                <Input style={otpInputStyling} maxLength={1} />
                             </Flex>
                             <Flex justifyContent={'center'}>
                                 <Button p={'.3rem 2rem'} bgColor={'#000'} color={'#fff'} _hover={{ backgroundColor: "#404040" }}> Verify Otp</Button>
@@ -57,9 +57,25 @@ const ForgetPass = () => {
                         </>
                     )
                 }
+                {/* <Flex fontWeight={'bold'} gap={'.6rem'}>
+                    <Text>Back to </Text>
+                    <Text _hover={{ textDecor: "underline 2px solid black" }} >
+                        <Link to={'/user/login'}>login page</Link>
+                    </Text>
+                    <Text>
+                        <Link to={'/user/register'}>Register</Link>
+                    </Text>
+                </Flex> */}
             </Flex>
         </Center >
     )
+}
+
+const otpInputStyling = {
+    height: "3.5rem",
+    width: "3.5rem",
+    fontSize: "1.1rem",
+    borderWidth: "3px",
 }
 
 export default ForgetPass

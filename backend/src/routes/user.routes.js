@@ -4,7 +4,7 @@ import { isUserAuthenticated } from '../middlewares/isUserAuthenticated.middlewa
 const router = express.Router()
 
 router.route("/register").post(registeruser);
-router.route("/login").get(loginUser);
+router.route("/login").post(loginUser);
 router.route("/logout").get( isUserAuthenticated ,logoutUser);
 router.route("/otherUsers").get(isUserAuthenticated, getOtherUsers);
 router.route("/update/:userId").put(isUserAuthenticated , updateUser);

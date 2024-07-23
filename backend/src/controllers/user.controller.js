@@ -20,7 +20,7 @@ export const registeruser = async (req, res) => {
 
         const existedUser = await User.findOne({ email })
         if (existedUser) {
-            return res.status(400).json({ message: "User already Existed!" })
+            return res.status(400).json({ message: "User with this email is already Existed!" })
         }
 
         const hashedPassword = await bcrypt.hash(confirmPassword, 10);
@@ -32,8 +32,8 @@ export const registeruser = async (req, res) => {
             fullname,
             username,
             email,
-            password: hashedPassword,
             gender,
+            password: hashedPassword,
             profilePhoto: gender === "male" ? maleProfilePhoto : femaleProfilePhoto
         });
 
@@ -51,14 +51,14 @@ export const loginUser = async (req, res) => {
     try {
         const { username, email, password } = req.body;
 
-        const requiredFields = [username, email, password];
+        const requiredFields = [ email, password];
         if (requiredFields.some((fields) => !fields.trim())) {
             return res.status(401).json({ message: "Please fill all fields!" })
         };
 
         const user = await User.findOne({ email })
         if (!user) {
-            return res.status(400).json({ messgaer: "User not found" })
+            return res.status(400).json({ message: "User not found" })
         };
 
         const isPassMatched = await bcrypt.compare(password, user.password)

@@ -1,10 +1,59 @@
-import { Button, Center, Flex, Heading, Image, Input, Text } from '@chakra-ui/react'
-import { Link } from 'react-router-dom'
-import React from 'react'
+import { Button, Center, Flex, Heading, Image, Input, Text, useToast } from '@chakra-ui/react'
+import { Link, useNavigate } from 'react-router-dom'
+import React, { useState } from 'react'
 import { MdLogin } from "react-icons/md";
 import logo from '../assets/siteLogo.png'
 import handshakeImg from '../assets/handshake.jpg'
+import axios from 'axios';
+import { LiaUserAltSlashSolid } from "react-icons/lia";
+
 const Login = () => {
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const navigate = useNavigate()
+  const toast = useToast()
+  const handleLogin = async (e) => {
+    e.preventDefault()
+    try {
+
+      const user = await axios.post('http://localhost:8080/api/v1/user/login',
+        {
+          email, password
+        }, {
+        headers: {
+          "Content-Type": "application/json"
+        }, withCredentials: true
+      }
+      );
+
+      if (user) {
+        console.log("logged in user : ", user)
+        navigate('/')
+      }
+    } catch (error) {
+
+      if (error.response.status === 400) {
+        toast({
+          status: "error",
+          title: error.response.data.message,
+          duration: 4000,
+          position: 'top',
+        })
+      }
+
+      if(error.response.status === 401){
+        toast({
+          status : "error",
+          title : "Looks like you missed something!",
+          position : "top",
+          duration : 4000,
+        })
+      }
+      console.log("Error while user logging : ", error)
+    }
+  }
   return (
     <Center bgColor={'#fff'} h={'100vh'} gap={'2rem'} userSelect={'none'} flexDir={'column'}>
 
@@ -28,21 +77,21 @@ const Login = () => {
             <Heading fontSize={'1.8rem'}>Welcome back</Heading>
           </Flex>
 
-          <Flex flexDir={'column'} gap={'1rem'} w={'80%'} alignSelf={'center'} >
+          <Flex as={'form'} flexDir={'column'} gap={'1rem'} w={'80%'} alignSelf={'center'} >
 
             <Flex flexDir={'column'}>
               <Text as='label'>email</Text>
-              <Input focusBorderColor='#000' placeholder='' />
+              <Input onChange={(e) => setEmail(e.target.value)} value={email} focusBorderColor='#000' placeholder='' />
             </Flex>
 
             <Flex flexDir={'column'}>
               <Text as='label'>password</Text>
-              <Input focusBorderColor='#000' placeholder='' />
+              <Input onChange={(e) => setPassword(e.target.value)} value={password} focusBorderColor='#000' placeholder='' />
             </Flex>
 
 
             <Flex flexDir={'column'}>
-              <Button bgColor={'#000'} color={'#fff'} _hover={{ backgroundColor: "#505050" }}>Login</Button>
+              <Button onClick={handleLogin} bgColor={'#000'} color={'#fff'} type='submit' _hover={{ backgroundColor: "#505050" }}>Login</Button>
             </Flex>
 
             <Flex flexDir={'column'} gap={'.4rem'}>

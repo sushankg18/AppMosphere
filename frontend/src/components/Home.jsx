@@ -1,4 +1,4 @@
-import { Box, Flex, Heading } from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
 import React from 'react'
 import Navbar from './Navbar.jsx'
 import PostSection from './PostSection.jsx'
@@ -9,7 +9,8 @@ const Home = () => {
     <Box bgColor={'white'} minH={'100vh'}>
       <Navbar />
 
-      <Flex>
+      <Flex justifyContent={'space-between'} p={'1rem 1rem'}>
+        <SuggestionBox />
         <PostSection />
         <SuggestionBox />
       </Flex>
