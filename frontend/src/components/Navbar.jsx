@@ -24,9 +24,15 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { LuLogOut } from "react-icons/lu";
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
-import  getOtherUsers from '../hooks/getOtherUsers';
+import getOtherUsers from '../hooks/getOtherUsers';
+import { useSelector } from 'react-redux';
+
 const Navbar = () => {
   const navigate = useNavigate()
+  const { authUser } = useSelector(store => store.user)
+  if (authUser) {
+    console.log("auth user : ", authUser)
+  }
   const toast = useToast()
   const handleLogout = async () => {
     try {
@@ -42,7 +48,7 @@ const Navbar = () => {
       }
     } catch (error) {
       console.log("Error while logout : ", error)
-    } 
+    }
   }
 
   getOtherUsers();
@@ -61,20 +67,24 @@ const Navbar = () => {
         </InputGroup>
       </Box>
 
-      <Flex gap={'2rem'} fontSize={'1.2rem'}>
-        <Tooltip >
-          <IoChatbubblesOutline cursor={'pointer'} />
-        </Tooltip>
-        <RiNotification3Line cursor={'pointer'} />
+      <Flex gap={'2rem'} fontSize={'1.5rem'}>
+        <IoChatbubblesOutline color={'gray'} cursor={'pointer'} />
+        <RiNotification3Line color={'gray'} cursor={'pointer'} />
         <Menu>
           <MenuButton>
-            <LuUser2 cursor={'pointer'} />
+            {
+              authUser
+                ?
+                <Image src={authUser.profilePhoto} borderRadius={'50%'} w={'1.6rem'} />
+                :
+                <LuUser2 color={'gray'}/>
+            }
           </MenuButton>
 
-          <MenuList>
+          <MenuList fontSize={'1rem'}>
             <MenuItem gap={'1rem'}>
               <IoSettingsOutline />
-              Profile
+              Edit profile
             </MenuItem>
             <MenuItem gap={'1rem'}>
               <IoSettingsOutline />

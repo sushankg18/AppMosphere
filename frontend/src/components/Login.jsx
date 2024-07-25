@@ -5,8 +5,9 @@ import { MdLogin } from "react-icons/md";
 import logo from '../assets/siteLogo.png'
 import handshakeImg from '../assets/handshake.jpg'
 import axios from 'axios';
-import { LiaUserAltSlashSolid } from "react-icons/lia";
-
+// import { LiaUserAltSlashSolid } from "react-icons/lia";
+import { setAuthUser } from '../redux/userSlice';
+import {useDispatch} from 'react-redux'
 const Login = () => {
 
   const [email, setEmail] = useState('')
@@ -14,6 +15,8 @@ const Login = () => {
 
   const navigate = useNavigate()
   const toast = useToast()
+  const dispatch = useDispatch()
+
   const handleLogin = async (e) => {
     e.preventDefault()
     try {
@@ -29,7 +32,8 @@ const Login = () => {
       );
 
       if (user) {
-        console.log("logged in user : ", user)
+        console.log("logged in user : ", user.data)
+        dispatch(setAuthUser(user.data));
         navigate('/')
       }
     } catch (error) {

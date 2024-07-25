@@ -4,6 +4,7 @@ import Navbar from './Navbar.jsx'
 import PostSection from './PostSection.jsx'
 import SuggestionBox from './SuggestionBox.jsx'
 import { getOtherUsers } from '../hooks/getOtherUsers.jsx'
+import HomeUserProfile from './HomeUserProfile.jsx'
 const Home = () => {
  
   return (
@@ -11,7 +12,7 @@ const Home = () => {
       <Navbar />
 
       <Flex justifyContent={'space-between'} p={'1rem 1rem'}>
-        <SuggestionBox />
+        <HomeUserProfile />
         <PostSection />
         <SuggestionBox />
       </Flex>
