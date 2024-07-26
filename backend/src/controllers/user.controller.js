@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { transporter } from '../utils/emailSender.js'
 import crypto from 'crypto'
+import { uploadOnCloudinary } from '../utils/cloudinary.js'
 
 export const registeruser = async (req, res) => {
 
@@ -51,7 +52,7 @@ export const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        const requiredFields = [ email, password];
+        const requiredFields = [email, password];
         if (requiredFields.some((fields) => !fields.trim())) {
             return res.status(401).json({ message: "Please fill all fields!" })
         };
@@ -126,7 +127,7 @@ export const updateUser = async (req, res) => {
         const { userId } = req.params;
         const loggedInuser = req.id;
 
-        const { username, password, profilePhoto, email } = req.body;
+        const { username, password,  email } = req.body;
 
         if (loggedInuser != userId) {
             return res.status(403).json({
@@ -142,9 +143,15 @@ export const updateUser = async (req, res) => {
             })
         };
 
+        let profilePhotoUrl;
+        if (req.file) {
+            const result = await uploadOnCloudinary(req.file.path);
+            profilePhotoUrl = result.secure_url;
+        }
+
         if (username) user.username = username;
         if (email) user.email = email;
-        if (profilePhoto) user.profilePhoto = profilePhoto;
+        if (profilePhotoUrl) user.profilePhoto = profilePhotoUrl;
 
         if (password) {
             const newPass = await bcrypt.hash(password, 10);
@@ -162,6 +169,7 @@ export const updateUser = async (req, res) => {
                 username: user.username
             }
         })
+
     } catch (error) {
         console.log("Error while updating user details : ", error.message);
     }

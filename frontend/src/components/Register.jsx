@@ -75,7 +75,7 @@ const Register = () => {
 
   const handleUsernameChange = (event) => {
     const value = event.target.value;
-    const regex = /^[a-zA-Z0-9]*$/;
+    const regex = /^[a-zA-Z0-9_]*$/;
     if (regex.test(value)) {
       setUsername(value);
     }

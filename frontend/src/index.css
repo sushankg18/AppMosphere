@@ -26,3 +26,27 @@ code {
 .homeUserProfile:hover ::-webkit-scrollbar-thumb{
   visibility : visible;
 }
+.postSection ::-webkit-scrollbar{
+  width: 5px;
+}
+.postSection ::-webkit-scrollbar-thumb{
+  visibility: hidden;
+  background-color: rgb(194, 194, 194);
+}
+.postSection:hover ::-webkit-scrollbar-thumb{
+  visibility : visible;
+}
+
+/* .storiesSection ::-webkit-scrollbar{
+  height: 5px;
+  width: 5px ;
+  background-color: black;
+}
+.storiesSection ::-webkit-scrollbar-track {
+  background-color: lightseagreen;
+}
+.storiesSection ::-webkit-scrollbar-thumb{
+  background-color: rgb(194, 194, 194);
+  width: 5px;
+  height: 5px;
+} */

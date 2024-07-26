@@ -8,7 +8,7 @@ import HomeUserProfile from './HomeUserProfile.jsx'
 const Home = () => {
  
   return (
-    <Box bgColor={'white'} minH={'100vh'}>
+    <Box bgColor={'white'} overflowY={'hidden'} maxH={'100vh'}>
       <Navbar />
 
       <Flex justifyContent={'space-between'} p={'1rem 1rem'}>
