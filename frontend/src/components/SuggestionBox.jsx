@@ -14,12 +14,12 @@ const SuggestionBox = () => {
           {
             otherUsers.map((item, idx) => {
               return (
-                <Flex  p={'.4rem .5rem'} gap={'1rem'} alignItems={'center'}>
-                  <Box>
-                    <Image src={item.profilePhoto} w={'3rem'} />
+                <Flex p={'.4rem .5rem'} gap={'.7rem'} alignItems={'center'}>
+                  <Box w={'20%'} overflow={'hidden'}>
+                    <Image src={item?.profilePhoto} w={'40px'} borderRadius={'50%'} objectFit={'cover'} />
                   </Box>
-                  <Flex justifyContent={'space-between'} gap={'.3rem'} w={'full'}>
-                    <Text color={'black'}>{item.username}</Text>
+                  <Flex  justifyContent={'space-between'} gap={'.3rem'} minW={'80%'}>
+                    <Text fontWeight={'bold'} w={'70%'} noOfLines={'1'} color={'black'}>{item?.username}</Text>
                     <Button bgColor='rgb(28, 139, 247)' color={'white'} _hover={{bgColor : "#1877F2"}}  p={' .9rem'} fontSize={'.9rem'} size={'xs'} fontWeight={'bold'}>Follow</Button>
                   </Flex>
                 </Flex>

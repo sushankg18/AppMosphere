@@ -1,19 +1,24 @@
-import { Box, Center, Divider, Flex, Heading, Image, Text } from '@chakra-ui/react'
-import React from 'react'
+import { Box, Button, Center, Divider, Flex, Heading, Image, Text } from '@chakra-ui/react'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import post1 from '../assets/randomPost1.jpg'
 import post2 from '../assets/randomPost2.jpg'
+
 const HomeUserProfile = () => {
+
+
   const { authUser } = useSelector(store => store.user)
   if (!authUser) return;
 
 
   return (
-    <Box className='homeUserProfile' w={'22%'} h={'85vh'} p={'1rem'} boxShadow={'rgba(14, 30, 37, .1) 0px 2px 4px 0px, rgba(14, 30, 37, 0.1) 0px 2px 16px 0px'}>
-      <Flex flexDir={'column'}  gap={'1rem'} h={'100%'}>
+    <Box className='homeUserProfile'overflow={'hidden'} w={'22%'} h={'85vh'} p={'1rem'} boxShadow={'rgba(14, 30, 37, .1) 0px 2px 4px 0px, rgba(14, 30, 37, 0.1) 0px 2px 16px 0px'}>
+      <Flex flexDir={'column'} gap={'1rem'} h={'100%'}>
 
         <Center >
-          <Image src={authUser?.profilePhoto} w={'5rem'} />
+          <Box borderRadius={'full'} overflow={'hidden'}>
+            <Image src={authUser?.profilePhoto} w={'5rem'} />
+          </Box>
         </Center>
 
         <Center flexDir={'column'}>
@@ -21,7 +26,7 @@ const HomeUserProfile = () => {
           <Text >@{authUser?.username}</Text>
         </Center>
 
-        <Flex fontSize={'.9rem'} justifyContent={'space-between'}>
+        <Flex fontSize={'.9rem'} flexWrap={'wrap'} justifyContent={'space-between'}>
           <Flex gap={'.4rem'}>
             <Text as={'strong'}>8</Text>
             <Text>posts</Text>
@@ -47,7 +52,7 @@ const HomeUserProfile = () => {
 
         <Divider />
 
-        <Flex flexWrap={'wrap'}  h={'100%'} overflow={'scroll'} overflowX={'hidden'}  gap={'1rem'} justifyContent={'space-evenly'} >
+        <Flex flexWrap={'wrap'} h={'100%'} overflow={'scroll'} overflowX={'hidden'} gap={'1rem'} justifyContent={'space-evenly'} >
           <Image w={'6rem'} src={post1} />
           <Image w={'6rem'} src={post2} />
           <Image w={'6rem'} src={post1} />

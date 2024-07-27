@@ -19,6 +19,7 @@ import logo from '../assets/homePagelogo.png'
 import { IoSearchOutline } from "react-icons/io5";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { LuUser2 } from "react-icons/lu";
+import { GrUpdate } from "react-icons/gr";
 import { RiNotification3Line } from "react-icons/ri";
 import { IoSettingsOutline } from "react-icons/io5";
 import { LuLogOut } from "react-icons/lu";
@@ -26,7 +27,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 import getOtherUsers from '../hooks/getOtherUsers';
 import { useSelector } from 'react-redux';
-
+import UpdateUserProfile from '../screens/UpdateUserProfile';
 const Navbar = () => {
   const navigate = useNavigate()
   const { authUser } = useSelector(store => store.user)
@@ -77,14 +78,14 @@ const Navbar = () => {
                 ?
                 <Image src={authUser.profilePhoto} borderRadius={'50%'} w={'1.6rem'} />
                 :
-                <LuUser2 color={'gray'}/>
+                <LuUser2 color={'gray'} />
             }
           </MenuButton>
 
           <MenuList fontSize={'1rem'}>
             <MenuItem gap={'1rem'}>
-              <IoSettingsOutline />
-              Edit profile
+              <GrUpdate />
+              <UpdateUserProfile/>
             </MenuItem>
             <MenuItem gap={'1rem'}>
               <IoSettingsOutline />

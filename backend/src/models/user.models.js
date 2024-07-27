@@ -26,11 +26,20 @@ const userSchema = new mongoose.Schema(
         confirmPassword :{
             type: String,
         },
+        bio : {
+            type : String
+        },
         gender : {
             type : String,
             required : true,
             enum : ["male", "female"]
-        }
+        },
+        posts: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "createPost",
+            default: []
+          }],
+        
     }
     ,{timestamps : true});
 

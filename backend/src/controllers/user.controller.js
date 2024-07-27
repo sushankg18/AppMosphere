@@ -127,7 +127,7 @@ export const updateUser = async (req, res) => {
         const { userId } = req.params;
         const loggedInuser = req.id;
 
-        const { username, password,  email } = req.body;
+        const { username, password,  email, bio } = req.body;
 
         if (loggedInuser != userId) {
             return res.status(403).json({
@@ -152,7 +152,7 @@ export const updateUser = async (req, res) => {
         if (username) user.username = username;
         if (email) user.email = email;
         if (profilePhotoUrl) user.profilePhoto = profilePhotoUrl;
-
+        if(bio) user.bio = bio;
         if (password) {
             const newPass = await bcrypt.hash(password, 10);
             user.password = newPass;
@@ -166,7 +166,8 @@ export const updateUser = async (req, res) => {
                 id: user._id,
                 email: user.email,
                 profilePhoto: user.profilePhoto,
-                username: user.username
+                username: user.username,
+                bio : user.bio
             }
         })
 
