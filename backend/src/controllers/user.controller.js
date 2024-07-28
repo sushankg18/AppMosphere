@@ -122,7 +122,7 @@ export const getOtherUsers = async (req, res) => {
 }
 
 export const updateUser = async (req, res) => {
-
+ 
     try {
         const { userId } = req.params;
         const loggedInuser = req.id;

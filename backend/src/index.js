@@ -18,7 +18,7 @@ app.use(cors({
 
 //Routes
 app.use("/api/v1/user", userRouter);
-app.use("/api/v1/user", postRouter)
+app.use("/api/v1/post", postRouter)
 
 const port = process.env.PORT || 4080;
 dbConnection()
