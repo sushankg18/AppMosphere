@@ -12,7 +12,8 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  useToast
+  useToast,
+  Circle
 } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 import logo from '../assets/homePagelogo.png'
@@ -73,19 +74,21 @@ const Navbar = () => {
         <RiNotification3Line color={'gray'} cursor={'pointer'} />
         <Menu>
           <MenuButton>
-            {
-              authUser
-                ?
-                <Image src={authUser.profilePhoto} borderRadius={'50%'} w={'1.6rem'} />
-                :
-                <LuUser2 color={'gray'} />
-            }
+            <Circle w={'2rem'} h={'2rem'} overflow={'hidden'}>
+              {
+                authUser
+                  ?
+                  <Image src={authUser.profilePhoto} objectFit={'cover'} w={'100%'} h={'100%'}  />
+                  :
+                  <LuUser2 color={'gray'} />
+              }
+            </Circle>
           </MenuButton>
 
           <MenuList fontSize={'1rem'}>
             <MenuItem gap={'1rem'}>
               <GrUpdate />
-              <UpdateUserProfile/>
+              <UpdateUserProfile />
             </MenuItem>
             <MenuItem gap={'1rem'}>
               <IoSettingsOutline />

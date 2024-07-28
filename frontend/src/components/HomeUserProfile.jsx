@@ -1,4 +1,4 @@
-import { Box, Button, Center, Divider, Flex, Heading, Image, Text } from '@chakra-ui/react'
+import { Box, Button, Center, Circle, Divider, Flex, Heading, Image, Text } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import post1 from '../assets/randomPost1.jpg'
@@ -16,11 +16,11 @@ const HomeUserProfile = () => {
       <Flex flexDir={'column'} gap={'1rem'} h={'100%'}>
 
         <Center >
-          <Box borderRadius={'full'} overflow={'hidden'}>
-            <Image src={authUser?.profilePhoto} w={'5rem'} />
-          </Box>
+          <Circle w={'7rem'} h={'7rem'} overflow={'hidden'}>
+            <Image src={authUser?.profilePhoto} w={'100%'} h={'100%'} objectFit={'cover'}/>
+          </Circle>
         </Center>
-
+ 
         <Center flexDir={'column'}>
           <Text fontSize={'1.1rem'} as={'strong'}>{authUser?.fullname}</Text>
           <Text >@{authUser?.username}</Text>

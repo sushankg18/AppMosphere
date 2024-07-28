@@ -1,4 +1,4 @@
-import { Box, Flex, Image, Text } from '@chakra-ui/react'
+import { Box, Circle, Flex, Image, Text } from '@chakra-ui/react'
 import React from 'react'
 import post1 from '../assets/randomPost1.jpg'
 import post2 from '../assets/randomPost2.jpg'
@@ -12,9 +12,9 @@ const Stories = () => {
                     randomUser.map((i, idx) => {
                         return (
                             <Flex w={'5rem'} h={'fit-content'} flexDir={'column'} overflow={'hidden'}>
-                                <Box w={'4rem'} h={'4rem'} border={'3px solid green'} borderRadius={'50%'} overflow={'hidden'}>
+                                <Circle w={'4rem'} h={'4rem'} border={'3px solid green'}  overflow={'hidden'}>
                                     <Image src={i.picture.large} w={'100%'} objectFit={'cover'} />
-                                </Box>
+                                </Circle>
                                 <Text color={'black'} noOfLines={'1'}>{i.login.username}</Text>
                             </Flex>
                         )

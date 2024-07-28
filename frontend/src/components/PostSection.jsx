@@ -1,4 +1,4 @@
-import { Avatar, Box, Center, Divider, Flex, Image, Text } from '@chakra-ui/react'
+import { Avatar, Box, Button, Center, Divider, Flex, Image, Text, Tooltip } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 import post1 from '../assets/randomPost1.jpg'
 import post2 from '../assets/randomPost2.jpg'
@@ -39,9 +39,23 @@ const PostSection = () => {
               <Image w={'24rem'} src={i.picture.large} />
 
               <Flex gap={'2rem'}>
-                <FaRegHeart fontSize={'1.3rem'} />
-                <FaRegComment fontSize={'1.3rem'} />
-                <FiSend fontSize={'1.3rem'} />
+                <Tooltip hasArrow label='like' aria-label='A tooltip' openDelay={'500'} >
+                  <Box as='button' variant={'unstyled'}>
+                    <FaRegHeart fontSize={'1.3rem'} />
+                  </Box>
+                </Tooltip>
+                <Tooltip hasArrow label='comment' aria-label='A tooltip' openDelay={'500'}>
+                  <Box as='button' variant={'unstyled'}>
+                    <FaRegComment fontSize={'1.3rem'} />
+                  </Box>
+                </Tooltip>
+                <Tooltip hasArrow label='share' aria-label='A tooltip' openDelay={'500'}>
+                  <Box as='button' variant={'unstyled'}>
+                    <FiSend fontSize={'1.3rem'} />
+                  </Box>
+                </Tooltip>
+
+
               </Flex>
 
               <Divider />

@@ -1,5 +1,17 @@
 import mongoose from 'mongoose'
 
+const commentSchema = new mongoose.Schema({
+    text : {
+        type : String,
+    },
+    user : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : "User"
+    }
+},{timestamps : true})
+
+
+
 const CreatePostSchema = new mongoose.Schema(
     {
         post: {
@@ -15,11 +27,7 @@ const CreatePostSchema = new mongoose.Schema(
             ref: "User",
             default: []
         }],
-        comments: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-            default: []
-        }],
+        comments: [commentSchema],
         visibility: {
             type: String,
             enum: ['public', 'private', 'friends'],

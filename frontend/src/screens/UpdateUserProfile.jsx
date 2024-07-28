@@ -16,6 +16,7 @@ import {
     Text,
     Image,
     Flex,
+    Circle,
 } from '@chakra-ui/react'
 import { useSelector } from 'react-redux'
 import { TbCameraUp } from "react-icons/tb";
@@ -38,7 +39,7 @@ const UpdateUserProfile = () => {
 
     if (!authUser) return;
     return (
-        <Box w={'100%'}> 
+        <Box w={'100%'}>
             <Text onClick={onOpen}>Update Profile</Text>
 
             <Modal
@@ -53,18 +54,17 @@ const UpdateUserProfile = () => {
                     <ModalCloseButton />
                     <ModalBody pb={6} display={'flex'} flexDir={'column'} gap={'2rem'}>
                         <FormControl display={'flex'} w={'fit-content'} alignSelf={'center'} gap={'1rem'} flexDir={'column'} alignItems={'center'}>
-                            <Box w={'7rem'} h={'7rem'} userSelect={'none'}>
+                            <Circle w={'6rem'} h={'6rem'} overflow={'hidden'} userSelect={'none'}>
                                 <Image
-                                    borderRadius={'50%'}
                                     w={'100%'}
                                     height={'100%'}
-                                    objectFit={'cover'}
+                                    objectFit={'fill'}
                                     ref={initialRef}
                                     src={profilePhoto}
                                     position={'relative'}
                                     border={'1px solid black'}
                                 />
-                            </Box>
+                            </Circle>
                             <Input onChange={handleFileChange} type='file' accept='image/png , image/jpeg' display={'none'} id='profilepic' />
                             <Box w={'fit-content'}                             >
                                 <Button as={'label'} leftIcon={<TbCameraUp />} colorScheme='green' fontSize={'.9rem'} p={'0 .5rem'} cursor={'pointer'} for="profilepic">
@@ -90,7 +90,7 @@ const UpdateUserProfile = () => {
                         <Button colorScheme='blue' mr={3}>
                             Save
                         </Button>
-                        <Button onClick={onClose }>Cancel</Button>
+                        <Button onClick={onClose}>Cancel</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>

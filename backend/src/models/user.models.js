@@ -2,45 +2,55 @@ import mongoose from 'mongoose'
 
 const userSchema = new mongoose.Schema(
     {
-        fullname : {
-            type : String,
-            required : true,
+        fullname: {
+            type: String,
+            required: true,
         },
-        username : {
-            type : String,
-            required : true,
-            unique : true
+        username: {
+            type: String,
+            required: true,
+            unique: true
         },
-        email : {
-            type : String,
-            unique : true,
-            required : true
+        email: {
+            type: String,
+            unique: true,
+            required: true
         },
-        profilePhoto : {
-            type : String,
-        },
-        password : {
-            type : String,
-            required : true
-        },
-        confirmPassword :{
+        profilePhoto: {
             type: String,
         },
-        bio : {
-            type : String
+        password: {
+            type: String,
+            required: true
         },
-        gender : {
-            type : String,
-            required : true,
-            enum : ["male", "female"]
+        confirmPassword: {
+            type: String,
+        },
+        bio: {
+            type: String
+        },
+        gender: {
+            type: String,
+            required: true,
+            enum: ["male", "female"]
         },
         posts: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "createPost",
             default: []
-          }],
-        
-    }
-    ,{timestamps : true});
+        }],
+        followers : [{
+            type : mongoose.Schema.Types.ObjectId,
+            ref : "User",
+            default : []
+        }],
+        following : [{
+            type : mongoose.Schema.Types.ObjectId,
+            ref : "User",
+            default : []
+        }]
 
-export const User = mongoose.model("User" , userSchema)
+    }
+    , { timestamps: true });
+
+export const User = mongoose.model("User", userSchema)
