@@ -34,6 +34,11 @@ const userSchema = new mongoose.Schema(
             required: true,
             enum: ["male", "female"]
         },
+        saves : [{
+            type : mongoose.Schema.Types.ObjectId,
+            ref : "createPost",
+            default : []
+        }],
         posts: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "createPost",

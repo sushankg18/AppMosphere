@@ -21,7 +21,7 @@ const SuggestionBox = () => {
 
                 <Flex justifyContent={'space-between'} gap={'.3rem'} minW={'80%'}>
                   <Text fontWeight={'bold'} w={'70%'} noOfLines={'1'} color={'black'}>{item?.username}</Text>
-                  <Button bgColor='rgb(28, 139, 247)' color={'white'} _hover={{ bgColor: "#1877F2" }} p={' .9rem'} fontSize={'.9rem'} size={'xs'} fontWeight={'bold'}>Follow</Button>
+                  <Button /*bgColor='rgb(28, 139, 247)'*/ bgColor={'black'} color={'white'} _hover={{ bgColor: "rgb(70, 70, 70)" }} p={' .9rem'} fontSize={'.9rem'} size={'xs'} fontWeight={'bold'}>Follow</Button>
                 </Flex>
               </Flex>
             )

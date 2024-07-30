@@ -28,16 +28,16 @@ const HomeUserProfile = () => {
 
         <Flex fontSize={'.9rem'} flexWrap={'wrap'} justifyContent={'space-between'}>
           <Flex gap={'.4rem'}>
-            <Text as={'strong'}>8</Text>
+            <Text as={'strong'}>{authUser?.posts.length}</Text>
             <Text>posts</Text>
           </Flex>
           <Flex gap={'.4rem'}>
-            <Text as={'strong'}>710</Text>
+            <Text as={'strong'}>{authUser?.followers.length}</Text>
             <Text >followers</Text>
           </Flex>
 
           <Flex gap={'.4rem'}>
-            <Text as={'strong'}>10</Text>
+            <Text as={'strong'}>{authUser?.following.length}</Text>
             <Text >following</Text>
           </Flex>
         </Flex>

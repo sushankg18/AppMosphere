@@ -71,16 +71,14 @@ export const loginUser = async (req, res) => {
             userId: user._id
         }
         const token = jwt.sign(tokenData, process.env.JWT_SECRET_KEY, { expiresIn: '1d' })
+
+        const logInUser = await User.findOne({email}).select("-password")
         return res.status(200)
             .cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: "strict" })
             .json({
                 message: "User Logged in successfully !",
                 success: true,
-                id: user._id,
-                username: user.username,
-                fullname: user.fullname,
-                email: user.email,
-                profilePhoto: user.profilePhoto
+                logInUser
             })
 
     } catch (error) {

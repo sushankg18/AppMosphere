@@ -33,7 +33,7 @@ const Login = () => {
 
       if (user) {
         console.log("logged in user : ", user.data)
-        dispatch(setAuthUser(user.data));
+        dispatch(setAuthUser(user.data.logInUser));
         navigate('/')
       }
     } catch (error) {

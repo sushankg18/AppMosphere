@@ -71,6 +71,7 @@ export const deletePost = async (req, res) => {
             })
         };
         const user = await User.findById(loggedInUser).select("-password");
+
         const post = await createPost.findById(postId)
         if (!post) {
             return res.status(400).json({
@@ -78,8 +79,8 @@ export const deletePost = async (req, res) => {
             })
         };
 
-        
-        user.posts.filter(id => id.toString() !== postId.toString())
+
+        user.posts = user.posts.filter(id => id.toString() !== postId.toString())
         user.save();
         await createPost.findByIdAndDelete(postId);
 
@@ -94,6 +95,22 @@ export const deletePost = async (req, res) => {
         })
     }
 };
+
+export const getPosts = async (req, res) => {
+    try {
+        const posts = await createPost.find().populate("owner", "username email profilePhoto"); 
+
+        return res.status(200).json({
+            message: "Got all the posts successfully!",
+            posts
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: "Error while getting posts!",
+            error
+        });
+    }
+}
 
 export const likeOnPost = async (req, res) => {
     try {
@@ -111,7 +128,7 @@ export const likeOnPost = async (req, res) => {
         if (hasLiked) {
             post.likes = post.likes.filter(id => id.toString() !== userId.toString());
             await post.save()
-            return res.status(401).json({
+            return res.status(201).json({
                 message: "You disliked the post !"
             })
         } else {
@@ -173,3 +190,97 @@ export const commentOnPost = async (req, res) => {
 
 };
 
+export const savePost = async (req, res) => {
+    const postId = req.params.postId;
+    const loggedInUser = req.params.userId;
+    const userId = req.id;
+
+    // console.log(loggedInUser)
+    // console.log(userId)
+    if (loggedInUser != userId) {
+        return res.status(401).json({
+            message: "Please login to save the post!"
+        })
+    };
+
+    const post = await createPost.findById(postId);
+    if (!post) {
+        return res.status(400).json({
+            message: "Post not found!"
+        })
+    };
+
+    const user = await User.findById(loggedInUser).select("-password");
+
+    const isSaved = user.saves.includes(postId);
+
+    if (isSaved) {
+        user.saves = user.saves.filter(id => id.toString() !== postId.toString());
+        post.saved = post.saved.filter(id => id.toString() !== userId.toString());
+        console.log("Post id : ", postId)
+        user.save();
+        post.save()
+        return res.status(200).json({
+            message: "Post unsaved!"
+        })
+    } else {
+        user.saves.push(postId)
+        post.saved.push(userId)
+        console.log("Post id : ", postId)
+        user.save();
+        post.save()
+
+        return res.status(200).json({
+            message: "Post saved successfully!",
+            post
+        })
+    }
+
+
+}
+
+export const editPost = async (req, res) => {
+
+    try {
+        const { title, visibility } = req.body;
+        const postId = req.params.userId;
+        const loggedInUser = req.params.id;
+        const userId = req.id;
+
+        if ((!title || title.trim().length === 0) || (visibility)) {
+            return res.status(400).json({
+                message: "if you want to edit the title or visibility then please write something"
+            })
+        };
+
+
+        if (loggedInUser !== userId) {
+            return res.status(401).json({
+                message: "please login first to edit you post"
+            })
+        };
+
+        const post = await createPost.findById(postId);
+        if (!post) {
+            return res.status(401).json({
+                message: "Post not found!"
+            })
+        }
+
+        if (title) post.title = title;
+        if (visibility) post.visibility = visibility;
+
+        await post.save();
+
+        return res.status(200).json({
+            message: "Post edited successfully !"
+        })
+
+    } catch (error) {
+        console.log("Error while editing the post : ", error);
+        return res.status(400).json({
+            message: "Error while editing the post",
+            error
+        })
+    }
+}
