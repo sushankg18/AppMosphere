@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   Box, Button, Circle, Flex, Image,
   Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton,
@@ -15,30 +15,43 @@ const CreatePostModal = () => {
   const [title, setTitle] = useState('')
   const [image, setImage] = useState(null)
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const textareaRef = useRef(null);
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  }, [title]);
+
   const { authUser } = useSelector(store => store.user)
   if (!authUser) return;
-  const handlePost = async() => {
+  const handlePost = async () => {
     try {
-      const response = await axios.post(`http://localhost:8080/api/v1/post/createpost/${authUser?.id}` ,{
+      const response = await axios.post(`http://localhost:8080/api/v1/post/createpost/${authUser?.id}`, {
         title
-      },{
-        headers : {
-          "Content-Type" : "application/json"
-        },withCredentials : true
+      }, {
+        headers: {
+          "Content-Type": "application/json"
+        }, withCredentials: true
       })
 
-      console.log("Got response of creating post through frontend : ",response.data)
-      
+      console.log("Got response of creating post through frontend : ", response.data)
+
     } catch (error) {
-      console.log("Error while creating post through frontend : ",error)
+      console.log("Error while creating post through frontend : ", error)
     }
-  }  
+  }
+
+  const handleChange = (event) => {
+    setTitle(event.target.value);
+  };
   return (
     <>
-      <Box w={'100%'} h={'fit-content'} borderBottom={'1px solid #dadada'} py={'.5rem'}>
+      <Box w={'100%'} h={'fit-content'} py={'.5rem'}>
         <Flex justifyContent={'space-between'} alignItems={'center'}>
           <Circle w={'2.5rem'} h={'2.5rem'} overflow={'hidden'}>
-            <Image src={authUser?.profilePhoto}  objectFit={'cover'} w={'100%'} h={'100%'}/>
+            <Image src={authUser?.profilePhoto} objectFit={'cover'} w={'100%'} h={'100%'} />
           </Circle>
 
           <Box w={'80%'} p={'0 1rem'} onClick={onOpen} cursor={'text'}>Start a thread...</Box>
@@ -58,8 +71,16 @@ const CreatePostModal = () => {
                 <Image src={authUser?.profilePhoto} />
               </Circle>
 
-              <Textarea type={''} onChange={(e)=> setTitle(e.target.value)} value={title} placeholder='Start a thread...' variant={'unstyled'} rows={'2'} />
-
+              <Textarea
+                ref={textareaRef}
+                value={title}
+                onChange={handleChange}
+                placeholder="Start typing..."
+                resize="none"
+                overflow="hidden"
+                rows={1} 
+                style={{ minHeight: "auto", maxHeight: "auto", overflowY: "hidden" }} 
+              />
               <Tooltip label='add photo' fontSize={'.7rem'}>
                 <Box as='button'>
                   <MdOutlineInsertPhoto fontSize={'1.2rem'} />
