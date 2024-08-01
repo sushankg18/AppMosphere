@@ -1,7 +1,17 @@
 import { Avatar, Box, Button, Center, Divider, Flex, Image, Input, Text, Tooltip } from '@chakra-ui/react';
+import {
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuItemOption,
+  MenuGroup,
+  MenuOptionGroup,
+  MenuDivider,
+} from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react';
 import { FiMoreHorizontal } from "react-icons/fi";
-import { FaRegHeart, FaRegComment } from "react-icons/fa6";
+import { FaRegHeart, FaRegComment, FaRegBookmark } from "react-icons/fa6";
 import { FiSend } from "react-icons/fi";
 import { FaHeart } from "react-icons/fa6";
 import post from '../assets/randomPost1.jpg'
@@ -10,6 +20,10 @@ import CreatePostModal from '../screens/CreatePostModal.jsx';
 import axios from 'axios';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
+import { AiOutlineDelete } from "react-icons/ai";
+import { MdOutlineEdit } from "react-icons/md";
+import { IoIosArrowBack } from "react-icons/io";
+import PostDeatilsModal from '../screens/PostDeatilsModal.jsx';
 
 const PostSection = () => {
   const [userPosts, setUserPosts] = useState([]);
@@ -38,9 +52,7 @@ const PostSection = () => {
         prevPosts.map((post) => {
           if (post._id === postId) {
             const isLiked = post.likes.includes(authUser._id);
-            const newLikes = isLiked
-              ? post.likes.filter((like) => like !== authUser._id)
-              : [...post.likes, authUser._id];
+            const newLikes = isLiked ? post.likes.filter((like) => like !== authUser._id) : [...post.likes, authUser._id];
             return { ...post, likes: newLikes };
           }
           return post;
@@ -59,23 +71,44 @@ const PostSection = () => {
         headers: {
           "Content-Type": "application/json"
         }, withCredentials: true
-      })
+      });
+
       console.log("Got comment through frontend : ", response);
 
+      setUserPosts((prevPosts) =>
+        prevPosts.map((post) => {
+          if (post._id === postId) {
+            const newComments = [...post.comments, { userId: authUser._id, comment: newComment, username: authUser.username }];
+            return { ...post, comments: newComments };
+          }
+          return post;
+        })
+      );
 
+      setNewComment("");
     } catch (error) {
-      console.log("Not toggled comment on frontend : ", error)
+      console.log("Not toggled comment on frontend : ", error);
+    }
+  }
+
+
+  const deletePost = async (postId) => {
+    try {
+      const response = await axios.post(`http://localhost:8080/api/v1/post/deletepost/${postId}/${authUser?._id}`)
+      console.log("Deleted post from frontend : ", response)
+    } catch (error) {
+      console.log("Error while deleting the post from frontend : ", error)
     }
   }
   return (
-    <Center w={'50%'} p={'1rem'} className='postSection' h={'86vh'} boxShadow={'rgba(14, 30, 37, .1) 0px 2px 4px 0px, rgba(14, 30, 37, 0.1) 0px 2px 16px 0px'}>
+    <Center  w={'50%'} p={'1rem'} className='postSection' h={'86vh'} boxShadow={'rgba(14, 30, 37, .1) 0px 2px 4px 0px, rgba(14, 30, 37, 0.1) 0px 2px 16px 0px'}>
       <Flex flexDir={'column'} gap={'2rem'} overflowX={'hidden'} alignItems={'center'} w={'100%'} h={'100%'} overflowY={'scroll'}>
 
         <Stories />
         <CreatePostModal />
 
         {userPosts.map((i, idx) => (
-          <Flex flexDir={'column'} key={idx} w={'80%'} gap={'.7rem'}>
+          <Flex p={'.3rem 1rem'} borderRadius={'.5rem'} bgColor={'#f5f5f5'} flexDir={'column'} key={idx} w={'83%'} gap={'.7rem'}>
             <Flex justifyContent={'space-between'} alignItems={'center'}>
               <Flex alignItems={'center'} gap={'.7rem'} >
                 <Avatar size={'sm'} src={i.owner.profilePhoto} />
@@ -83,53 +116,116 @@ const PostSection = () => {
                 <Text fontSize={'30px'}>&#xb7;</Text>
                 <Text>{moment(i.createdAt).fromNow()} </Text>
               </Flex>
-              <FiMoreHorizontal cursor={'pointer'} />
+
+
+              <Menu >
+                <MenuButton
+                  aria-label='Options'
+                  variant='outline'
+                >
+                  <FiMoreHorizontal />
+                </MenuButton>
+                <MenuList>
+                  <MenuItem icon={<MdOutlineEdit />} >
+                    edit
+                  </MenuItem>
+                  <MenuItem color={'red'} icon={<AiOutlineDelete />} onClick={() => deletePost(i._id)}>
+                    delete post
+                  </MenuItem>
+                  <MenuItem icon={<IoIosArrowBack />}>
+                    cancel
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+
+
             </Flex>
 
             <Flex flexDir={'column'} gap={'.4rem'}>
-              <Text>{i.title}</Text>
-              <Image src={post} w={'30rem'} onDoubleClick={''} />
+              <Text fontSize={'1.1rem'}>{i.title}</Text>
+              <Flex justifyContent={'center'}>
+                {
+
+                  <Image src={i.post} w={'20rem'} />
+                }
+              </Flex>
             </Flex>
 
-            <Flex gap={'2rem'} alignItems={'flex-start'}>
-              <Tooltip hasArrow label='like' aria-label='A tooltip' openDelay={'500'}>
-                <Box as='button' variant={'unstyled'} onClick={() => toggleLike(i._id)}>
-                  {
-                    i.likes.includes(authUser._id) ?
-                      <FaHeart fontSize={'1.3rem'} />
-                      :
-                      <FaRegHeart fontSize={'1.3rem'} />
-                  }
-                  <Text>{i.likes?.length || 0}</Text>
-                </Box>
-              </Tooltip>
-              <Tooltip hasArrow label='comment' aria-label='A tooltip' openDelay={'500'}>
-                <Box as='button' variant={'unstyled'} onClick={() => console.log(idx + 1)}>
-                  <FaRegComment fontSize={'1.3rem'} />
-                  <Text>{i.comments?.length || 0}</Text>
-                </Box>
-              </Tooltip>
-              <Tooltip hasArrow label='share' aria-label='A tooltip' openDelay={'500'}>
-                <Box as='button' variant={'unstyled'}>
-                  <FiSend fontSize={'1.3rem'} />
-                </Box>
-              </Tooltip>
+            <Flex gap={'2rem'} justifyContent={'space-between'} pb={'1rem'}>
+
+              <Flex gap={'2rem'}>
+
+                <Tooltip hasArrow label='like' aria-label='A tooltip' openDelay={'500'}>
+                  <Box as='button' position={'relative'} variant={'unstyled'} onClick={() => toggleLike(i._id)} >
+                    {
+                      i.likes.includes(authUser._id) ?
+                        <FaHeart fontSize={'1.2rem'} />
+                        :
+                        <FaRegHeart fontSize={'1.2rem'} />
+                    }
+                    <Flex position={'absolute'} gap={'.3rem'} py={'.2rem'} width={'fit-content'} fontSize={'.9rem'} fontWeight={'bold'}>
+                      <Text   >{i.likes?.length || 0}</Text>
+                      <Text> likes</Text>
+                    </Flex>
+                  </Box>
+                </Tooltip>
+                <Tooltip hasArrow label='comment' aria-label='A tooltip' openDelay={'500'}>
+                  <Box as='button' variant={'unstyled'} >
+                    <FaRegComment fontSize={'1.2rem'} />
+                  </Box>
+                </Tooltip>
+                <Tooltip hasArrow label='share' aria-label='A tooltip' openDelay={'500'}>
+                  <Box as='button' variant={'unstyled'}>
+                    <FiSend fontSize={'1.2rem'} />
+                  </Box>
+                </Tooltip>
+              </Flex>
+
+              <Flex>
+                <Tooltip hasArrow label='save' aria-label='A tooltip' openDelay={'500'}>
+                  <Flex alignSelf={'flex-end'} as='button' variant={'unstyled'}>
+                    <FaRegBookmark fontSize={'1.2rem'} />
+                  </Flex>
+                </Tooltip>
+              </Flex>
             </Flex>
 
-            {i.comments.length < 2 &&
+            {i.comments.length < 2 ?
               i.comments.map((item, index) => {
-                 return (
-                  <Flex gap={'1rem'} border={'1px solid #adadad'} borderRadius={'.5rem'} p={'.4rem 1rem'}>
-                    <Avatar src={authUser?.profilePhoto} w={'1.7rem'} h={'1.7rem'} />
-                    <Text color={'black'}>{item.text}</Text>
+                return (
+                  <Flex alignItems={'center'} justifyContent={'space-between'} border={'1px solid #adadad'} borderRadius={'.5rem'} p={'.4rem 1rem'}>
+                    <Flex gap={'1rem'}>
+                      <Text fontWeight={'bold'}>{item.user.username}</Text>
+                      <Text >{item.text}</Text>
+                    </Flex>
+
+                    <Flex>
+                      <FaRegHeart />
+                    </Flex>
                   </Flex>
                 )
-              })
+              }) :
+              <Flex>
+
+                <PostDeatilsModal
+                  message={`view all ${i.comments.length} comments`}
+                  postId = {i._id}
+                  comments={i.comments}
+                  likes={i.likes}
+                  post={i.post}
+                  date={moment(i.createdAt).fromNow()}
+                  userProfile={i.owner.profilePhoto}
+                  postUsername={i.owner.username}
+                  caption={i.title}
+                  userPosts={setUserPosts}
+                />
+
+              </Flex>
             }
 
             <Flex alignItems={'center'} gap={'1rem'}>
               <Avatar w={'2rem'} h={'2rem'} src={authUser?.profilePhoto} />
-              <Input focusBorderColor='#dadada' onChange={(e) => setNewComment(e.target.value)} value={newComment} variant={'flushed'} placeholder='add a comment...' />
+              <Input focusBorderColor='#dadada' onChange={(e) => setNewComment(e.target.value)} variant={'flushed'} placeholder='add a comment...' />
               <Box as='button' p={'0rem .7rem'} onClick={() => togglePostComment(i._id)} fontWeight={'bold'} _hover={{ color: "#1877F2" }}>
                 post
               </Box>

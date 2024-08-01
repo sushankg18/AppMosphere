@@ -1,8 +1,12 @@
-*{
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: lato;
 }
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -17,26 +21,32 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-.homeUserProfile ::-webkit-scrollbar{
+
+.homeUserProfile ::-webkit-scrollbar {
   width: 5px;
 }
-.homeUserProfile ::-webkit-scrollbar-thumb{
+
+.homeUserProfile ::-webkit-scrollbar-thumb {
   visibility: hidden;
   background-color: rgb(194, 194, 194);
 }
-.homeUserProfile:hover ::-webkit-scrollbar-thumb{
-  visibility : visible;
+
+.homeUserProfile:hover ::-webkit-scrollbar-thumb {
+  visibility: visible;
 }
-.postSection ::-webkit-scrollbar{
+
+.postSection ::-webkit-scrollbar {
   width: 1px;
   display: none;
 }
-.postSection ::-webkit-scrollbar-thumb{
+
+.postSection ::-webkit-scrollbar-thumb {
   visibility: hidden;
   background-color: rgb(194, 194, 194);
 }
-.postSection:hover ::-webkit-scrollbar-thumb{
-  visibility : visible;
+
+.postSection:hover ::-webkit-scrollbar-thumb {
+  visibility: visible;
 }
 
 .loader {
@@ -44,7 +54,8 @@ code {
   width: 100px;
   height: 100px;
 }
-.loader:before{
+
+.loader:before {
   content: '';
   position: absolute;
   width: 48px;
@@ -58,7 +69,8 @@ code {
   background-position: 100% 0;
   animation: colorBallMoveX 1.5s linear infinite alternate;
 }
-.loader:after{
+
+.loader:after {
   content: '';
   position: absolute;
   left: 50%;
@@ -68,21 +80,27 @@ code {
   height: 100%;
   background: #de3500;
 }
+
 @keyframes colorBallMoveX {
-0%  {
-  background-position: 0% 0;
-  transform: translate(-15px, -50%);
-}
-15%  , 25% {
-  background-position: 0% 0;
-  transform: translate(0px, -50%);
-}
-75% , 85% {
-  background-position: 100% 0;
-  transform: translate(50px, -50%);
-}
-100% {
-  background-position: 100% 0;
-  transform: translate(65px, -50%);
-}
+  0% {
+    background-position: 0% 0;
+    transform: translate(-15px, -50%);
+  }
+
+  15%,
+  25% {
+    background-position: 0% 0;
+    transform: translate(0px, -50%);
+  }
+
+  75%,
+  85% {
+    background-position: 100% 0;
+    transform: translate(50px, -50%);
+  }
+
+  100% {
+    background-position: 100% 0;
+    transform: translate(65px, -50%);
+  }
 }

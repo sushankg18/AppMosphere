@@ -1,8 +1,9 @@
-import { Box, Button, Center, Circle, Divider, Flex, Heading, Image, Text } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import { Box, Button, Center, Circle, Divider, Flex, Image, Text } from '@chakra-ui/react'
+import React from 'react'
 import { useSelector } from 'react-redux'
-import post1 from '../assets/randomPost1.jpg'
-import post2 from '../assets/randomPost2.jpg'
+import { FiImage } from "react-icons/fi";
+import { IoVideocamOutline } from "react-icons/io5";
+
 
 const HomeUserProfile = () => {
 
@@ -12,15 +13,15 @@ const HomeUserProfile = () => {
 
 
   return (
-    <Box className='homeUserProfile'overflow={'hidden'} w={'22%'} h={'85vh'} p={'1rem'} boxShadow={'rgba(14, 30, 37, .1) 0px 2px 4px 0px, rgba(14, 30, 37, 0.1) 0px 2px 16px 0px'}>
+    <Box className='homeUserProfile' overflow={'hidden'} w={'22%'} h={'85vh'} p={'1rem'} boxShadow={'rgba(14, 30, 37, .1) 0px 2px 4px 0px, rgba(14, 30, 37, 0.1) 0px 2px 16px 0px'}>
       <Flex flexDir={'column'} gap={'1rem'} h={'100%'}>
 
         <Center >
           <Circle w={'7rem'} h={'7rem'} overflow={'hidden'}>
-            <Image src={authUser?.profilePhoto} w={'100%'} h={'100%'} objectFit={'cover'}/>
+            <Image src={authUser?.profilePhoto} w={'100%'} h={'100%'} objectFit={'cover'} />
           </Circle>
         </Center>
- 
+
         <Center flexDir={'column'}>
           <Text fontSize={'1.1rem'} as={'strong'}>{authUser?.fullname}</Text>
           <Text >@{authUser?.username}</Text>
@@ -44,26 +45,20 @@ const HomeUserProfile = () => {
 
         <Flex>
           <Text>
-            𝘿𝘼𝘿𝘿𝙔 <br></br>
-            ↓<br></br>
-            "Accept your fate and live like a Man" 💗
+            {authUser?.bio}
           </Text>
         </Flex>
 
         <Divider />
 
-        <Flex flexWrap={'wrap'} h={'100%'} overflow={'scroll'} overflowX={'hidden'} gap={'1rem'} justifyContent={'space-evenly'} >
-          <Image w={'6rem'} src={post1} />
-          <Image w={'6rem'} src={post2} />
-          <Image w={'6rem'} src={post1} />
-          <Image w={'6rem'} src={post2} />
-          <Image w={'6rem'} src={post1} />
-          <Image w={'6rem'} src={post2} />
-          <Image w={'6rem'} src={post1} />
-          <Image w={'6rem'} src={post2} />
+        <Flex  h={'100%'}>
+          <Flex  h={'fit-content'} w={'100%'} justifyContent={'space-evenly'} fontSize={'1.5rem'}>
+            <FiImage />
+            <IoVideocamOutline />
+          </Flex>
         </Flex>
-
       </Flex>
+
     </Box>
   )
 }

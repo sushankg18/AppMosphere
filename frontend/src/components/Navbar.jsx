@@ -55,7 +55,7 @@ const Navbar = () => {
 
   getOtherUsers();
   return (
-    <Flex borderBottom={'1px solid #dadada'} w={'100%'} alignItems={'center'} justifyContent={'space-between'} p={'.2rem 2rem'} height={'10vh'}>
+    <Flex borderBottom={'1px solid #2c2c2c'}  w={'100%'} alignItems={'center'} justifyContent={'space-between'} p={'.2rem 2rem'} height={'10vh'}>
       <Box w={'12%'}>
         <Image src={logo} />
       </Box>
@@ -69,7 +69,7 @@ const Navbar = () => {
         </InputGroup>
       </Box>
 
-      <Flex gap={'2rem'} fontSize={'1.5rem'}>
+      <Flex gap={'2rem'} fontSize={'1.5rem'} color={'black'}>
         <IoChatbubblesOutline color={'gray'} cursor={'pointer'} />
         <RiNotification3Line color={'gray'} cursor={'pointer'} />
         <Menu>

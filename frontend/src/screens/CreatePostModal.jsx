@@ -6,6 +6,7 @@ import {
   Input,
   Tooltip,
   Textarea,
+  Avatar,
 } from '@chakra-ui/react'
 import { useSelector } from 'react-redux';
 import { MdOutlineInsertPhoto } from "react-icons/md";
@@ -13,7 +14,8 @@ import axios from 'axios';
 
 const CreatePostModal = () => {
   const [title, setTitle] = useState('')
-  const [image, setImage] = useState(null)
+  const [previewImage, setPreviewImage] = useState(null)
+  const [file, setFile] = useState(null)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const textareaRef = useRef(null);
 
@@ -26,13 +28,18 @@ const CreatePostModal = () => {
 
   const { authUser } = useSelector(store => store.user)
   if (!authUser) return;
+  
   const handlePost = async () => {
     try {
-      const response = await axios.post(`http://localhost:8080/api/v1/post/createpost/${authUser?.id}`, {
-        title
-      }, {
+      const formData = new FormData();
+      formData.append("title", title);
+      if (file) {
+        formData.append("post", file);
+      }
+
+      const response = await axios.post(`http://localhost:8080/api/v1/post/createpost/${authUser?._id}`, formData, {
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "multipart/form-data"
         }, withCredentials: true
       })
 
@@ -46,6 +53,15 @@ const CreatePostModal = () => {
   const handleChange = (event) => {
     setTitle(event.target.value);
   };
+
+  const handlePostImage = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      setFile(file);
+      setPreviewImage(URL.createObjectURL(file));
+    }
+  }
+
   return (
     <>
       <Box w={'100%'} h={'fit-content'} py={'.5rem'}>
@@ -63,32 +79,36 @@ const CreatePostModal = () => {
         <ModalOverlay />
         <ModalContent>
 
-          <ModalBody pb={6} >
+          <ModalBody pb={6}  >
 
-            <Flex alignItems={'flex-start'} gap={'1rem'}>
+            <Flex alignItems={'flex-start'} mb={'1rem'} gap={'1rem'}>
 
-              <Circle w='2.5rem' overflow={'hidden'}>
-                <Image src={authUser?.profilePhoto} />
-              </Circle>
+              <Avatar w='2.5rem' h={'2.5rem'} src={authUser?.profilePhoto} overflow={'hidden'} />
 
               <Textarea
                 ref={textareaRef}
                 value={title}
                 onChange={handleChange}
-                placeholder="Start typing..."
+                placeholder="Start a thread...."
                 resize="none"
                 overflow="hidden"
-                rows={1} 
-                style={{ minHeight: "auto", maxHeight: "auto", overflowY: "hidden" }} 
+                rows={1}
+                style={{ minHeight: "auto", maxHeight: "auto", overflowY: "hidden" }}
               />
               <Tooltip label='add photo' fontSize={'.7rem'}>
                 <Box as='button'>
-                  <MdOutlineInsertPhoto fontSize={'1.2rem'} />
+                  <Input onChange={handlePostImage} type='file' accept='image/jpg , image/png' display={'none'} id='postPhoto' />
+                  <label htmlFor='postPhoto' style={{cursor : "pointer"}} >
+                    <MdOutlineInsertPhoto fontSize={'1.7rem'}  />
+                  </label>
                 </Box>
               </Tooltip>
 
             </Flex>
 
+            <Flex alignSelf={'center'} justifyContent={'center'}>
+              <Image src={previewImage} w={'15rem'} />
+            </Flex>
           </ModalBody>
           {/* <ModalCloseButton /> */}
 

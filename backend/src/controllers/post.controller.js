@@ -22,7 +22,7 @@ export const newPost = async (req, res) => {
         }
 
         const { title, location, visibility } = req.body;
-        console.log("Request Body:", req.body); // Debugging log
+        console.log("Request Body:", req.body);
 
         let profilePhotoUrl;
         if (req.file) {
@@ -98,8 +98,14 @@ export const deletePost = async (req, res) => {
 
 export const getPosts = async (req, res) => {
     try {
-        const posts = await createPost.find().populate("owner", "username email profilePhoto"); 
-
+        const posts = await createPost.find().populate('owner', "username fullname profilePhoto").populate({
+            path: 'comments',
+            populate: { 
+                path: 'user',
+                select : "username profilePhoto fullname"
+             } ,
+          })
+      
         return res.status(200).json({
             message: "Got all the posts successfully!",
             posts

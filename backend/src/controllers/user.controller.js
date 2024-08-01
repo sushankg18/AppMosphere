@@ -143,6 +143,7 @@ export const updateUser = async (req, res) => {
 
         let profilePhotoUrl;
         if (req.file) {
+            console.log("Req.file : ", req.file)
             const result = await uploadOnCloudinary(req.file.path);
             profilePhotoUrl = result.secure_url;
         }

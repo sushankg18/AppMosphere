@@ -146,11 +146,11 @@ const Register = () => {
             </Flex>
 
             <Flex flexDir={'column'}>
-              <Input onChange={handleUsernameChange} onKeyDown={handleKeyDown} maxLength={25} focusBorderColor='#000' placeholder='username' />
+              <Input onChange={handleUsernameChange} value={username.toLowerCase()} onKeyDown={handleKeyDown} maxLength={25} focusBorderColor='#000' placeholder='username' />
             </Flex>
 
             <Flex flexDir={'column'}>
-              <Input onChange={emailValidation} type='email' focusBorderColor='#000' placeholder='email' required />
+              <Input onChange={emailValidation}   type='email' focusBorderColor='#000' placeholder='email' required />
             </Flex>
 
             <Flex flexDir={'column'}>
