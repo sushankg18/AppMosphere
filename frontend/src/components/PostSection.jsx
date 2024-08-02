@@ -223,14 +223,13 @@ const PostSection = () => {
               </Flex>
             }
 
-            <Flex alignItems={'center'} gap={'1rem'}>
+            <Flex alignItems={'center'} gap={'1rem'} mb={'.5rem'}>
               <Avatar w={'2rem'} h={'2rem'} src={authUser?.profilePhoto} />
               <Input focusBorderColor='#dadada' onChange={(e) => setNewComment(e.target.value)} variant={'flushed'} placeholder='add a comment...' />
               <Box as='button' p={'0rem .7rem'} onClick={() => togglePostComment(i._id)} fontWeight={'bold'} _hover={{ color: "#1877F2" }}>
                 post
               </Box>
             </Flex>
-            <Flex w={'100%'} mt={'1rem'} h={'1px '} bgColor={'#dadada'}></Flex>
           </Flex>
         ))}
       </Flex>

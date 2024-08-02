@@ -4,7 +4,7 @@ import Login from './components/Login.jsx'
 import Register from './components/Register.jsx'
 import Home from './components/Home.jsx'
 import ForgetPass from './screens/ForgetPassw.jsx'
-
+import UsersProfile from './screens/UsersProfile.jsx'
 function App() {
   return (
     <ChakraProvider>
@@ -14,6 +14,7 @@ function App() {
           <Route path='/user/Register' element={<Register />} />
           <Route path='/user/login' element={<Login />} />
           <Route path='/user/forgetpassword' element={<ForgetPass />}/>
+          <Route path='/:username' element={<UsersProfile />} />
         </Routes>
       </Router>
     </ChakraProvider>

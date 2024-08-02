@@ -1,10 +1,13 @@
 import { Box, Button, Center, Circle, Divider, Flex, Image, Text } from '@chakra-ui/react'
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { FiImage } from "react-icons/fi";
-import { IoVideocamOutline } from "react-icons/io5";
-
-
+import { FiHeart, FiImage } from "react-icons/fi";
+import { CiVideoOn } from "react-icons/ci";
+import { AiOutlineRetweet } from "react-icons/ai";
+import { HiOutlineVideoCamera } from "react-icons/hi";
+import { MdOutlineHideImage } from "react-icons/md";
+import { FaRegHeart, FaRegComment, FaRegBookmark } from "react-icons/fa6";
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 const HomeUserProfile = () => {
 
 
@@ -49,14 +52,57 @@ const HomeUserProfile = () => {
           </Text>
         </Flex>
 
-        <Divider />
+        <Tabs variant='unstyled' h={'100%'}>
 
-        <Flex  h={'100%'}>
-          <Flex  h={'fit-content'} w={'100%'} justifyContent={'space-evenly'} fontSize={'1.5rem'}>
-            <FiImage />
-            <IoVideocamOutline />
-          </Flex>
-        </Flex>
+          <TabList justifyContent={'space-evenly'} >
+            <Tab _selected={{ color: 'black', bg: 'gray.100' }} fontSize={'1.3rem'}><FiImage /></Tab>
+            <Tab _selected={{ color: 'black', bg: 'gray.100' }} fontSize={'1.3rem'}><AiOutlineRetweet /></Tab>
+            <Tab _selected={{ color: 'black', bg: 'gray.100' }} fontSize={'1.3rem'}><HiOutlineVideoCamera /></Tab>
+          </TabList>
+
+          <TabPanels h={'100%'}>
+
+            <TabPanel h={'100%'} display={'flex'} flexDir={'column'} justifyContent={'center'} alignItems={'center'}>
+              <MdOutlineHideImage fontSize={'2rem'} />
+              <Text>No post yet</Text>
+            </TabPanel>
+
+            <TabPanel overflowY={'auto'} h={'55%'} gap={'1rem'} display={'flex'} flexDir={'column'} alignItems={'center'}>
+              {
+                authUser?.posts.map((i, idx) => {
+                  return (
+                    <Flex flexDir={'column'} gap={'1rem'} >
+
+                      <Flex gap={'.4rem'} key={idx}>
+                        <Box p={'.3rem 0'}>
+                          <AiOutlineRetweet  fontSize={'1.2rem'} />
+                        </Box>
+                        <Flex flexDir={'column'} gap={'.3rem'} >
+                          <Text p={'.3rem .4rem'} bgColor={'#F5F5F5'} noOfLines={2}>{i.title}</Text>
+                          <Flex gap={'1rem'} pl={'.3rem'} fontSize={'.9rem'} justifyContent={'space-between'}>
+                            <FaRegHeart />
+                            <FaRegComment />
+                          </Flex>
+                          <Flex justifyContent={'space-between'} px={'.3rem'} fontSize={'.9rem'}>
+                            <Text>{i.likes.length} likes</Text>
+                            <Text>{i.comments.length} comments</Text>
+                          </Flex>
+                        </Flex>
+                      </Flex>
+
+                    </Flex>
+                  )
+                })
+              }
+            </TabPanel>
+
+            <TabPanel h={'100%'} display={'flex'} flexDir={'column'} justifyContent={'center'} alignItems={'center'}>
+              <p>three!</p>
+            </TabPanel>
+
+          </TabPanels>
+
+        </Tabs>
       </Flex>
 
     </Box>

@@ -19,16 +19,20 @@ const CreatePostModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const textareaRef = useRef(null);
 
-  useEffect(() => {
+  const adjustTextareaHeight = () => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
-  }, [title]);
+  };
+  const handleChange = (event) => {
+    setTitle(event.target.value);
+    adjustTextareaHeight();
+  };
 
   const { authUser } = useSelector(store => store.user)
   if (!authUser) return;
-  
+
   const handlePost = async () => {
     try {
       const formData = new FormData();
@@ -50,9 +54,6 @@ const CreatePostModal = () => {
     }
   }
 
-  const handleChange = (event) => {
-    setTitle(event.target.value);
-  };
 
   const handlePostImage = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -98,8 +99,8 @@ const CreatePostModal = () => {
               <Tooltip label='add photo' fontSize={'.7rem'}>
                 <Box as='button'>
                   <Input onChange={handlePostImage} type='file' accept='image/jpg , image/png' display={'none'} id='postPhoto' />
-                  <label htmlFor='postPhoto' style={{cursor : "pointer"}} >
-                    <MdOutlineInsertPhoto fontSize={'1.7rem'}  />
+                  <label htmlFor='postPhoto' style={{ cursor: "pointer" }} >
+                    <MdOutlineInsertPhoto fontSize={'1.7rem'} />
                   </label>
                 </Box>
               </Tooltip>

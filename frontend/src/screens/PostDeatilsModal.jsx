@@ -22,12 +22,14 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 
 
-const PostDeatilsModal = ({ message, setUserPosts, likes,postId, comments, post, date, userProfile, postUsername, caption }) => {
+const PostDeatilsModal = ({ message, setUserPosts, likes, postId, comments, post, date, userProfile, postUsername, caption }) => {
 
-    const [newComment , setNewComment]= useState('')
+    const [newComment, setNewComment] = useState('')
+    const [commentReply, setCommentReply] = useState('')
+    const [replyTo, setReplyTo] = useState('')
     const { isOpen, onOpen, onClose } = useDisclosure()
 
-    const {authUser} = useSelector(store => store.user)
+    const { authUser } = useSelector(store => store.user)
 
     const togglePostComment = async (postId) => {
         try {
@@ -57,7 +59,13 @@ const PostDeatilsModal = ({ message, setUserPosts, likes,postId, comments, post,
         }
     }
 
+    const handleReply = async (username) => {
+        setCommentReply(`@${username} `)
+        setReplyTo(`@${username}`)
+    }
+    const toggleReplyComment = async () => {
 
+    }
     return (
         <Box >
             <Text cursor={'pointer'} onClick={onOpen}>{message}</Text>
@@ -90,7 +98,7 @@ const PostDeatilsModal = ({ message, setUserPosts, likes,postId, comments, post,
                                 <Text>{caption}</Text>
                             </Flex>
 
-                            <Flex flexDir={'column'} h={'100%'} overflowY={'auto'}  gap={'1rem'} py={post ? '.2rem' : "1rem"}>
+                            <Flex flexDir={'column'} h={'100%'} overflowY={'auto'} gap={'1rem'} py={post ? '.2rem' : "1rem"}>
                                 {
                                     comments.map((item, idx) => {
                                         return (
@@ -109,7 +117,7 @@ const PostDeatilsModal = ({ message, setUserPosts, likes,postId, comments, post,
                                                         <Flex gap={'.8rem'} fontSize={'.9rem'} color={'gray'}>
                                                             <Text>{moment(item.createdAt).fromNow()}</Text>
                                                             <Text fontWeight={'bold'}>like</Text>
-                                                            <Text fontWeight={'bold'}>reply</Text>
+                                                            <Text cursor={'pointer'} fontWeight={'bold'} onClick={() => handleReply(item._id)}>reply</Text>
                                                         </Flex>
                                                     </Flex>
                                                 </Flex>
@@ -123,11 +131,22 @@ const PostDeatilsModal = ({ message, setUserPosts, likes,postId, comments, post,
                                 }
                             </Flex>
 
+                            {
+                                commentReply.length > 0 ?
+                                    <Flex flexDir={'column'}>
+                                        <Text bgColor={'#f5f5f5'} fontWeight={'bold'} w={'fit-content'} p={'.2rem 1rem'} fontSize={'.9rem'}>reply to {replyTo}</Text>
+                                        <Flex>
+                                            <Input onChange={(e) => setCommentReply(e.target.value)} value={commentReply} focusBorderColor='#adadad' variant={'flushed'} placeholder='Add a comment...' />
+                                            <Button onClick={() => toggleReplyComment(postId)}>Post</Button>
+                                        </Flex>
+                                    </Flex> :
+                                    <Flex>
+                                        <Input onChange={(e) => setNewComment(e.target.value)} value={newComment} focusBorderColor='#adadad' variant={'flushed'} placeholder='Add a comment...' />
+                                        <Button onClick={() => togglePostComment(postId)}>Post</Button>
+                                    </Flex>
+                            }
 
-                            <Flex>
-                                <Input onChange={(e)=> setNewComment(e.target.value)} value={newComment} focusBorderColor='#adadad' variant={'flushed'} placeholder='Add a comment...' />
-                                <Button onClick={()=> togglePostComment(postId)}>Post</Button>
-                            </Flex>
+
                         </Flex>
 
 

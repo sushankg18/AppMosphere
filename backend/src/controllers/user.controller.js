@@ -72,7 +72,7 @@ export const loginUser = async (req, res) => {
         }
         const token = jwt.sign(tokenData, process.env.JWT_SECRET_KEY, { expiresIn: '1d' })
 
-        const logInUser = await User.findOne({email}).select("-password")
+        const logInUser = await User.findOne({email}).select("-password").populate("posts").exec()
         return res.status(200)
             .cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: "strict" })
             .json({
@@ -119,6 +119,28 @@ export const getOtherUsers = async (req, res) => {
     }
 }
 
+export const findAnUser = async (req, res) => {
+    try {
+        const {username} = req.params;
+
+        const user = await User.findOne({username}).select("-password");
+        if(!user){
+            return res.status(404).json({
+                message : "User not found"
+            })
+        };
+    
+        return res.status(200).json({
+            message : "User found",
+            user
+        })  
+    } catch (error) {
+        return res.status(401).json({
+            message : "Error while finding user",
+            error
+        })   
+    }
+}
 export const updateUser = async (req, res) => {
  
     try {
@@ -158,16 +180,10 @@ export const updateUser = async (req, res) => {
         }
 
         await user.save()
-
+        const updatedUser = await User.findById(userId).select("-password")
         return res.status(200).json({
             message: "User updated successfully",
-            user: {
-                id: user._id,
-                email: user.email,
-                profilePhoto: user.profilePhoto,
-                username: user.username,
-                bio : user.bio
-            }
+            updatedUser
         })
 
     } catch (error) {

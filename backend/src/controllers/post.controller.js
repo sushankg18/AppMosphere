@@ -196,6 +196,11 @@ export const commentOnPost = async (req, res) => {
 
 };
 
+export const replyOnComment = async (req, res) => {
+    const post = await createPost.findById(id);
+    
+    
+}
 export const savePost = async (req, res) => {
     const postId = req.params.postId;
     const loggedInUser = req.params.userId;

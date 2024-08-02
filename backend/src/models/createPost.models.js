@@ -40,6 +40,10 @@ const CreatePostSchema = new mongoose.Schema(
             type: String,
             default : ""
         },
+        video : {
+            type : String,
+            default : ""
+        },
         title: {
             type: String,
             default : ""

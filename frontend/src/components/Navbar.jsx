@@ -27,8 +27,9 @@ import { LuLogOut } from "react-icons/lu";
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 import getOtherUsers from '../hooks/getOtherUsers';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import UpdateUserProfile from '../screens/UpdateUserProfile';
+import { setAuthUser, setOtherUsers } from '../redux/userSlice';
 const Navbar = () => {
   const navigate = useNavigate()
   const { authUser } = useSelector(store => store.user)
@@ -36,6 +37,7 @@ const Navbar = () => {
     console.log("auth user : ", authUser)
   }
   const toast = useToast()
+
   const handleLogout = async () => {
     try {
       const logoutUser = await axios.get("http://localhost:8080/api/v1/user/logout", { withCredentials: true })
@@ -55,7 +57,7 @@ const Navbar = () => {
 
   getOtherUsers();
   return (
-    <Flex borderBottom={'1px solid #2c2c2c'}  w={'100%'} alignItems={'center'} justifyContent={'space-between'} p={'.2rem 2rem'} height={'10vh'}>
+    <Flex borderBottom={'1px solid #dadada'}  w={'100%'} alignItems={'center'} justifyContent={'space-between'} p={'.2rem 2rem'} height={'10vh'}>
       <Box w={'12%'}>
         <Image src={logo} />
       </Box>

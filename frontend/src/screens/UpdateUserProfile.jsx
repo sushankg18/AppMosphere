@@ -19,8 +19,9 @@ import {
     Circle,
     Avatar,
 } from '@chakra-ui/react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { TbCameraUp } from "react-icons/tb";
+import { setAuthUser } from '../redux/userSlice';
 import axios from 'axios';
 
 const UpdateUserProfile = () => {
@@ -32,7 +33,7 @@ const UpdateUserProfile = () => {
     const [profilePhoto, setProfilePhoto] = useState(authUser?.profilePhoto)
     const initialRef = useRef(null)
     const finalRef = useRef(null)
-    
+    const dispatch = useDispatch()
     const handleUpdaterProfile = async () => {
         try {
             const formData = new FormData();
@@ -46,7 +47,8 @@ const UpdateUserProfile = () => {
                     "Content-Type": "multipart/form-data"
                 }, withCredentials: true
             })
-            console.log("Updated profile through frontend : ", response)
+            console.log("Updated profile through frontend : ", response.data.updatedUser)
+            dispatch(setAuthUser(response.data.updatedUser))
         } catch (error) {
             console.log("Error while updating profile through frontend : ", error)
         }
