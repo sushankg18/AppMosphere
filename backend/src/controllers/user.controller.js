@@ -72,7 +72,7 @@ export const loginUser = async (req, res) => {
         }
         const token = jwt.sign(tokenData, process.env.JWT_SECRET_KEY, { expiresIn: '1d' })
 
-        const logInUser = await User.findOne({email}).select("-password").populate("posts").exec()
+        const logInUser = await User.findOne({ email }).select("-password").populate("posts").exec()
         return res.status(200)
             .cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: "strict" })
             .json({
@@ -100,54 +100,62 @@ export const logoutUser = async (req, res) => {
 
 export const getOtherUsers = async (req, res) => {
     try {
-        const loggedInUser = req.id
-        const otherUsers = await User.find({ _id: { $ne: loggedInUser } }).select("-password")
+        console.log("getOtherUsers route hit");
 
-        if (!otherUsers) {
-            return res.status(400).json({
-                message: "No other user found!"
-            })
-        };
+        const loggedInUser = req.id;
+        console.log("Logged-in user ID:", loggedInUser);
+
+        const otherUsers = await User.find({ _id: { $ne: loggedInUser } }).select("-password");
+        console.log("Other users fetched:", otherUsers);
+
+        if (!otherUsers || otherUsers.length === 0) {
+            return res.status(404).json({
+                message: "No other users found!"
+            });
+        }
 
         return res.status(200).json({
             otherUsers,
-            message: "OtherUser fetched Successfully !!"
+            message: "Other users fetched successfully!"
         });
 
     } catch (error) {
-        console.log("error while fetching other users : ", error)
+        console.log("Error while fetching other users:", error);
+        return res.status(500).json({
+            message: "Internal Server Error!"
+        });
     }
-}
+};
 
 export const findAnUser = async (req, res) => {
     try {
-        const {username} = req.params;
+        const { username } = req.params;
 
-        const user = await User.findOne({username}).select("-password");
-        if(!user){
+        const user = await User.findOne({ username }).select("-password").populate("posts");
+        if (!user) {
             return res.status(404).json({
-                message : "User not found"
+                message: "User not found"
             })
         };
-    
+
         return res.status(200).json({
-            message : "User found",
+            message: "User found",
             user
-        })  
+        })
     } catch (error) {
         return res.status(401).json({
-            message : "Error while finding user",
+            message: "Error while finding user",
             error
-        })   
+        })
     }
 }
 export const updateUser = async (req, res) => {
- 
+
     try {
         const { userId } = req.params;
         const loggedInuser = req.id;
 
-        const { username, password,  email, bio } = req.body;
+        const { username, password, email, bio } = req.body;
 
         if (loggedInuser != userId) {
             return res.status(403).json({
@@ -173,7 +181,7 @@ export const updateUser = async (req, res) => {
         if (username) user.username = username;
         if (email) user.email = email;
         if (profilePhotoUrl) user.profilePhoto = profilePhotoUrl;
-        if(bio) user.bio = bio;
+        if (bio) user.bio = bio;
         if (password) {
             const newPass = await bcrypt.hash(password, 10);
             user.password = newPass;

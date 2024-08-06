@@ -2,6 +2,7 @@ import { Box, Button, Center, Circle, Flex, Heading, Image, Text } from '@chakra
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import GetOtherUsers from '../hooks/getOtherUsers'
 
 const SuggestionBox = () => {
   const { otherUsers } = useSelector(store => store.user)
