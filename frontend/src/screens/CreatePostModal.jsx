@@ -98,7 +98,7 @@ const CreatePostModal = () => {
               />
               <Tooltip label='add photo' fontSize={'.7rem'}>
                 <Box as='button'>
-                  <Input onChange={handlePostImage} type='file' accept='image/jpg , image/png' display={'none'} id='postPhoto' />
+                  <Input onChange={handlePostImage} type='file' display={'none'} id='postPhoto' />
                   <label htmlFor='postPhoto' style={{ cursor: "pointer" }} >
                     <MdOutlineInsertPhoto fontSize={'1.7rem'} />
                   </label>

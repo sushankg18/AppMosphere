@@ -98,7 +98,7 @@ export const deletePost = async (req, res) => {
 
 export const getPosts = async (req, res) => {
     try {
-        const posts = await createPost.find().populate('owner', "username fullname profilePhoto").populate({
+        const posts = await createPost.find().sort({createdAt : -1}).populate('owner', "username fullname profilePhoto").populate({
             path: 'comments',
             populate: { 
                 path: 'user',

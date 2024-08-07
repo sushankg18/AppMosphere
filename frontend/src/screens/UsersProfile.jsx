@@ -83,7 +83,7 @@ const UsersProfile = () => {
                                 </HStack>
                             </Flex>
 
-                            <Tabs border={'1px solid black'} borderTop={'1px solid #dadada'} variant='unstyled' h={'100%'}>
+                            <Tabs borderTop={'1px solid #dadada'} variant='unstyled' h={'68%'}>
 
                                 <TabList justifyContent={'space-evenly'} >
                                     <Tab _selected={{ color: 'black', bg: 'gray.100' }} fontSize={'1.3rem'}><FiImage /></Tab>
@@ -98,18 +98,18 @@ const UsersProfile = () => {
                                         <Text>No post yet</Text>
                                     </TabPanel>
 
-                                    <TabPanel overflowY={'auto'} border={'1px solid blue'} h={'50%'} gap={'1rem'} display={'flex'} flexDir={'column'} alignItems={'center'}>
+                                    <TabPanel overflowY={'auto'} h={'90%'} gap={'1rem'} display={'flex'} flexDir={'column'} alignItems={'center'}>
                                         {
                                             i.posts.map((post, idx) => {
                                                 return (
                                                     <>
-                                                        <Flex flexDir={'column'} gap={'1rem'} >
+                                                        <Flex w={'100%'} flexDir={'column'} gap={'1rem'} >
 
-                                                            <Flex gap={'.4rem'} key={idx}>
+                                                            <Flex w={'100%'} gap={'.4rem'} key={idx}>
                                                                 <Box p={'.3rem 0'}>
                                                                     <AiOutlineRetweet fontSize={'1.2rem'} />
                                                                 </Box>
-                                                                <Flex border={'1px solid blue'} flexDir={'column'} gap={'.3rem'} >
+                                                                <Flex w={'100%'} flexDir={'column'} gap={'.3rem'} >
                                                                     <Text p={'.3rem .4rem'} bgColor={'#F5F5F5'} noOfLines={2}>{post.title}</Text>
                                                                     <Flex gap={'.3rem'} pl={'.3rem'} fontSize={'.9rem'} flexDir={'column'}>
                                                                         <Flex alignItems={'center'} gap={'.5rem'}>
@@ -121,228 +121,12 @@ const UsersProfile = () => {
                                                                             <Text>{post.comments.length} comments</Text>
                                                                         </Flex>
                                                                     </Flex>
-                                                                    {/* <Flex justifyContent={'space-between'} px={'.3rem'} fontSize={'.9rem'}>
-                                                                </Flex> */}
                                                                 </Flex>
                                                             </Flex>
 
                                                         </Flex>
-                                                        <Flex flexDir={'column'} gap={'1rem'} >
 
-                                                            <Flex gap={'.4rem'} key={idx}>
-                                                                <Box p={'.3rem 0'}>
-                                                                    <AiOutlineRetweet fontSize={'1.2rem'} />
-                                                                </Box>
-                                                                <Flex border={'1px solid blue'} flexDir={'column'} gap={'.3rem'} >
-                                                                    <Text p={'.3rem .4rem'} bgColor={'#F5F5F5'} noOfLines={2}>{post.title}</Text>
-                                                                    <Flex gap={'.3rem'} pl={'.3rem'} fontSize={'.9rem'} flexDir={'column'}>
-                                                                        <Flex alignItems={'center'} gap={'.5rem'}>
-                                                                            <FaRegHeart />
-                                                                            <Text>{post.likes.length} likes</Text>
-                                                                        </Flex>
-                                                                        <Flex alignItems={'center'} gap={'.5rem'}>
-                                                                            <FaRegComment />
-                                                                            <Text>{post.comments.length} comments</Text>
-                                                                        </Flex>
-                                                                    </Flex>
-                                                                    {/* <Flex justifyContent={'space-between'} px={'.3rem'} fontSize={'.9rem'}>
-                                                                </Flex> */}
-                                                                </Flex>
-                                                            </Flex>
 
-                                                        </Flex>
-                                                        <Flex flexDir={'column'} gap={'1rem'} >
-
-                                                            <Flex gap={'.4rem'} key={idx}>
-                                                                <Box p={'.3rem 0'}>
-                                                                    <AiOutlineRetweet fontSize={'1.2rem'} />
-                                                                </Box>
-                                                                <Flex border={'1px solid blue'} flexDir={'column'} gap={'.3rem'} >
-                                                                    <Text p={'.3rem .4rem'} bgColor={'#F5F5F5'} noOfLines={2}>{post.title}</Text>
-                                                                    <Flex gap={'.3rem'} pl={'.3rem'} fontSize={'.9rem'} flexDir={'column'}>
-                                                                        <Flex alignItems={'center'} gap={'.5rem'}>
-                                                                            <FaRegHeart />
-                                                                            <Text>{post.likes.length} likes</Text>
-                                                                        </Flex>
-                                                                        <Flex alignItems={'center'} gap={'.5rem'}>
-                                                                            <FaRegComment />
-                                                                            <Text>{post.comments.length} comments</Text>
-                                                                        </Flex>
-                                                                    </Flex>
-                                                                    {/* <Flex justifyContent={'space-between'} px={'.3rem'} fontSize={'.9rem'}>
-                                                                </Flex> */}
-                                                                </Flex>
-                                                            </Flex>
-
-                                                        </Flex>
-                                                        <Flex flexDir={'column'} gap={'1rem'} >
-
-                                                            <Flex gap={'.4rem'} key={idx}>
-                                                                <Box p={'.3rem 0'}>
-                                                                    <AiOutlineRetweet fontSize={'1.2rem'} />
-                                                                </Box>
-                                                                <Flex border={'1px solid blue'} flexDir={'column'} gap={'.3rem'} >
-                                                                    <Text p={'.3rem .4rem'} bgColor={'#F5F5F5'} noOfLines={2}>{post.title}</Text>
-                                                                    <Flex gap={'.3rem'} pl={'.3rem'} fontSize={'.9rem'} flexDir={'column'}>
-                                                                        <Flex alignItems={'center'} gap={'.5rem'}>
-                                                                            <FaRegHeart />
-                                                                            <Text>{post.likes.length} likes</Text>
-                                                                        </Flex>
-                                                                        <Flex alignItems={'center'} gap={'.5rem'}>
-                                                                            <FaRegComment />
-                                                                            <Text>{post.comments.length} comments</Text>
-                                                                        </Flex>
-                                                                    </Flex>
-                                                                    {/* <Flex justifyContent={'space-between'} px={'.3rem'} fontSize={'.9rem'}>
-                                                                </Flex> */}
-                                                                </Flex>
-                                                            </Flex>
-
-                                                        </Flex>
-                                                        <Flex flexDir={'column'} gap={'1rem'} >
-
-                                                            <Flex gap={'.4rem'} key={idx}>
-                                                                <Box p={'.3rem 0'}>
-                                                                    <AiOutlineRetweet fontSize={'1.2rem'} />
-                                                                </Box>
-                                                                <Flex border={'1px solid blue'} flexDir={'column'} gap={'.3rem'} >
-                                                                    <Text p={'.3rem .4rem'} bgColor={'#F5F5F5'} noOfLines={2}>{post.title}</Text>
-                                                                    <Flex gap={'.3rem'} pl={'.3rem'} fontSize={'.9rem'} flexDir={'column'}>
-                                                                        <Flex alignItems={'center'} gap={'.5rem'}>
-                                                                            <FaRegHeart />
-                                                                            <Text>{post.likes.length} likes</Text>
-                                                                        </Flex>
-                                                                        <Flex alignItems={'center'} gap={'.5rem'}>
-                                                                            <FaRegComment />
-                                                                            <Text>{post.comments.length} comments</Text>
-                                                                        </Flex>
-                                                                    </Flex>
-                                                                    {/* <Flex justifyContent={'space-between'} px={'.3rem'} fontSize={'.9rem'}>
-                                                                </Flex> */}
-                                                                </Flex>
-                                                            </Flex>
-
-                                                        </Flex>
-                                                        <Flex flexDir={'column'} gap={'1rem'} >
-
-                                                            <Flex gap={'.4rem'} key={idx}>
-                                                                <Box p={'.3rem 0'}>
-                                                                    <AiOutlineRetweet fontSize={'1.2rem'} />
-                                                                </Box>
-                                                                <Flex border={'1px solid blue'} flexDir={'column'} gap={'.3rem'} >
-                                                                    <Text p={'.3rem .4rem'} bgColor={'#F5F5F5'} noOfLines={2}>{post.title}</Text>
-                                                                    <Flex gap={'.3rem'} pl={'.3rem'} fontSize={'.9rem'} flexDir={'column'}>
-                                                                        <Flex alignItems={'center'} gap={'.5rem'}>
-                                                                            <FaRegHeart />
-                                                                            <Text>{post.likes.length} likes</Text>
-                                                                        </Flex>
-                                                                        <Flex alignItems={'center'} gap={'.5rem'}>
-                                                                            <FaRegComment />
-                                                                            <Text>{post.comments.length} comments</Text>
-                                                                        </Flex>
-                                                                    </Flex>
-                                                                    {/* <Flex justifyContent={'space-between'} px={'.3rem'} fontSize={'.9rem'}>
-                                                                </Flex> */}
-                                                                </Flex>
-                                                            </Flex>
-
-                                                        </Flex>
-                                                        <Flex flexDir={'column'} gap={'1rem'} >
-
-                                                            <Flex gap={'.4rem'} key={idx}>
-                                                                <Box p={'.3rem 0'}>
-                                                                    <AiOutlineRetweet fontSize={'1.2rem'} />
-                                                                </Box>
-                                                                <Flex border={'1px solid blue'} flexDir={'column'} gap={'.3rem'} >
-                                                                    <Text p={'.3rem .4rem'} bgColor={'#F5F5F5'} noOfLines={2}>{post.title}</Text>
-                                                                    <Flex gap={'.3rem'} pl={'.3rem'} fontSize={'.9rem'} flexDir={'column'}>
-                                                                        <Flex alignItems={'center'} gap={'.5rem'}>
-                                                                            <FaRegHeart />
-                                                                            <Text>{post.likes.length} likes</Text>
-                                                                        </Flex>
-                                                                        <Flex alignItems={'center'} gap={'.5rem'}>
-                                                                            <FaRegComment />
-                                                                            <Text>{post.comments.length} comments</Text>
-                                                                        </Flex>
-                                                                    </Flex>
-                                                                    {/* <Flex justifyContent={'space-between'} px={'.3rem'} fontSize={'.9rem'}>
-                                                                </Flex> */}
-                                                                </Flex>
-                                                            </Flex>
-
-                                                        </Flex>
-                                                        <Flex flexDir={'column'} gap={'1rem'} >
-
-                                                            <Flex gap={'.4rem'} key={idx}>
-                                                                <Box p={'.3rem 0'}>
-                                                                    <AiOutlineRetweet fontSize={'1.2rem'} />
-                                                                </Box>
-                                                                <Flex border={'1px solid blue'} flexDir={'column'} gap={'.3rem'} >
-                                                                    <Text p={'.3rem .4rem'} bgColor={'#F5F5F5'} noOfLines={2}>{post.title}</Text>
-                                                                    <Flex gap={'.3rem'} pl={'.3rem'} fontSize={'.9rem'} flexDir={'column'}>
-                                                                        <Flex alignItems={'center'} gap={'.5rem'}>
-                                                                            <FaRegHeart />
-                                                                            <Text>{post.likes.length} likes</Text>
-                                                                        </Flex>
-                                                                        <Flex alignItems={'center'} gap={'.5rem'}>
-                                                                            <FaRegComment />
-                                                                            <Text>{post.comments.length} comments</Text>
-                                                                        </Flex>
-                                                                    </Flex>
-                                                                    {/* <Flex justifyContent={'space-between'} px={'.3rem'} fontSize={'.9rem'}>
-                                                                </Flex> */}
-                                                                </Flex>
-                                                            </Flex>
-
-                                                        </Flex>
-                                                        <Flex flexDir={'column'} gap={'1rem'} >
-
-                                                            <Flex gap={'.4rem'} key={idx}>
-                                                                <Box p={'.3rem 0'}>
-                                                                    <AiOutlineRetweet fontSize={'1.2rem'} />
-                                                                </Box>
-                                                                <Flex border={'1px solid blue'} flexDir={'column'} gap={'.3rem'} >
-                                                                    <Text p={'.3rem .4rem'} bgColor={'#F5F5F5'} noOfLines={2}>{post.title}</Text>
-                                                                    <Flex gap={'.3rem'} pl={'.3rem'} fontSize={'.9rem'} flexDir={'column'}>
-                                                                        <Flex alignItems={'center'} gap={'.5rem'}>
-                                                                            <FaRegHeart />
-                                                                            <Text>{post.likes.length} likes</Text>
-                                                                        </Flex>
-                                                                        <Flex alignItems={'center'} gap={'.5rem'}>
-                                                                            <FaRegComment />
-                                                                            <Text>{post.comments.length} comments</Text>
-                                                                        </Flex>
-                                                                    </Flex>
-                                                                    {/* <Flex justifyContent={'space-between'} px={'.3rem'} fontSize={'.9rem'}>
-                                                                </Flex> */}
-                                                                </Flex>
-                                                            </Flex>
-
-                                                        </Flex>
-                                                        <Flex flexDir={'column'} gap={'1rem'} >
-
-                                                            <Flex gap={'.4rem'} key={idx}>
-                                                                <Box p={'.3rem 0'}>
-                                                                    <AiOutlineRetweet fontSize={'1.2rem'} />
-                                                                </Box>
-                                                                <Flex border={'1px solid blue'} flexDir={'column'} gap={'.3rem'} >
-                                                                    <Text p={'.3rem .4rem'} bgColor={'#F5F5F5'} noOfLines={2}>{post.title}</Text>
-                                                                    <Flex gap={'.3rem'} pl={'.3rem'} fontSize={'.9rem'} flexDir={'column'}>
-                                                                        <Flex alignItems={'center'} gap={'.5rem'}>
-                                                                            <FaRegHeart />
-                                                                            <Text>{post.likes.length} likes</Text>
-                                                                        </Flex>
-                                                                        <Flex alignItems={'center'} gap={'.5rem'}>
-                                                                            <FaRegComment />
-                                                                            <Text>{post.comments.length} comments</Text>
-                                                                        </Flex>
-                                                                    </Flex>
-                                                                    {/* <Flex justifyContent={'space-between'} px={'.3rem'} fontSize={'.9rem'}>
-                                                                </Flex> */}
-                                                                </Flex>
-                                                            </Flex>
-
-                                                        </Flex>
                                                     </>
                                                 )
                                             })

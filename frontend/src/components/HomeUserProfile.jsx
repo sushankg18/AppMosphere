@@ -52,7 +52,7 @@ const HomeUserProfile = () => {
           </Text>
         </Flex>
 
-        <Tabs variant='unstyled' h={'100%'}>
+        <Tabs variant='unstyled' h={'50%'}>
 
           <TabList justifyContent={'space-evenly'} >
             <Tab _selected={{ color: 'black', bg: 'gray.100' }} fontSize={'1.3rem'}><FiImage /></Tab>
@@ -67,7 +67,7 @@ const HomeUserProfile = () => {
               <Text>No post yet</Text>
             </TabPanel>
 
-            <TabPanel overflowY={'auto'} h={'55%'} gap={'1rem'} display={'flex'} flexDir={'column'} alignItems={'center'}>
+            <TabPanel overflowY={'auto'} h={'85%'}  gap={'1rem'} display={'flex'} flexDir={'column'} alignItems={'center'}>
               {
                 authUser?.posts.map((i, idx) => {
                   return (

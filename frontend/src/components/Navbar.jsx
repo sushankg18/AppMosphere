@@ -25,23 +25,25 @@ import { RiNotification3Line } from "react-icons/ri";
 import { IoSettingsOutline } from "react-icons/io5";
 import { LuLogOut } from "react-icons/lu";
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import getOtherUsers from '../hooks/getOtherUsers';
 import { useDispatch, useSelector } from 'react-redux';
 import UpdateUserProfile from '../screens/UpdateUserProfile';
 import { setAuthUser, setOtherUsers } from '../redux/userSlice';
 const Navbar = () => {
+
   const navigate = useNavigate()
-  const { authUser } = useSelector(store => store.user)
-  if (authUser) {
-    console.log("auth user : ", authUser)
-  }
+  const dispatch = useDispatch()
   const toast = useToast()
+
+  const { authUser } = useSelector(store => store.user)
+  // if (authUser) return ;
 
   const handleLogout = async () => {
     try {
       const logoutUser = await axios.get("http://localhost:8080/api/v1/user/logout", { withCredentials: true })
       if (logoutUser) {
+        dispatch(setAuthUser(null))
         navigate('/user/login')
         toast({
           status: "success",
@@ -49,17 +51,21 @@ const Navbar = () => {
           duration: 4000,
           position: 'top'
         })
+        window.location.reload()
       }
     } catch (error) {
       console.log("Error while logout : ", error)
     }
   }
 
+
   getOtherUsers();
   return (
-    <Flex borderBottom={'1px solid #dadada'}  w={'100%'} alignItems={'center'} justifyContent={'space-between'} p={'.2rem 2rem'} height={'10vh'}>
+    <Flex borderBottom={'1px solid #dadada'} w={'100%'} alignItems={'center'} justifyContent={'space-between'} p={'.2rem 2rem'} height={'10vh'}>
       <Box w={'12%'}>
-        <Image src={logo} />
+        <Link to={'/'}>
+          <Image src={logo} />
+        </Link>
       </Box>
 
       <Box w={'40%'} h={'fit-content'}>
@@ -80,7 +86,7 @@ const Navbar = () => {
               {
                 authUser
                   ?
-                  <Image src={authUser.profilePhoto} objectFit={'cover'} w={'100%'} h={'100%'}  />
+                  <Image src={authUser.profilePhoto} objectFit={'cover'} w={'100%'} h={'100%'} />
                   :
                   <LuUser2 color={'gray'} />
               }

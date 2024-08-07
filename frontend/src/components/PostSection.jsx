@@ -24,19 +24,26 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { MdOutlineEdit } from "react-icons/md";
 import { IoIosArrowBack } from "react-icons/io";
 import PostDeatilsModal from '../screens/PostDeatilsModal.jsx';
+import { Link } from 'react-router-dom';
+import Loader from './Loader.jsx';
 
 const PostSection = () => {
   const [userPosts, setUserPosts] = useState([]);
   const [newComment, setNewComment] = useState('')
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false)
   const { authUser } = useSelector(store => store.user);
 
   useEffect(() => {
     const getPosts = async () => {
+      setLoading(true)
       try {
         const response = await axios.get("http://localhost:8080/api/v1/post/getposts");
         console.log("Got all posts through frontend : ", response.data.posts);
         setUserPosts(response.data.posts);
+        setLoading(false)
       } catch (error) {
+        setLoading(false)
         console.log("Got error while getting posts through frontend ! ", error);
       }
     };
@@ -101,18 +108,24 @@ const PostSection = () => {
     }
   }
   return (
-    <Center  w={'50%'} p={'1rem'} className='postSection' h={'86vh'} boxShadow={'rgba(14, 30, 37, .1) 0px 2px 4px 0px, rgba(14, 30, 37, 0.1) 0px 2px 16px 0px'}>
+    loading ? <Loader /> : 
+
+    <Center w={'50%'} p={'1rem'} className='postSection' h={'86vh'} boxShadow={'rgba(14, 30, 37, .1) 0px 2px 4px 0px, rgba(14, 30, 37, 0.1) 0px 2px 16px 0px'}>
       <Flex flexDir={'column'} gap={'2rem'} overflowX={'hidden'} alignItems={'center'} w={'100%'} h={'100%'} overflowY={'scroll'}>
 
         <Stories />
         <CreatePostModal />
 
         {userPosts.map((i, idx) => (
-          <Flex p={'.3rem 1rem'} borderRadius={'.5rem'} bgColor={'#f5f5f5'} flexDir={'column'} key={idx} w={'83%'} gap={'.7rem'}>
+          <Flex p={'.3rem 1rem'} borderRadius={'.5rem'} flexDir={'column'} key={idx} w={'83%'} gap={'.7rem'}>
             <Flex justifyContent={'space-between'} alignItems={'center'}>
               <Flex alignItems={'center'} gap={'.7rem'} >
-                <Avatar size={'sm'} src={i.owner.profilePhoto} />
-                <Text color={'black'} fontWeight={'600'}>{i.owner.username}</Text>
+                <Link to={`/${i.owner.username}`}>
+                  <Flex gap={'.7rem'} alignItems={'center'}>
+                    <Avatar size={'sm'} src={i.owner.profilePhoto} />
+                    <Text color={'black'} fontWeight={'600'}>{i.owner.username}</Text>
+                  </Flex>
+                </Link>
                 <Text fontSize={'30px'}>&#xb7;</Text>
                 <Text>{moment(i.createdAt).fromNow()} </Text>
               </Flex>
@@ -209,7 +222,7 @@ const PostSection = () => {
 
                 <PostDeatilsModal
                   message={`view all ${i.comments.length} comments`}
-                  postId = {i._id}
+                  postId={i._id}
                   comments={i.comments}
                   likes={i.likes}
                   post={i.post}
@@ -224,7 +237,7 @@ const PostSection = () => {
             }
 
             <Flex alignItems={'center'} gap={'1rem'} mb={'.5rem'}>
-              <Avatar w={'2rem'} h={'2rem'} src={authUser?.profilePhoto} />
+              <Avatar w={'1.7rem'} h={'1.7rem'} src={authUser?.profilePhoto} />
               <Input focusBorderColor='#dadada' onChange={(e) => setNewComment(e.target.value)} variant={'flushed'} placeholder='add a comment...' />
               <Box as='button' p={'0rem .7rem'} onClick={() => togglePostComment(i._id)} fontWeight={'bold'} _hover={{ color: "#1877F2" }}>
                 post
