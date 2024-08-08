@@ -13,7 +13,7 @@ const Stories = () => {
                     otherUsers.map((i, idx) => {
                         return (
                             <Flex w={'5rem'} key={idx} h={'fit-content'} flexDir={'column'} overflow={'hidden'}>
-                                <Circle w={'4rem'} h={'4rem'} border={'2px solid black'}  overflow={'hidden'}>
+                                <Circle w={'4rem'} h={'4rem'} border={'1px solid black'}  overflow={'hidden'}>
                                     <Image src={i.profilePhoto} w={'100%'} objectFit={'cover'} />
                                 </Circle>
                                 <Text noOfLines={'1'}>{i.username}</Text>

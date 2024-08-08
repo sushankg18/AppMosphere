@@ -116,8 +116,8 @@ const PostSection = () => {
         <Stories />
         <CreatePostModal />
 
-        {userPosts.map((i, idx) => (
-          <Flex p={'.3rem 1rem'} borderRadius={'.5rem'} flexDir={'column'} key={idx} w={'83%'} gap={'.7rem'}>
+        {userPosts?.map((i, idx) => (
+          <Flex border={'1px solid #dadada'} p={'.3rem 1rem'} borderRadius={'.5rem'} flexDir={'column'} key={idx} w={'83%'} gap={'.7rem'}>
             <Flex justifyContent={'space-between'} alignItems={'center'}>
               <Flex alignItems={'center'} gap={'.7rem'} >
                 <Link to={`/${i.owner.username}`}>
@@ -171,7 +171,7 @@ const PostSection = () => {
                 <Tooltip hasArrow label='like' aria-label='A tooltip' openDelay={'500'}>
                   <Box as='button' position={'relative'} variant={'unstyled'} onClick={() => toggleLike(i._id)} >
                     {
-                      i.likes.includes(authUser._id) ?
+                      i.likes.includes(authUser?._id) ?
                         <FaHeart fontSize={'1.2rem'} />
                         :
                         <FaRegHeart fontSize={'1.2rem'} />
@@ -222,7 +222,7 @@ const PostSection = () => {
 
                 <PostDeatilsModal
                   message={`view all ${i.comments.length} comments`}
-                  postId={i._id}
+                  postId={i?._id}
                   comments={i.comments}
                   likes={i.likes}
                   post={i.post}

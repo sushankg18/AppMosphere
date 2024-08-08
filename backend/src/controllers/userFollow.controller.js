@@ -29,8 +29,9 @@ export const followUser = async (req, res) => {
 
             await flwUser.save()
             await lgUser.save()
-            return res.status(200).json({
-                message: "Unfollowed Successfully !"
+            return res.status(201).json({
+                message: "Unfollowed Successfully !",
+                lgUser
             })
         } else {
             

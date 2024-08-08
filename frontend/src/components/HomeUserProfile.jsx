@@ -84,8 +84,8 @@ const HomeUserProfile = () => {
                             <FaRegComment />
                           </Flex>
                           <Flex justifyContent={'space-between'} px={'.3rem'} fontSize={'.9rem'}>
-                            <Text>{i.likes.length} likes</Text>
-                            <Text>{i.comments.length} comments</Text>
+                            <Text>{i?.likes?.length} likes</Text>
+                            <Text>{i?.comments?.length} comments</Text>
                           </Flex>
                         </Flex>
                       </Flex>

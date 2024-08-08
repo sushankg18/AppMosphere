@@ -12,19 +12,19 @@ function App() {
   const { authUser } = useSelector(store => store.user);
   return (
     <ChakraProvider>
-      <Router>
-        {authUser &&
-          <Navbar />
-        }
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/user/Register' element={<Register />} />
-          <Route path='/user/login' element={<Login />} />
-          <Route path='/user/forgetpassword' element={<ForgetPass />} />
-          <Route path='/:username' element={<UsersProfile />} />
-          <Route path='/loader' element={<Loader />} />
-        </Routes>
-      </Router>
+        <Router>
+          {authUser &&
+            <Navbar />
+          }
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/user/Register' element={<Register />} />
+            <Route path='/user/login' element={<Login />} />
+            <Route path='/user/forgetpassword' element={<ForgetPass />} />
+            <Route path='/:username' element={<UsersProfile />} />
+            <Route path='/loader' element={<Loader />} />
+          </Routes>
+        </Router>
     </ChakraProvider>
   );
 }

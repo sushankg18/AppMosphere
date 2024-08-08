@@ -149,6 +149,7 @@ export const findAnUser = async (req, res) => {
         })
     }
 }
+
 export const updateUser = async (req, res) => {
 
     try {

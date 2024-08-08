@@ -41,23 +41,22 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      const logoutUser = await axios.get("http://localhost:8080/api/v1/user/logout", { withCredentials: true })
+      const logoutUser = await axios.get("http://localhost:8080/api/v1/user/logout", { withCredentials: true });
       if (logoutUser) {
-        dispatch(setAuthUser(null))
-        navigate('/user/login')
+        dispatch(setAuthUser(null));
         toast({
           status: "success",
           title: logoutUser.data.message,
           duration: 4000,
           position: 'top'
-        })
-        window.location.reload()
+        });
+        navigate('/user/login');
+        window.location.reload(); // Optional: force a page reload to clear any in-memory state
       }
     } catch (error) {
-      console.log("Error while logout : ", error)
+      console.log("Error while logout : ", error);
     }
-  }
-
+  };
 
   getOtherUsers();
   return (

@@ -90,32 +90,32 @@ const PostDeatilsModal = ({ message, setUserPosts, likes, postId, comments, post
                         <Flex justifyContent={'space-between'} h={"80vh"} px={'.5rem'} flexDir={'column'} width={post ? '50%' : "100%"} >
                             <Flex flexDir={'column'} borderBottom={'1px solid #dadada'} py={post ? '.2rem' : "1rem"}>
                                 <Flex alignItems={'center'} gap={'.5rem'}>
-                                    <Avatar w={'2.3rem'} h={'2.3rem'} src={userProfile} />
-                                    <Text fontWeight={'bold'}>{postUsername}</Text>
+                                    <Avatar w={'2.3rem'} h={'2.3rem'} src={userProfile&&userProfile} />
+                                    <Text fontWeight={'bold'}>{postUsername&&postUsername}</Text>
                                     <Text fontSize={'30px'}>&#xb7;</Text>
-                                    <Text>{date}</Text>
+                                    <Text>{date&&date}</Text>
                                 </Flex>
-                                <Text>{caption}</Text>
+                                <Text>{caption&&caption}</Text>
                             </Flex>
 
                             <Flex flexDir={'column'} h={'100%'} overflowY={'auto'} gap={'1rem'} py={post ? '.2rem' : "1rem"}>
                                 {
-                                    comments.map((item, idx) => {
+                                    comments?.map((item, idx) => {
                                         return (
 
                                             <Flex alignItems={'center'} justifyContent={'space-between'} p={'.5rem 1rem'}>
 
                                                 <Flex gap={'.9rem'} alignItems={'center'}>
 
-                                                    <Avatar w={'2.5rem'} h="2.5rem" src={item.user.profilePhoto} />
+                                                    <Avatar w={'2.5rem'} h="2.5rem" src={item?.user?.profilePhoto} />
 
                                                     <Flex flexDir={'column'}>
                                                         <Flex gap={'.5rem'} fontSize={'1.1rem'}>
-                                                            <Text fontWeight={'bold'}>{item.user.username}</Text>
-                                                            <Text>{item.text}</Text>
+                                                            <Text fontWeight={'bold'}>{item?.user?.username}</Text>
+                                                            <Text>{item?.text}</Text>
                                                         </Flex>
                                                         <Flex gap={'.8rem'} fontSize={'.9rem'} color={'gray'}>
-                                                            <Text>{moment(item.createdAt).fromNow()}</Text>
+                                                            <Text>{moment(item?.createdAt).fromNow()}</Text>
                                                             <Text fontWeight={'bold'}>like</Text>
                                                             <Text cursor={'pointer'} fontWeight={'bold'} onClick={() => handleReply(item._id)}>reply</Text>
                                                         </Flex>
