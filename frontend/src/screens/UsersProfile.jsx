@@ -1,9 +1,18 @@
-import { Avatar, Box, Button, Center, Flex, HStack, Image, Text, VStack } from '@chakra-ui/react'
+import { Avatar, Box, Button, Center, Flex, HStack, Image, Input, InputGroup, InputLeftAddon, InputLeftElement, Text, useDisclosure, VStack } from '@chakra-ui/react'
+import {
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+} from '@chakra-ui/react'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import { useParams } from 'react-router-dom'
-import { FiHeart, FiImage } from "react-icons/fi";
+import { FiHeart, FiImage, FiSearch } from "react-icons/fi";
 import { AiOutlineRetweet } from "react-icons/ai";
 import { HiOutlineVideoCamera } from "react-icons/hi";
 import { MdOutlineHideImage } from "react-icons/md";
@@ -88,14 +97,12 @@ const UsersProfile = () => {
                                             <Text fontWeight={'bold'}>Posts</Text>
                                         </VStack>
 
-                                        <VStack gap={'0'}>
-                                            <Text>{i.followers.length}</Text>
-                                            <Text fontWeight={'bold'}>Followers</Text>
+                                        <VStack gap={'0'} cursor={'pointer'}>
+                                            <Basic length={i.followers.length} followers={i.followers} message={"Followers"} userId={i?._id} />
                                         </VStack>
 
                                         <VStack gap={'0'} cursor={'pointer'}>
-                                            <Text>{i.following.length}</Text>
-                                            <Text fontWeight={'bold'}>Followings</Text>
+                                            <Basic length={i.following.length} following={i.following} message={"Followings"} userId={i?._id} />
                                         </VStack>
                                     </HStack>
                                 </Flex>
@@ -166,5 +173,77 @@ const UsersProfile = () => {
         </Center>
     )
 }
+
+function Basic({ length, message, following, followers , userId }) {
+    const {authUser} = useSelector(store => store.user)
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    return (
+        <>
+            <VStack onClick={onOpen}>
+                <Text>{length}</Text>
+                <Text fontWeight={'bold'}>{message}</Text>
+            </VStack>
+
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+
+                <ModalContent >
+
+                    <ModalHeader alignSelf={'center'}>{message}</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody minH={'20vh'} maxH={'fit-content'}>
+                        <Flex flexDir={'column'} gap={'1rem'}>
+                            <InputGroup>
+                                <InputLeftElement >
+                                    <FiSearch />
+                                </InputLeftElement>
+                                <Input borderColor={'#dadada'} focusBorderColor='#E8EDF3' placeholder='Search any user' />
+                            </InputGroup>
+                            {
+                                message === "Followers" ?
+                                    followers?.map((follower, index) => {
+                                        return (
+                                            <HStack justifyContent={'space-between'}>
+                                                <Flex gap={'.8rem'}>
+                                                    <Avatar w={'2.5rem'} h={'2.5rem'} src={follower?.profilePhoto} />
+                                                    <Flex flexDir={'column'} >
+                                                        <Text fontWeight={'bold'}>{follower?.username}</Text>
+                                                        <Text>{follower?.fullname}</Text>
+                                                    </Flex>
+                                                </Flex>
+                                                <Button bgColor={'#dadada'} w={'6rem'} color={'black'} _hover={{ bgColor: "rgb(230, 230, 230)" }} p={' .9rem'} fontSize={'.9rem'} size={'xs'} fontWeight={'bold'}>{authUser?._id === userId? "remove" : "follow"}</Button>
+
+                                            </HStack>
+                                        )
+                                    })
+                                    :
+                                    following.map((following, idx) => {
+                                        return (
+                                            <HStack gap={'.8rem'}>
+                                                <Avatar w={'2.5rem'} h={'2.5rem'} src={following?.profilePhoto} />
+                                                <Flex flexDir={'column'} >
+                                                    <Text fontWeight={'bold'}>{following?.username}</Text>
+                                                    <Text>{following?.fullname}</Text>
+                                                </Flex>
+                                            </HStack>
+                                        )
+                                    })
+
+                            }
+                        </Flex>
+                    </ModalBody>
+
+                    {/* <ModalFooter>
+                        <Button colorScheme='blue' mr={3} onClick={onClose}>
+                            Close
+                        </Button>
+                        <Button variant='ghost'>Secondary Action</Button>
+                    </ModalFooter> */}
+                </ModalContent>
+            </Modal>
+        </>
+    )
+}
+
 
 export default UsersProfile;

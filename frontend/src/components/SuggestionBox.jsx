@@ -34,14 +34,14 @@ const SuggestionBox = () => {
             const isFollowing = authUser?.following.includes(item._id);
             return (
               <>
-                <Flex p={'.4rem .5rem'} gap={'.7rem'} alignItems={'center'} key={idx}>
+                <Flex p={'.4rem .5rem'}  maxW={'100%'} gap={'.7rem'} alignItems={'center'} key={idx}>
                   <Circle w={'3rem'} h={'3rem'} overflow={'hidden'}>
                     <Image src={item?.profilePhoto} w={'100%'} h={'100%'} objectFit={'cover'} />
                   </Circle>
 
-                  <Flex justifyContent={'space-between'} gap={'.3rem'} minW={'80%'}>
-                    <Link to={`/${item.username}`} style={{ width: "70%" }}>
-                      <Text fontWeight={'bold'} noOfLines={'1'} color={'black'}>{item?.username}</Text>
+                  <Flex flexDir={'column'} justifyContent={'space-between'}  gap={'.3rem'} minW={'80%'}>
+                    <Link to={`/${item.username}`}>
+                      <Text fontWeight={'bold'} w={'100%'}   noOfLines={'1'} color={'black'}>{item?.username}</Text>
                     </Link>
                     {
                       isFollowing ?

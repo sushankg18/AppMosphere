@@ -13,9 +13,12 @@ import {
   MenuItem,
   MenuList,
   useToast,
-  Circle
+  Circle,
+  Text,
+  Avatar,
+  Heading
 } from '@chakra-ui/react'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import logo from '../assets/homePagelogo.png'
 import { IoSearchOutline } from "react-icons/io5";
 import { IoChatbubblesOutline } from "react-icons/io5";
@@ -31,7 +34,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import UpdateUserProfile from '../screens/UpdateUserProfile';
 import { setAuthUser, setOtherUsers } from '../redux/userSlice';
 const Navbar = () => {
-
+  const [searchTerm, setSearchTerm] = useState('')
+  const [searchResults, setSearchResults] = useState([])
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const toast = useToast()
@@ -58,6 +62,19 @@ const Navbar = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const response = await axios.get(`http://localhost:8080/api/v1/user/search/${searchTerm}`);
+      console.log(response.data)
+      setSearchResults(response.data)
+    }
+    if (searchTerm.trim() !== '') {
+      fetchUsers();
+    } else {
+      setSearchResults([])
+    }
+  }, [searchTerm])
+
   getOtherUsers();
   return (
     <Flex borderBottom={'1px solid #dadada'} w={'100%'} alignItems={'center'} justifyContent={'space-between'} p={'.2rem 2rem'} height={'10vh'}>
@@ -67,13 +84,35 @@ const Navbar = () => {
         </Link>
       </Box>
 
-      <Box w={'40%'} h={'fit-content'}>
+      <Box w={'40%'} h={'fit-content'} position={'relative'}>
         <InputGroup>
           <InputLeftElement >
             <IoSearchOutline />
           </InputLeftElement>
-          <Input borderColor={'#dadada'} focusBorderColor='#E8EDF3' maxLength={50} placeholder='Search any user' />
+          <Input borderColor={'#dadada'} onChange={(e) => setSearchTerm(e.target.value)} focusBorderColor='#E8EDF3' maxLength={50} placeholder='Search any user' />
         </InputGroup>
+        {
+          searchTerm.length > 0 &&
+          <Flex flexDir={'column'} gap={'1rem'} bgColor={'#fff'} zIndex={'4'} minH={'10vh'} p={'.5rem 0'} position={'absolute'} w={'100%'}  >
+            {
+              searchResults.length > 0 ? (
+                searchResults.map((i, idx) => (
+                  <Link to={`${i.username}`} key={idx}>
+                    <Flex p={'.2rem 1rem'} onClick={() => setSearchTerm('')} _hover={{ bgColor: "#dadada" }} transition={'.1s all ease-in-out'} cursor={'pointer'} alignItems={'center'} gap={'1rem'}>
+                      <Avatar w={'2.2rem'} h={'2.2rem'} src={i.profilePhoto} />
+                      <Text fontSize={'1rem'} fontWeight={'bold'}>{i.username}</Text>
+                    </Flex>
+                  </Link>
+                ))
+              ) : (
+                <Flex p={'.2rem 1rem'} alignItems={'center'} justifyContent={'center'}>
+                  <Text fontSize={'1rem'} fontWeight={'bold'} color={'red'}>No user found</Text>
+                </Flex>
+              )
+            }
+          </Flex>
+        }
+
       </Box>
 
       <Flex gap={'2rem'} fontSize={'1.5rem'} color={'black'}>

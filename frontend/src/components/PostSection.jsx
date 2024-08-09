@@ -108,145 +108,145 @@ const PostSection = () => {
     }
   }
   return (
-    loading ? <Loader /> : 
+    loading ? <Loader /> :
 
-    <Center w={'50%'} p={'1rem'} className='postSection' h={'86vh'} boxShadow={'rgba(14, 30, 37, .1) 0px 2px 4px 0px, rgba(14, 30, 37, 0.1) 0px 2px 16px 0px'}>
-      <Flex flexDir={'column'} gap={'2rem'} overflowX={'hidden'} alignItems={'center'} w={'100%'} h={'100%'} overflowY={'scroll'}>
+      <Center w={'50%'} p={'1rem'} className='postSection' h={'86vh'} boxShadow={'rgba(14, 30, 37, .1) 0px 2px 4px 0px, rgba(14, 30, 37, 0.1) 0px 2px 16px 0px'}>
+        <Flex flexDir={'column'} gap={'2rem'} overflowX={'hidden'} alignItems={'center'} w={'100%'} h={'100%'} overflowY={'scroll'}>
 
-        <Stories />
-        <CreatePostModal />
+          <Stories />
+          <CreatePostModal />
 
-        {userPosts?.map((i, idx) => (
-          <Flex border={'1px solid #dadada'} p={'.3rem 1rem'} borderRadius={'.5rem'} flexDir={'column'} key={idx} w={'83%'} gap={'.7rem'}>
-            <Flex justifyContent={'space-between'} alignItems={'center'}>
-              <Flex alignItems={'center'} gap={'.7rem'} >
-                <Link to={`/${i.owner.username}`}>
-                  <Flex gap={'.7rem'} alignItems={'center'}>
-                    <Avatar size={'sm'} src={i.owner.profilePhoto} />
-                    <Text color={'black'} fontWeight={'600'}>{i.owner.username}</Text>
-                  </Flex>
-                </Link>
-                <Text fontSize={'30px'}>&#xb7;</Text>
-                <Text>{moment(i.createdAt).fromNow()} </Text>
-              </Flex>
-
-
-              <Menu >
-                <MenuButton
-                  aria-label='Options'
-                  variant='outline'
-                >
-                  <FiMoreHorizontal />
-                </MenuButton>
-                <MenuList>
-                  <MenuItem icon={<MdOutlineEdit />} >
-                    edit
-                  </MenuItem>
-                  <MenuItem color={'red'} icon={<AiOutlineDelete />} onClick={() => deletePost(i._id)}>
-                    delete post
-                  </MenuItem>
-                  <MenuItem icon={<IoIosArrowBack />}>
-                    cancel
-                  </MenuItem>
-                </MenuList>
-              </Menu>
-
-
-            </Flex>
-
-            <Flex flexDir={'column'} gap={'.4rem'}>
-              <Text fontSize={'1.1rem'}>{i.title}</Text>
-              <Flex justifyContent={'center'}>
-                {
-
-                  <Image src={i.post} w={'20rem'} />
-                }
-              </Flex>
-            </Flex>
-
-            <Flex gap={'2rem'} justifyContent={'space-between'} pb={'1rem'}>
-
-              <Flex gap={'2rem'}>
-
-                <Tooltip hasArrow label='like' aria-label='A tooltip' openDelay={'500'}>
-                  <Box as='button' position={'relative'} variant={'unstyled'} onClick={() => toggleLike(i._id)} >
-                    {
-                      i.likes.includes(authUser?._id) ?
-                        <FaHeart fontSize={'1.2rem'} />
-                        :
-                        <FaRegHeart fontSize={'1.2rem'} />
-                    }
-                    <Flex position={'absolute'} gap={'.3rem'} py={'.2rem'} width={'fit-content'} fontSize={'.9rem'} fontWeight={'bold'}>
-                      <Text   >{i.likes?.length || 0}</Text>
-                      <Text> likes</Text>
+          {userPosts?.map((i, idx) => (
+            <Flex border={'1px solid #dadada'} p={'.3rem 1rem'} borderRadius={'.5rem'} flexDir={'column'} key={idx} w={'83%'} gap={'.7rem'}>
+              <Flex justifyContent={'space-between'} alignItems={'center'}>
+                <Flex alignItems={'center'} gap={'.7rem'} >
+                  <Link to={`/${i.owner.username}`}>
+                    <Flex gap={'.7rem'} alignItems={'center'}>
+                      <Avatar size={'sm'} src={i.owner.profilePhoto} />
+                      <Text color={'black'} fontWeight={'600'}>{i.owner.username}</Text>
                     </Flex>
-                  </Box>
-                </Tooltip>
-                <Tooltip hasArrow label='comment' aria-label='A tooltip' openDelay={'500'}>
-                  <Box as='button' variant={'unstyled'} >
-                    <FaRegComment fontSize={'1.2rem'} />
-                  </Box>
-                </Tooltip>
-                <Tooltip hasArrow label='share' aria-label='A tooltip' openDelay={'500'}>
-                  <Box as='button' variant={'unstyled'}>
-                    <FiSend fontSize={'1.2rem'} />
-                  </Box>
-                </Tooltip>
+                  </Link>
+                  <Text fontSize={'30px'}>&#xb7;</Text>
+                  <Text>{moment(i.createdAt).fromNow()} </Text>
+                </Flex>
+
+
+                <Menu >
+                  <MenuButton
+                    aria-label='Options'
+                    variant='outline'
+                  >
+                    <FiMoreHorizontal />
+                  </MenuButton>
+                  <MenuList>
+                    <MenuItem icon={<MdOutlineEdit />} >
+                      edit
+                    </MenuItem>
+                    <MenuItem color={'red'} icon={<AiOutlineDelete />} onClick={() => deletePost(i._id)}>
+                      delete post
+                    </MenuItem>
+                    <MenuItem icon={<IoIosArrowBack />}>
+                      cancel
+                    </MenuItem>
+                  </MenuList>
+                </Menu>
+
+
               </Flex>
 
-              <Flex>
-                <Tooltip hasArrow label='save' aria-label='A tooltip' openDelay={'500'}>
-                  <Flex alignSelf={'flex-end'} as='button' variant={'unstyled'}>
-                    <FaRegBookmark fontSize={'1.2rem'} />
-                  </Flex>
-                </Tooltip>
+              <Flex flexDir={'column'} gap={'.4rem'}>
+                <Text fontSize={'1.1rem'}>{i.title}</Text>
+                <Flex justifyContent={'center'}>
+                  {
+
+                    <Image src={i.post} w={'20rem'} />
+                  }
+                </Flex>
+              </Flex>
+
+              <Flex gap={'2rem'} justifyContent={'space-between'} pb={'1rem'}>
+
+                <Flex gap={'2rem'}>
+
+                  <Tooltip hasArrow label='like'  aria-label='A tooltip' openDelay={'1000'}>
+                    <Box as='button' position={'relative'} variant={'unstyled'}  >
+                      {
+                        i.likes.includes(authUser?._id) ?
+                          <FaHeart onClick={() => toggleLike(i._id)} fontSize={'1.2rem'} />
+                          :
+                          <FaRegHeart onClick={() => toggleLike(i._id)} fontSize={'1.2rem'} />
+                      }
+                      <Flex position={'absolute'} gap={'.3rem'} py={'.2rem'} width={'fit-content'} fontSize={'.9rem'} fontWeight={'bold'}>
+                        <Text>{i.likes?.length || 0}</Text>
+                        <Text> likes</Text>
+                      </Flex>
+                    </Box>
+                  </Tooltip>
+                  <Tooltip hasArrow label='comment' aria-label='A tooltip' openDelay={'500'}>
+                    <Box as='button' variant={'unstyled'} >
+                      <FaRegComment fontSize={'1.2rem'} />
+                    </Box>
+                  </Tooltip>
+                  <Tooltip hasArrow label='share' aria-label='A tooltip' openDelay={'500'}>
+                    <Box as='button' variant={'unstyled'}>
+                      <FiSend fontSize={'1.2rem'} />
+                    </Box>
+                  </Tooltip>
+                </Flex>
+
+                <Flex>
+                  <Tooltip hasArrow label='save' aria-label='A tooltip' openDelay={'500'}>
+                    <Flex alignSelf={'flex-end'} as='button' variant={'unstyled'}>
+                      <FaRegBookmark fontSize={'1.2rem'} />
+                    </Flex>
+                  </Tooltip>
+                </Flex>
+              </Flex>
+
+              {i.comments.length < 2 ?
+                i.comments.map((item, index) => {
+                  return (
+                    <Flex alignItems={'center'} justifyContent={'space-between'} border={'1px solid #adadad'} borderRadius={'.5rem'} p={'.4rem 1rem'}>
+                      <Flex gap={'1rem'}>
+                        <Text fontWeight={'bold'}>{item.user.username}</Text>
+                        <Text >{item.text}</Text>
+                      </Flex>
+
+                      <Flex>
+                        <FaRegHeart />
+                      </Flex>
+                    </Flex>
+                  )
+                }) :
+                <Flex>
+
+                  <PostDeatilsModal
+                    message={`view all ${i.comments.length} comments`}
+                    postId={i?._id}
+                    comments={i.comments}
+                    likes={i.likes}
+                    post={i.post}
+                    date={moment(i.createdAt).fromNow()}
+                    userProfile={i.owner.profilePhoto}
+                    postUsername={i.owner.username}
+                    caption={i.title}
+                    userPosts={setUserPosts}
+                  />
+
+                </Flex>
+              }
+
+              <Flex alignItems={'center'} gap={'1rem'} mb={'.5rem'}>
+                <Avatar w={'1.7rem'} h={'1.7rem'} src={authUser?.profilePhoto} />
+                <Input focusBorderColor='#dadada' onChange={(e) => setNewComment(e.target.value)} variant={'flushed'} placeholder='add a comment...' />
+                <Box as='button' p={'0rem .7rem'} onClick={() => togglePostComment(i._id)} fontWeight={'bold'} _hover={{ color: "#1877F2" }}>
+                  post
+                </Box>
               </Flex>
             </Flex>
-
-            {i.comments.length < 2 ?
-              i.comments.map((item, index) => {
-                return (
-                  <Flex alignItems={'center'} justifyContent={'space-between'} border={'1px solid #adadad'} borderRadius={'.5rem'} p={'.4rem 1rem'}>
-                    <Flex gap={'1rem'}>
-                      <Text fontWeight={'bold'}>{item.user.username}</Text>
-                      <Text >{item.text}</Text>
-                    </Flex>
-
-                    <Flex>
-                      <FaRegHeart />
-                    </Flex>
-                  </Flex>
-                )
-              }) :
-              <Flex>
-
-                <PostDeatilsModal
-                  message={`view all ${i.comments.length} comments`}
-                  postId={i?._id}
-                  comments={i.comments}
-                  likes={i.likes}
-                  post={i.post}
-                  date={moment(i.createdAt).fromNow()}
-                  userProfile={i.owner.profilePhoto}
-                  postUsername={i.owner.username}
-                  caption={i.title}
-                  userPosts={setUserPosts}
-                />
-
-              </Flex>
-            }
-
-            <Flex alignItems={'center'} gap={'1rem'} mb={'.5rem'}>
-              <Avatar w={'1.7rem'} h={'1.7rem'} src={authUser?.profilePhoto} />
-              <Input focusBorderColor='#dadada' onChange={(e) => setNewComment(e.target.value)} variant={'flushed'} placeholder='add a comment...' />
-              <Box as='button' p={'0rem .7rem'} onClick={() => togglePostComment(i._id)} fontWeight={'bold'} _hover={{ color: "#1877F2" }}>
-                post
-              </Box>
-            </Flex>
-          </Flex>
-        ))}
-      </Flex>
-    </Center>
+          ))}
+        </Flex>
+      </Center>
   );
 };
 
