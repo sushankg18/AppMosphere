@@ -28,7 +28,6 @@ const UsersProfile = () => {
         const fetchUser = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/api/v1/user/${username}`);
-                console.log("found user through frontend: ", response.data.user)
                 setUser([response.data.user])
             } catch (error) {
                 console.log("Not found user through frontend: ", error)
@@ -41,7 +40,6 @@ const UsersProfile = () => {
             const response = await axios.post(`http://localhost:8080/api/v1/user/follow/${authUser?._id}/${userId}`)
             console.log("Followed user through frontend", response)
             dispatch(setAuthUser(response.data.lgUser))
-            // if(response.data.status)
         } catch (error) {
             console.log("Error while following user thorugh frontend : ", error)
         }
@@ -174,8 +172,8 @@ const UsersProfile = () => {
     )
 }
 
-function Basic({ length, message, following, followers , userId }) {
-    const {authUser} = useSelector(store => store.user)
+function Basic({ length, message, following, followers, userId }) {
+    const { authUser } = useSelector(store => store.user)
     const { isOpen, onOpen, onClose } = useDisclosure()
     return (
         <>
@@ -202,8 +200,9 @@ function Basic({ length, message, following, followers , userId }) {
                             {
                                 message === "Followers" ?
                                     followers?.map((follower, index) => {
+                                        const isFollowing = authUser?.following?.includes(follower?._id)
                                         return (
-                                            <HStack justifyContent={'space-between'}>
+                                            <HStack key={index} justifyContent={'space-between'}>
                                                 <Flex gap={'.8rem'}>
                                                     <Avatar w={'2.5rem'} h={'2.5rem'} src={follower?.profilePhoto} />
                                                     <Flex flexDir={'column'} >
@@ -211,7 +210,20 @@ function Basic({ length, message, following, followers , userId }) {
                                                         <Text>{follower?.fullname}</Text>
                                                     </Flex>
                                                 </Flex>
-                                                <Button bgColor={'#dadada'} w={'6rem'} color={'black'} _hover={{ bgColor: "rgb(230, 230, 230)" }} p={' .9rem'} fontSize={'.9rem'} size={'xs'} fontWeight={'bold'}>{authUser?._id === userId? "remove" : "follow"}</Button>
+                                                <Button
+                                                    display={authUser?._id === follower?._id ? "none" : 'flex'}
+                                                    bgColor={isFollowing  ? '#dadada' : "black"}
+                                                    w={'6rem'}
+                                                    color={isFollowing ?"black" :'white'}
+                                                    _hover={ isFollowing ? { bgColor: "rgb(230, 230, 230)" } : {bgColor: "rgb(70, 70, 70)"}}
+                                                    p={' .9rem'}
+                                                    fontSize={'.9rem'}
+                                                    size={'xs'}
+                                                    fontWeight={'bold'}>
+
+                                                    {authUser?._id === userId ? "remove" : isFollowing ? "Following" : "Follow"}
+
+                                                </Button>
 
                                             </HStack>
                                         )
@@ -219,7 +231,7 @@ function Basic({ length, message, following, followers , userId }) {
                                     :
                                     following.map((following, idx) => {
                                         return (
-                                            <HStack gap={'.8rem'}>
+                                            <HStack key={idx} gap={'.8rem'}>
                                                 <Avatar w={'2.5rem'} h={'2.5rem'} src={following?.profilePhoto} />
                                                 <Flex flexDir={'column'} >
                                                     <Text fontWeight={'bold'}>{following?.username}</Text>
@@ -232,18 +244,10 @@ function Basic({ length, message, following, followers , userId }) {
                             }
                         </Flex>
                     </ModalBody>
-
-                    {/* <ModalFooter>
-                        <Button colorScheme='blue' mr={3} onClick={onClose}>
-                            Close
-                        </Button>
-                        <Button variant='ghost'>Secondary Action</Button>
-                    </ModalFooter> */}
                 </ModalContent>
             </Modal>
         </>
     )
 }
-
 
 export default UsersProfile;

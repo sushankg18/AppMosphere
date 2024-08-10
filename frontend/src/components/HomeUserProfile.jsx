@@ -30,6 +30,12 @@ const HomeUserProfile = () => {
           <Text >@{authUser?.username}</Text>
         </Center>
 
+        <Flex fontSize={'.9rem'}>
+          <Text>
+            {authUser?.bio}
+          </Text>
+        </Flex>
+
         <Flex fontSize={'.9rem'} flexWrap={'wrap'} justifyContent={'space-between'}>
           <Flex gap={'.4rem'}>
             <Text as={'strong'}>{authUser?.posts.length}</Text>
@@ -44,12 +50,6 @@ const HomeUserProfile = () => {
             <Text as={'strong'}>{authUser?.following.length}</Text>
             <Text >following</Text>
           </Flex>
-        </Flex>
-
-        <Flex>
-          <Text>
-            {authUser?.bio}
-          </Text>
         </Flex>
 
         <Tabs variant='unstyled' h={'50%'}>
@@ -67,7 +67,7 @@ const HomeUserProfile = () => {
               <Text>No post yet</Text>
             </TabPanel>
 
-            <TabPanel overflowY={'auto'} h={'85%'}  gap={'1rem'} display={'flex'} flexDir={'column'} alignItems={'center'}>
+            <TabPanel overflowY={'auto'} h={'85%'} gap={'1rem'} display={'flex'} flexDir={'column'} alignItems={'center'}>
               {
                 authUser?.posts.map((i, idx) => {
                   return (
@@ -75,7 +75,7 @@ const HomeUserProfile = () => {
 
                       <Flex gap={'.4rem'} key={idx}>
                         <Box p={'.3rem 0'}>
-                          <AiOutlineRetweet  fontSize={'1.2rem'} />
+                          <AiOutlineRetweet fontSize={'1.2rem'} />
                         </Box>
                         <Flex flexDir={'column'} gap={'.3rem'} >
                           <Text p={'.3rem .4rem'} bgColor={'#F5F5F5'} noOfLines={2}>{i.title}</Text>

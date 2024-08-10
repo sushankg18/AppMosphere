@@ -21,7 +21,6 @@ import {
 import React, { useEffect, useState } from 'react'
 import logo from '../assets/homePagelogo.png'
 import { IoSearchOutline } from "react-icons/io5";
-import { IoChatbubblesOutline } from "react-icons/io5";
 import { LuUser2 } from "react-icons/lu";
 import { GrUpdate } from "react-icons/gr";
 import { RiNotification3Line } from "react-icons/ri";
@@ -32,7 +31,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import getOtherUsers from '../hooks/getOtherUsers';
 import { useDispatch, useSelector } from 'react-redux';
 import UpdateUserProfile from '../screens/UpdateUserProfile';
-import { setAuthUser, setOtherUsers } from '../redux/userSlice';
+import { setAuthUser } from '../redux/userSlice';
+import ChatScreen from '../screens/ChatScreen.jsx';
 const Navbar = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [searchResults, setSearchResults] = useState([])
@@ -41,7 +41,6 @@ const Navbar = () => {
   const toast = useToast()
 
   const { authUser } = useSelector(store => store.user)
-  // if (authUser) return ;
 
   const handleLogout = async () => {
     try {
@@ -55,7 +54,7 @@ const Navbar = () => {
           position: 'top'
         });
         navigate('/user/login');
-        window.location.reload(); // Optional: force a page reload to clear any in-memory state
+        window.location.reload(); 
       }
     } catch (error) {
       console.log("Error while logout : ", error);
@@ -65,7 +64,6 @@ const Navbar = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       const response = await axios.get(`http://localhost:8080/api/v1/user/search/${searchTerm}`);
-      console.log(response.data)
       setSearchResults(response.data)
     }
     if (searchTerm.trim() !== '') {
@@ -116,7 +114,7 @@ const Navbar = () => {
       </Box>
 
       <Flex gap={'2rem'} fontSize={'1.5rem'} color={'black'}>
-        <IoChatbubblesOutline color={'gray'} cursor={'pointer'} />
+        <ChatScreen />
         <RiNotification3Line color={'gray'} cursor={'pointer'} />
         <Menu>
           <MenuButton>

@@ -31,7 +31,6 @@ const PostSection = () => {
   const [userPosts, setUserPosts] = useState([]);
   const [newComment, setNewComment] = useState('')
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false)
   const { authUser } = useSelector(store => store.user);
 
   useEffect(() => {
@@ -39,7 +38,6 @@ const PostSection = () => {
       setLoading(true)
       try {
         const response = await axios.get("http://localhost:8080/api/v1/post/getposts");
-        console.log("Got all posts through frontend : ", response.data.posts);
         setUserPosts(response.data.posts);
         setLoading(false)
       } catch (error) {
@@ -53,7 +51,6 @@ const PostSection = () => {
   const toggleLike = async (postId) => {
     try {
       const response = await axios.post(`http://localhost:8080/api/v1/post/like/${postId}/${authUser?._id}`);
-      console.log("Toggled like through frontend", response);
 
       setUserPosts((prevPosts) =>
         prevPosts.map((post) => {
