@@ -3,7 +3,7 @@ import React from 'react'
 
 const Loader = () => {
     return (
-        <Center h={'90vh'}>
+        <Center h={'100%'}>
             <Spinner thickness='4px'
                 speed='0.65s'
                 emptyColor='gray.200'

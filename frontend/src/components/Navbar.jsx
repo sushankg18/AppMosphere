@@ -54,7 +54,7 @@ const Navbar = () => {
           position: 'top'
         });
         navigate('/user/login');
-        window.location.reload(); 
+        window.location.reload();
       }
     } catch (error) {
       console.log("Error while logout : ", error);
@@ -134,10 +134,13 @@ const Navbar = () => {
               <GrUpdate />
               <UpdateUserProfile />
             </MenuItem>
-            <MenuItem gap={'1rem'}>
-              <IoSettingsOutline />
-              Settings
-            </MenuItem>
+
+            <Link to={`/${authUser?.username}/setting`}>
+              <MenuItem gap={'1rem'}>
+                <IoSettingsOutline />
+                Settings
+              </MenuItem>
+            </Link>
 
             <MenuItem gap={'1rem'} color={'red'} onClick={handleLogout}>
               <LuLogOut />

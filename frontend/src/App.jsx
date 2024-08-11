@@ -8,6 +8,7 @@ import UsersProfile from './screens/UsersProfile.jsx'
 import Navbar from './components/Navbar.jsx'
 import Loader from './components/Loader.jsx'
 import { useSelector } from 'react-redux'
+import UserSettingModal from './screens/UserSettingModal.jsx'
 function App() {
   const { authUser } = useSelector(store => store.user);
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route path='/user/login' element={<Login />} />
             <Route path='/user/forgetpassword' element={<ForgetPass />} />
             <Route path='/:username' element={<UsersProfile />} />
+            <Route path='/:username/setting' element={<UserSettingModal />} />
             <Route path='/loader' element={<Loader />} />
           </Routes>
         </Router>

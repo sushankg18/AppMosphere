@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import  dbConnection  from './db/index.db.js';
 import userRouter from './routes/user.routes.js'
 import postRouter from './routes/post.routes.js'
+import messageRouter from './routes/message.route.js'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 const app = express();
@@ -18,7 +19,8 @@ app.use(cors({
 
 //Routes
 app.use("/api/v1/user", userRouter);
-app.use("/api/v1/post", postRouter)
+app.use("/api/v1/post", postRouter);
+app.use("/api/v1/message",messageRouter);
 
 const port = process.env.PORT || 4080;
 dbConnection()
