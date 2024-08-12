@@ -200,52 +200,6 @@ export const updateUser = async (req, res) => {
     }
 }
 
-export const deleteUser = async (req, res) => {
-    try {
-
-        const { userId } = req.params;
-        const loggedInuser = req.id;
-
-        const { password } = req.body
-
-        if (!password) {
-            return res.status(402).json({
-                message: "Password is required for deleting account !"
-            })
-        };
-
-        if (loggedInuser !== userId) {
-            return res.status(403).json({
-                message: "Unauthorized Request!!"
-            })
-        };
-
-        const user = await User.findById(userId)
-
-        if (!user) {
-            return res.status(402).json({
-                message: "User not found"
-            })
-        };
-
-        const isPassValid = await bcrypt.compare(password, user.password)
-        if (!isPassValid) {
-            return res.status(401).json({
-                message: "Incorrect password"
-            })
-        };
-
-        await User.deleteOne({ _id: userId })
-        return res.status(200)
-            .cookie('token', " ", { maxAge: 0 })
-            .json({
-                message: "User deleted successfully"
-            })
-    } catch (error) {
-        console.log("Error while deleting user : ", error.message)
-    }
-}
-
 export const sendEmail = async (req, res) => {
 
     const randomInt = crypto.randomInt(0, 10000);
@@ -293,4 +247,51 @@ export const searchUser = async (req, res) => {
         console.error("Error fetching users:", error);
         res.status(500).json({ message: 'Server Error' });
       }
+}
+
+export const deleteUser = async (req, res) => {
+    try {
+
+        const { userId } = req.params;
+        const loggedInuser = req.id;
+
+        const { password } = req.body
+
+        if (loggedInuser !== userId) {
+            return res.status(403).json({
+                message: "Unauthorized Request!!"
+            })
+        };
+        
+        if (!password) {
+            return res.status(402).json({
+                message: "Password is required for deleting account !"
+            })
+        };
+
+
+        const user = await User.findById(userId)
+
+        if (!user) {
+            return res.status(402).json({
+                message: "User not found"
+            })
+        };
+
+        const isPassValid = await bcrypt.compare(password, user.password)
+        if (!isPassValid) {
+            return res.status(401).json({
+                message: "Incorrect password"
+            })
+        };
+
+        await User.deleteOne({ _id: userId })
+        return res.status(200)
+            .cookie('token', " ", { maxAge: 0 })
+            .json({
+                message: "User deleted successfully"
+            })
+    } catch (error) {
+        console.log("Error while deleting user : ", error.message)
+    }
 }

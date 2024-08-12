@@ -66,36 +66,43 @@ export const sendMessage = async (req, res) => {
 }
 
 export const getMessage = async (req, res) => {
-    const { senderId, receiverId } = req.params
-    const loggedInUserId = req.id;
-    console.log({ senderId, receiverId, loggedInUserId });
- 
-    if (senderId !== loggedInUserId) {
-        return res.status(401).json({
-            message: "Please login to get messages!"
-        })
-    };
-    const receiverUser = await User.findById(receiverId);
+    try {
+        const { senderId, receiverId } = req.params
+        const loggedInUserId = req.id;
+        console.log({ senderId, receiverId, loggedInUserId });
 
-    if (!receiverUser) {
-        return res.status(401).json({
-            message: "User not found!"
-        })  
+        if (senderId !== loggedInUserId) {
+            return res.status(401).json({
+                message: "Please login to get messages!"
+            })
+        };
+        const receiverUser = await User.findById(receiverId);
+
+        if (!receiverUser) {
+            return res.status(401).json({
+                message: "User not found!"
+            })
+        }
+        const gotConversation = await Conversation.findOne({
+            participants: { $all: [senderId, receiverId] }
+        }).populate("messages");
+
+        if (!gotConversation) {
+            return res.status(201).json({
+                message: "Conversation not found!"
+            })
+        };
+
+        console.log(gotConversation)
+        return res.status(200).json({
+            message: "Chat found !",
+            gotConversation
+        })
+    } catch (error) {
+        console.log("Error while fetching message", error)
+        return res.status(501).json({
+            message: "Internal server Error!"
+        })
     }
-    const gotConversation = await Conversation.findOne({
-        participants: { $all: [senderId, receiverId] }
-    }).populate("messages");
-
-    if (!gotConversation) {
-        return res.status(201).json({
-            message: "Conversation not found!"
-        })
-    };
-
-    console.log(gotConversation)
-    return res.status(200).json({
-        message: "Chat found !",
-        gotConversation
-    })
 
 }

@@ -1,4 +1,4 @@
-import { Box, Center, Flex, Text } from '@chakra-ui/react'
+import { Box, Button, Center, Flex, Text } from '@chakra-ui/react'
 import React from 'react'
 import { MdOutlineSettings } from 'react-icons/md'
 
@@ -9,6 +9,13 @@ const UserSettingModal = () => {
                 <Flex alignItems={'center'} alignSelf={'center'} fontWeight={'bold'} fontSize={'1.3rem'} gap={'.3rem'} >
                     <MdOutlineSettings />
                     <Text>Setting</Text>
+                </Flex>
+                <Flex flexDir={'column'}>
+                    <Button w={'fit-content'}>change Email address</Button>
+                    <Button w={'fit-content'}>change password</Button>
+                    <Button w={'fit-content'}>Privacy</Button>
+                    <Button w={'fit-content'}>Feedback</Button>
+                    <Button colorScheme='red' w={'fit-content'}>Delete account</Button>
                 </Flex>
             </Flex>
 

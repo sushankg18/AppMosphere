@@ -31,7 +31,7 @@ import Loader from '../components/Loader';
 
 const ChatScreen = () => {
     const [loading, setLoading] = useState(false)
-    const [newMessage, setNewMessage] = useState('')
+    const [newMessage, setNewMessage] = useState([])
     const { isOpen, onOpen, onClose } = useDisclosure()
     const btnRef = useRef()
 
@@ -70,6 +70,7 @@ const ChatScreen = () => {
                 message: newMessage
             }, { withCredentials: true })
             console.log("Sent the message through frontend : ", response.data.newMessage)
+            dispatch(setMessages([...messages , response.data.newMessage]))
             setNewMessage('')
         } catch (error) {
             console.log("Error while sending the message through frontend : ", error)
@@ -163,6 +164,7 @@ const ChatScreen = () => {
                                                 borderColor={'#adadad'}
                                                 focusBorderColor='#adadad'
                                                 borderRadius={'1rem'}
+                                                value={newMessage}
                                                 onChange={(e) => { setNewMessage(e.target.value) }}
                                             />
                                             <InputRightElement width='4.5rem'>
