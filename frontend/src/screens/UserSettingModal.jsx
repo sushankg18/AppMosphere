@@ -1,8 +1,27 @@
-import { Box, Button, Center, Flex, Text } from '@chakra-ui/react'
-import React from 'react'
+import { Button, Center, createLocalStorageManager, Flex, Input, Text, useDisclosure } from '@chakra-ui/react'
+import axios from 'axios'
+import React, { useState } from 'react'
 import { MdOutlineSettings } from 'react-icons/md'
+import { useSelector } from 'react-redux'
 
+import DeleteUserAccount from '../screens/DeleteUserAccounts.jsx'
+import { Link } from 'react-router-dom'
 const UserSettingModal = () => {
+
+    const [openDeleteModal, setOpenDeleteModal] = useState(false)
+    const { authUser } = useSelector(store => store.user)
+    // const handleUserDelete = async () => {
+    //     setOpenDeleteModal(!openDeleteModal)
+    //     try {
+
+    //         const response = await axios.delete(`http://localhost:8080/api/v1/user/delete/669ab67615f33116d9ae75db`)
+    //         console.log("Deleted user account through frontend",response)
+    //     } catch (error) {
+    //         console.log("cannot delete user account through frontend : ",error)
+    //     }
+
+    // }
+
     return (
         <Center h={'90vh'} w={'100vw'} >
             <Flex flexDir={'column'} w={'50%'} p={'1rem'} h={'90%'} boxShadow={'rgba(14, 30, 37, .1) 0px 2px 4px 0px, rgba(14, 30, 37, 0.1) 0px 2px 16px 0px'}>
@@ -15,12 +34,15 @@ const UserSettingModal = () => {
                     <Button w={'fit-content'}>change password</Button>
                     <Button w={'fit-content'}>Privacy</Button>
                     <Button w={'fit-content'}>Feedback</Button>
-                    <Button colorScheme='red' w={'fit-content'}>Delete account</Button>
+                    <Link to={`/${authUser?._id}/account-delete`}>
+                    <Button color={'red'}>Delete Account</Button>
+                    </Link>
                 </Flex>
             </Flex>
 
         </Center>
     )
 }
-
 export default UserSettingModal
+
+

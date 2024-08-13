@@ -104,3 +104,26 @@ code {
     transform: translate(65px, -50%);
   }
 }
+
+
+
+/* FOR LOADING FUNCTIONALITY...
+ #loading-line {
+     visibility: hidden;
+     position: absolute;
+     width: 100vw;
+     height: 1rem;
+     background-color: red;
+     animation: loader 2s linear infinite;
+     left: 0;
+ }
+ @keyframes loader {
+     0% {
+         transform: scaleX(0);
+         transform-origin: left;
+     }
+     100% {
+         transform: scaleX(1);
+         transform-origin: right;
+     }
+ } */

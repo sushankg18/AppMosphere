@@ -9,6 +9,7 @@ import Navbar from './components/Navbar.jsx'
 import Loader from './components/Loader.jsx'
 import { useSelector } from 'react-redux'
 import UserSettingModal from './screens/UserSettingModal.jsx'
+import DeleteUserAccounts from './screens/DeleteUserAccounts.jsx'
 function App() {
   const { authUser } = useSelector(store => store.user);
   return (
@@ -24,7 +25,7 @@ function App() {
             <Route path='/user/forgetpassword' element={<ForgetPass />} />
             <Route path='/:username' element={<UsersProfile />} />
             <Route path='/:username/setting' element={<UserSettingModal />} />
-            <Route path='/loader' element={<Loader />} />
+            <Route path='/:username/account-delete' element={<DeleteUserAccounts />} />
           </Routes>
         </Router>
     </ChakraProvider>
