@@ -236,20 +236,37 @@ export const sendEmail = async (req, res) => {
 };
 
 export const searchUser = async (req, res) => {
-    const {searchTerm} = req.params
+    const { searchTerm } = req.params
     try {
         const users = await User.find({
-          username: { $regex: searchTerm, $options: 'i' }
+            username: { $regex: searchTerm, $options: 'i' }
         });
-    
+
         res.status(200).json(users);
-      } catch (error) {
+    } catch (error) {
         console.error("Error fetching users:", error);
         res.status(500).json({ message: 'Server Error' });
-      }
+    }
 }
 
 export const deleteUser = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        await User.deleteOne({ _id: userId })
+        return res.status(200)
+            .cookie('token', " ", { maxAge: 0 })
+            .json({
+                message: "Account deleted successfully"
+            })
+    } catch (error) {
+        console.log("Error while deleting user : ", error.message)
+        return res.status(200).json({
+            message : "Internal server Error 404"
+        })
+    }
+}
+
+export const userPasswordChecker = async(req, res) => {
     try {
 
         const { userId } = req.params;
@@ -262,7 +279,7 @@ export const deleteUser = async (req, res) => {
                 message: "Unauthorized Request!!"
             })
         };
-        
+
         if (!password) {
             return res.status(402).json({
                 message: "Password is required for deleting account !"
@@ -285,13 +302,14 @@ export const deleteUser = async (req, res) => {
             })
         };
 
-        await User.deleteOne({ _id: userId })
-        return res.status(200)
-            .cookie('token', " ", { maxAge: 0 })
-            .json({
-                message: "User deleted successfully"
-            })
+        return res.status(200).json({
+            message : "Correct password"
+        })
     } catch (error) {
-        console.log("Error while deleting user : ", error.message)
+        console.log("Error while checking password : ",error);
+        return res.status(500).json({
+            message : "Internal Server error while checking the password",
+            error
+        })
     }
 }

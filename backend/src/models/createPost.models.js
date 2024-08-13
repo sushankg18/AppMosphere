@@ -16,7 +16,6 @@ const commentReplySchema = new mongoose.Schema({
 },{timestamps : true})
 
 
-
 const commentSchema = new mongoose.Schema({
     text : {
         type : String,
@@ -31,7 +30,6 @@ const commentSchema = new mongoose.Schema({
     }],
     replyOnComments : [commentReplySchema]
 },{timestamps : true})
-
 
 
 const CreatePostSchema = new mongoose.Schema(

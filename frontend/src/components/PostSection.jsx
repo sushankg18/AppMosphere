@@ -117,10 +117,10 @@ const PostSection = () => {
             <Flex border={'1px solid #dadada'} p={'.3rem 1rem'} borderRadius={'.5rem'} flexDir={'column'} key={idx} w={'83%'} gap={'.7rem'}>
               <Flex justifyContent={'space-between'} alignItems={'center'}>
                 <Flex alignItems={'center'} gap={'.7rem'} >
-                  <Link to={`/${i.owner.username}`}>
+                  <Link to={`/${i?.owner?.username}`}>
                     <Flex gap={'.7rem'} alignItems={'center'}>
-                      <Avatar size={'sm'} src={i.owner.profilePhoto} />
-                      <Text color={'black'} fontWeight={'600'}>{i.owner.username}</Text>
+                      <Avatar size={'sm'} src={i?.owner?.profilePhoto} />
+                      <Text color={'black'} fontWeight={'600'}>{i?.owner?.username}</Text>
                     </Flex>
                   </Link>
                   <Text fontSize={'30px'}>&#xb7;</Text>

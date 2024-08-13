@@ -10,24 +10,31 @@ import Loader from './components/Loader.jsx'
 import { useSelector } from 'react-redux'
 import UserSettingModal from './screens/UserSettingModal.jsx'
 import DeleteUserAccounts from './screens/DeleteUserAccounts.jsx'
+import PageNotFound from './screens/PageNotFound.jsx'
 function App() {
   const { authUser } = useSelector(store => store.user);
   return (
     <ChakraProvider>
-        <Router>
-          {authUser &&
-            <Navbar />
+      <Router>
+        {authUser &&
+          <Navbar />
+        }
+        <Routes>
+          <Route exact path='/user/Register' element={<Register />} />
+          <Route exact path='/user/login' element={<Login />} />
+          <Route exact path='/user/forgetpassword' element={<ForgetPass />} />
+          <Route exact path='*' element={<PageNotFound />} />
+          {
+            authUser &&
+            <>
+              <Route path='/' element={<Home />} />
+              <Route path='/:username' element={<UsersProfile />} />
+              <Route path='/:username/setting' element={<UserSettingModal />} />
+              <Route path='/:username/account-delete' element={<DeleteUserAccounts />} />
+            </>
           }
-          <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/user/Register' element={<Register />} />
-            <Route path='/user/login' element={<Login />} />
-            <Route path='/user/forgetpassword' element={<ForgetPass />} />
-            <Route path='/:username' element={<UsersProfile />} />
-            <Route path='/:username/setting' element={<UserSettingModal />} />
-            <Route path='/:username/account-delete' element={<DeleteUserAccounts />} />
-          </Routes>
-        </Router>
+        </Routes>
+      </Router>
     </ChakraProvider>
   );
 }

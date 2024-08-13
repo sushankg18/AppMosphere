@@ -10,17 +10,7 @@ const UserSettingModal = () => {
 
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
     const { authUser } = useSelector(store => store.user)
-    // const handleUserDelete = async () => {
-    //     setOpenDeleteModal(!openDeleteModal)
-    //     try {
-
-    //         const response = await axios.delete(`http://localhost:8080/api/v1/user/delete/669ab67615f33116d9ae75db`)
-    //         console.log("Deleted user account through frontend",response)
-    //     } catch (error) {
-    //         console.log("cannot delete user account through frontend : ",error)
-    //     }
-
-    // }
+    
 
     return (
         <Center h={'90vh'} w={'100vw'} >

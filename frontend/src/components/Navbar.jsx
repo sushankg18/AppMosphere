@@ -46,7 +46,6 @@ const Navbar = () => {
     try {
       const logoutUser = await axios.get("http://localhost:8080/api/v1/user/logout", { withCredentials: true });
       if (logoutUser) {
-        dispatch(setAuthUser(null));
         toast({
           status: "success",
           title: logoutUser.data.message,
@@ -55,6 +54,7 @@ const Navbar = () => {
         });
         navigate('/user/login');
         window.location.reload();
+        dispatch(setAuthUser(null));
       }
     } catch (error) {
       console.log("Error while logout : ", error);
