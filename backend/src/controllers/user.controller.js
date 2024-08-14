@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken'
 import { transporter } from '../utils/emailSender.js'
 import crypto from 'crypto'
 import { uploadOnCloudinary } from '../utils/cloudinary.js'
+import path from 'path'
 
 export const registeruser = async (req, res) => {
 
@@ -252,6 +253,7 @@ export const searchUser = async (req, res) => {
 export const deleteUser = async (req, res) => {
     try {
         const { userId } = req.params;
+        const user = await User.findById(userId).populate("likes")
         await User.deleteOne({ _id: userId })
         return res.status(200)
             .cookie('token', " ", { maxAge: 0 })

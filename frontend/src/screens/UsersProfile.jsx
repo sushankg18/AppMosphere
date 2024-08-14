@@ -28,6 +28,7 @@ const UsersProfile = () => {
         const fetchUser = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/api/v1/user/${username}`);
+                console.log(response.data)
                 setUser([response.data.user])
             } catch (error) {
                 console.log("Not found user through frontend: ", error)

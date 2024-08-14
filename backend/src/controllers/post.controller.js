@@ -129,7 +129,7 @@ export const likeOnPost = async (req, res) => {
                 message: "Post not found!"
             })
         };
-
+        const user = await User.findById(userId).select("-password")
         const hasLiked = post.likes.includes(userId);
         if (hasLiked) {
             post.likes = post.likes.filter(id => id.toString() !== userId.toString());
@@ -140,8 +140,9 @@ export const likeOnPost = async (req, res) => {
         } else {
             console.log(userId)
             post.likes.push(userId)
+            user.likes.push(postId)
             await post.save();
-
+            await user.save();
             return res.status(200).json({
                 message: "Post like successfully",
                 post
@@ -181,8 +182,9 @@ export const commentOnPost = async (req, res) => {
             text: comment
         }
         post.comments.push(newComment)
+        user.comments.push(postId)
         await post.save();
-
+        await user.save()
         return res.status(200).json({
             message: "successfully Commented on post ",
             comment: newComment
@@ -201,13 +203,12 @@ export const replyOnComment = async (req, res) => {
     
     
 }
+
 export const savePost = async (req, res) => {
     const postId = req.params.postId;
     const loggedInUser = req.params.userId;
     const userId = req.id;
 
-    // console.log(loggedInUser)
-    // console.log(userId)
     if (loggedInUser != userId) {
         return res.status(401).json({
             message: "Please login to save the post!"
@@ -228,7 +229,6 @@ export const savePost = async (req, res) => {
     if (isSaved) {
         user.saves = user.saves.filter(id => id.toString() !== postId.toString());
         post.saved = post.saved.filter(id => id.toString() !== userId.toString());
-        console.log("Post id : ", postId)
         user.save();
         post.save()
         return res.status(200).json({
@@ -237,7 +237,6 @@ export const savePost = async (req, res) => {
     } else {
         user.saves.push(postId)
         post.saved.push(userId)
-        console.log("Post id : ", postId)
         user.save();
         post.save()
 

@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose, { mongo } from 'mongoose'
 
 const userSchema = new mongoose.Schema(
     {
@@ -34,25 +34,33 @@ const userSchema = new mongoose.Schema(
             required: true,
             enum: ["male", "female"]
         },
-        saves : [{
-            type : mongoose.Schema.Types.ObjectId,
-            ref : "createPost",
-            default : []
+        saves: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "createPost",
+            default: []
         }],
         posts: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "createPost",
             default: []
         }],
-        followers : [{
-            type : mongoose.Schema.Types.ObjectId,
-            ref : "User",
-            default : []
+        followers: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            default: []
         }],
-        following : [{
-            type : mongoose.Schema.Types.ObjectId,
-            ref : "User",
-            default : []
+        following: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            default: []
+        }],
+        likes: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "createPost"
+        }],
+        comments: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "createPost"
         }]
 
     }
