@@ -155,8 +155,10 @@ const PostSection = () => {
                 <Text fontSize={'1.1rem'}>{i.title}</Text>
                 <Flex justifyContent={'center'}>
                   {
-
-                    <Image src={i.post} w={'20rem'} />
+                    i.video && <video src={i.video} style={{aspectRatio : '9/12'}}  controls></video>
+                  }
+                  {
+                    i.post &&<Image src={i.post} w={'20rem'} />
                   }
                 </Flex>
               </Flex>
@@ -201,12 +203,12 @@ const PostSection = () => {
               </Flex>
 
               {i.comments.length < 2 ?
-                i.comments.map((item, index) => {
+                i?.comments.map((item, index) => {
                   return (
                     <Flex alignItems={'center'} justifyContent={'space-between'} border={'1px solid #adadad'} borderRadius={'.5rem'} p={'.4rem 1rem'}>
                       <Flex gap={'1rem'}>
-                        <Text fontWeight={'bold'}>{item.user.username}</Text>
-                        <Text >{item.text}</Text>
+                        <Text fontWeight={'bold'}>{item.user?.username}</Text>
+                        <Text >{item?.text}</Text>
                       </Flex>
 
                       <Flex>
@@ -220,13 +222,13 @@ const PostSection = () => {
                   <PostDeatilsModal
                     message={`view all ${i.comments.length} comments`}
                     postId={i?._id}
-                    comments={i.comments}
-                    likes={i.likes}
-                    post={i.post}
+                    comments={i?.comments}
+                    likes={i?.likes}
+                    post={i?.post}
                     date={moment(i.createdAt).fromNow()}
-                    userProfile={i.owner.profilePhoto}
-                    postUsername={i.owner.username}
-                    caption={i.title}
+                    userProfile={i.owner?.profilePhoto}
+                    postUsername={i.owner?.username}
+                    caption={i?.title}
                     userPosts={setUserPosts}
                   />
 

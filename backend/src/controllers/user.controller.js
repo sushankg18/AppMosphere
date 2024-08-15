@@ -1,10 +1,10 @@
 import { User } from '../models/user.models.js'
+import { createPost } from '../models/createPost.models.js'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { transporter } from '../utils/emailSender.js'
 import crypto from 'crypto'
 import { uploadOnCloudinary } from '../utils/cloudinary.js'
-import path from 'path'
 
 export const registeruser = async (req, res) => {
 
@@ -101,13 +101,10 @@ export const logoutUser = async (req, res) => {
 
 export const getOtherUsers = async (req, res) => {
     try {
-        console.log("getOtherUsers route hit");
 
         const loggedInUser = req.id;
-        console.log("Logged-in user ID:", loggedInUser);
 
         const otherUsers = await User.find({ _id: { $ne: loggedInUser } }).select("-password");
-        console.log("Other users fetched:", otherUsers);
 
         if (!otherUsers || otherUsers.length === 0) {
             return res.status(404).json({
@@ -133,6 +130,7 @@ export const findAnUser = async (req, res) => {
         const { username } = req.params;
 
         const user = await User.findOne({ username }).select("-password").populate("posts").populate("followers").populate("following");
+       
         if (!user) {
             return res.status(404).json({
                 message: "User not found"
@@ -253,22 +251,59 @@ export const searchUser = async (req, res) => {
 export const deleteUser = async (req, res) => {
     try {
         const { userId } = req.params;
-        const user = await User.findById(userId).populate("likes")
+        //deleting user posts before Account Deletion
+        const userPosts = await User.findById(userId).select("posts").populate("posts")
+        for (let i = 0; i < userPosts.posts.length; i++) {
+            await createPost.findByIdAndDelete(userPosts.posts[i]._id)
+            createPost.bulkSave()
+        }
+        console.log('Post deleted successfully')
+        //disliking the posts which the user liked, before Account Deletion
+        const postLikedByUser = await User.findById(userId).select("likes").populate("likes")
+        for (let i = 0; i < postLikedByUser.likes.length; i++) {
+            const likedPost = await createPost.findById(postLikedByUser.likes[i]._id)
+            likedPost.likes = likedPost.likes.filter(id => id.toString() !== userId.toString());
+            await likedPost.save();
+        }
+        console.log("LIked posts deleted successfully")
+        
+        //unfollowing the user which the deleting user followed them
+        const otherUsers_followed_by_deletingUser = await User.findById(userId).select("following").populate("following");
+        for (let i = 0; i < otherUsers_followed_by_deletingUser.following.length; i++) {
+            const followingUser = await User.findById(otherUsers_followed_by_deletingUser.following[i]._id).select("followers")
+            followingUser.followers = followingUser.followers.filter(id => id.toString() !== userId.toString())
+            await followingUser.save();
+        }
+        
+        console.log("deleted from users following successfully")
+        
+        //removing deleting user from those user who follows deleting user
+        const deletingUser_followed_otherUsers_followed = await User.findById(userId).select("followers").populate("followers");
+        for (let i = 0; i < deletingUser_followed_otherUsers_followed.followers.length; i++) {
+            const followedUser = await User.findById(deletingUser_followed_otherUsers_followed.followers[i]._id).select("following")
+            followedUser.following = followedUser.following.filter(id => id.toString() !== userId.toString())
+            await followedUser.save();
+        }
+        console.log("deleted from users followers list successfully")
+        
+
+        //after all these stuff user account will delete.
         await User.deleteOne({ _id: userId })
+        console.log("FInally account deleted successfully")
         return res.status(200)
-            .cookie('token', " ", { maxAge: 0 })
+        .cookie('token', " ", { maxAge: 0 })
             .json({
                 message: "Account deleted successfully"
             })
     } catch (error) {
         console.log("Error while deleting user : ", error.message)
         return res.status(200).json({
-            message : "Internal server Error 404"
+            message: "Internal server Error 404"
         })
     }
 }
 
-export const userPasswordChecker = async(req, res) => {
+export const userPasswordChecker = async (req, res) => {
     try {
 
         const { userId } = req.params;
@@ -305,12 +340,12 @@ export const userPasswordChecker = async(req, res) => {
         };
 
         return res.status(200).json({
-            message : "Correct password"
+            message: "Correct password"
         })
     } catch (error) {
-        console.log("Error while checking password : ",error);
+        console.log("Error while checking password : ", error);
         return res.status(500).json({
-            message : "Internal Server error while checking the password",
+            message: "Internal Server error while checking the password",
             error
         })
     }

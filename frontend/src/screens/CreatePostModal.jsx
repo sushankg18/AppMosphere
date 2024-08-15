@@ -15,6 +15,7 @@ import axios from 'axios';
 const CreatePostModal = () => {
   const [title, setTitle] = useState('')
   const [previewImage, setPreviewImage] = useState(null)
+  const [fileType, setFileType] = useState(null)
   const [file, setFile] = useState(null)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const textareaRef = useRef(null);
@@ -58,7 +59,9 @@ const CreatePostModal = () => {
   const handlePostImage = (event) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
+      console.log("FIle is : ", file)
       setFile(file);
+      setFileType(file.type)
       setPreviewImage(URL.createObjectURL(file));
     }
   }
@@ -108,7 +111,14 @@ const CreatePostModal = () => {
             </Flex>
 
             <Flex alignSelf={'center'} justifyContent={'center'}>
-              <Image src={previewImage} w={'15rem'} />
+              {
+                fileType === "video/mp4" ?
+                  <video src={previewImage} style={{width : "100%", height : "30rem"}} controls >
+                    
+                  </video>
+                  :
+                  <Image src={previewImage} w={'15rem'} />
+              }
             </Flex>
           </ModalBody>
           {/* <ModalCloseButton /> */}

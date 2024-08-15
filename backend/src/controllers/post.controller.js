@@ -25,9 +25,11 @@ export const newPost = async (req, res) => {
         console.log("Request Body:", req.body);
 
         let profilePhotoUrl;
+        let videoUrl;
         if (req.file) {
             const result = await uploadOnCloudinary(req.file.path);
-            profilePhotoUrl = result.secure_url;
+            if(result.resource_type === "video") videoUrl = result.secure_url
+            if(result.resource_type === "image") profilePhotoUrl = result.secure_url;
         }
 
         if (!title && !profilePhotoUrl) {
@@ -39,6 +41,7 @@ export const newPost = async (req, res) => {
         const newPost = await createPost.create({
             title,
             post: profilePhotoUrl,
+            video : videoUrl,
             visibility,
             location,
             owner: userId
@@ -133,7 +136,9 @@ export const likeOnPost = async (req, res) => {
         const hasLiked = post.likes.includes(userId);
         if (hasLiked) {
             post.likes = post.likes.filter(id => id.toString() !== userId.toString());
+            user.likes = user.likes.filter(id => id.toString() !== postId.toString())
             await post.save()
+            await user.save()
             return res.status(201).json({
                 message: "You disliked the post !"
             })
