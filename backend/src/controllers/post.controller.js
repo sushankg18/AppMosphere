@@ -28,8 +28,8 @@ export const newPost = async (req, res) => {
         let videoUrl;
         if (req.file) {
             const result = await uploadOnCloudinary(req.file.path);
-            if(result.resource_type === "video") videoUrl = result.secure_url
-            if(result.resource_type === "image") profilePhotoUrl = result.secure_url;
+            if (result.resource_type === "video") videoUrl = result.secure_url
+            if (result.resource_type === "image") profilePhotoUrl = result.secure_url;
         }
 
         if (!title && !profilePhotoUrl) {
@@ -41,7 +41,7 @@ export const newPost = async (req, res) => {
         const newPost = await createPost.create({
             title,
             post: profilePhotoUrl,
-            video : videoUrl,
+            video: videoUrl,
             visibility,
             location,
             owner: userId
@@ -101,14 +101,14 @@ export const deletePost = async (req, res) => {
 
 export const getPosts = async (req, res) => {
     try {
-        const posts = await createPost.find().sort({createdAt : -1}).populate('owner', "username fullname profilePhoto").populate({
+        const posts = await createPost.find().sort({ createdAt: -1 }).populate('owner', "username fullname profilePhoto").populate({
             path: 'comments',
-            populate: { 
+            populate: {
                 path: 'user',
-                select : "username profilePhoto fullname"
-             } ,
-          })
-      
+                select: "username profilePhoto fullname"
+            },
+        })
+
         return res.status(200).json({
             message: "Got all the posts successfully!",
             posts
@@ -205,8 +205,8 @@ export const commentOnPost = async (req, res) => {
 
 export const replyOnComment = async (req, res) => {
     const post = await createPost.findById(id);
-    
-    
+
+
 }
 
 export const savePost = async (req, res) => {
@@ -298,4 +298,21 @@ export const editPost = async (req, res) => {
             error
         })
     }
+}
+
+export const getAllReels = async (req, res) => {
+
+    try {
+        const allReels = await createPost.find({ video: { $ne: ""  } }).populate("owner")
+        console.log("All Reels wali post : ",allReels)
+        return res.status(200).json({
+            message : "Reels fetched successfully",
+            allReels
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message : "Internal server while fetching reels!"
+        })
+    }
+
 }

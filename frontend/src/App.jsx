@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux'
 import UserSettingModal from './screens/UserSettingModal.jsx'
 import DeleteUserAccounts from './screens/DeleteUserAccounts.jsx'
 import PageNotFound from './screens/PageNotFound.jsx'
+import Reels from './screens/Reels.jsx'
 function App() {
   const { authUser } = useSelector(store => store.user);
   return (
@@ -31,6 +32,7 @@ function App() {
               <Route path='/:username' element={<UsersProfile />} />
               <Route path='/:username/setting' element={<UserSettingModal />} />
               <Route path='/:username/account-delete' element={<DeleteUserAccounts />} />
+              <Route path='/reels' element={<Reels />} />
             </>
           }
         </Routes>

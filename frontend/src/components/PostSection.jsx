@@ -14,7 +14,6 @@ import { FiMoreHorizontal } from "react-icons/fi";
 import { FaRegHeart, FaRegComment, FaRegBookmark } from "react-icons/fa6";
 import { FiSend } from "react-icons/fi";
 import { FaHeart } from "react-icons/fa6";
-import post from '../assets/randomPost1.jpg'
 import Stories from './Stories';
 import CreatePostModal from '../screens/CreatePostModal.jsx';
 import axios from 'axios';
