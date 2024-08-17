@@ -113,7 +113,7 @@ const CreatePostModal = () => {
             <Flex alignSelf={'center'} justifyContent={'center'}>
               {
                 fileType === "video/mp4" ?
-                  <video src={previewImage} style={{width : "100%", height : "30rem"}} controls >
+                  <video src={previewImage} style={{width : "fit-content", height : "30rem"}} controls >
                     
                   </video>
                   :

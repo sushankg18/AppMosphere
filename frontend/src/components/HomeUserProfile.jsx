@@ -12,7 +12,7 @@ const HomeUserProfile = () => {
 
 
   return (
-    <Box className='homeUserProfile' display={'flex'} flexDir={'column'} gap={'3rem'} overflow={'hidden'} w={'22%'} h={'85vh'} p={'.2rem .3rem'} >
+    <Box className='homeUserProfile' display={'flex'} flexDir={'column'} gap={'2rem'} overflow={'hidden'} w={'22%'} h={'85vh'} p={'.2rem .3rem'} >
       <Flex flexDir={'column'} gap={'1rem'} h={'fit-content'} p={'.5rem 1rem'} boxShadow={'rgba(14, 30, 37, .1) 0px 2px 4px 0px, rgba(14, 30, 37, 0.1) 0px 2px 16px 0px'}>
 
         <Center >
@@ -53,17 +53,40 @@ const HomeUserProfile = () => {
 
       <Flex flexDir={'column'} gap={'1rem'} h={'fit-content'} p={'.5rem 1rem'} boxShadow={'rgba(14, 30, 37, .1) 0px 2px 4px 0px, rgba(14, 30, 37, 0.1) 0px 2px 16px 0px'}>
 
-        <Link to={'/reels'}>
+        <Link >
           <Flex py={'.3rem'} cursor={'pointer'} gap={'.7rem'} >
             <Image src={reelsLogo} w={'1.5rem'} h={'1.5rem'} />
-            <Text>Reels</Text>
+            <Text>Add to story</Text>
           </Flex>
         </Link>
+
+        <Link >
+          <Flex py={'.3rem'} cursor={'pointer'} gap={'.7rem'}>
+            <FiHome fontSize={'1.5rem'} />
+            <Text>upload post</Text>
+          </Flex>
+        </Link>
+        <Link >
+          <Flex py={'.3rem'} cursor={'pointer'} gap={'.7rem'}>
+            <FiHome fontSize={'1.5rem'} />
+            <Text>upload reel</Text>
+          </Flex>
+        </Link>
+      </Flex>
+
+      <Flex flexDir={'column'} gap={'1rem'} h={'fit-content'} p={'.5rem 1rem'} boxShadow={'rgba(14, 30, 37, .1) 0px 2px 4px 0px, rgba(14, 30, 37, 0.1) 0px 2px 16px 0px'}>
+
 
         <Link to={'/'}>
           <Flex py={'.3rem'} cursor={'pointer'} gap={'.7rem'}>
             <FiHome fontSize={'1.5rem'} />
             <Text>Home</Text>
+          </Flex>
+        </Link>
+        <Link to={'/reels'}>
+          <Flex py={'.3rem'} cursor={'pointer'} gap={'.7rem'} >
+            <Image src={reelsLogo} w={'1.5rem'} h={'1.5rem'} />
+            <Text>Reels</Text>
           </Flex>
         </Link>
       </Flex>
