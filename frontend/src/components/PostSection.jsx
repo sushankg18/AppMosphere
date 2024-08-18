@@ -154,10 +154,10 @@ const PostSection = () => {
                 <Text fontSize={'1.1rem'}>{i.title}</Text>
                 <Flex justifyContent={'center'}>
                   {
-                    i.video && <video src={i.video} autoPlay style={{width: "fit-content" , height : "32rem"}}  controls></video>
+                    i.video && <video src={i.video} autoPlay muted style={{ width: "fit-content", height: "32rem" }} controls></video>
                   }
                   {
-                    i.post &&<Image src={i.post} w={'20rem'} />
+                    i.post && <Image src={i.post} w={'20rem'} />
                   }
                 </Flex>
               </Flex>
@@ -166,7 +166,7 @@ const PostSection = () => {
 
                 <Flex gap={'2rem'}>
 
-                  <Tooltip hasArrow label='like'  aria-label='A tooltip' openDelay={'1000'}>
+                  <Tooltip hasArrow label='like' aria-label='A tooltip' openDelay={'1000'}>
                     <Box as='button' position={'relative'} variant={'unstyled'}  >
                       {
                         i.likes.includes(authUser?._id) ?

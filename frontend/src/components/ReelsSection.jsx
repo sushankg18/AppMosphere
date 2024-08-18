@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 
 const ReelsSection = () => {
     const [reels, setReels] = useState([]);
-    const [isReelPaused, setIsReelPaused] = useState([]);
+    const [isReelPaused, setIsReelPaused] = useState([]); // State to track paused status for each video
     const { authUser } = useSelector(store => store.user);
     const videoRef = useRef([]);
 
@@ -20,7 +20,7 @@ const ReelsSection = () => {
                 const res = await axios.get(`http://localhost:8080/api/v1/post/getreels`);
                 console.log("Reels fetched successfully through frontend : ", res.data.allReels);
                 setReels(res.data.allReels);
-                setIsReelPaused(new Array(res.data.allReels.length).fill(false)); 
+                setIsReelPaused(new Array(res.data.allReels.length).fill(false)); // Initialize paused state for each video
             }
             catch (error) {
                 console.log("Error while fetching reels through frontend : ", error);
@@ -56,7 +56,12 @@ const ReelsSection = () => {
                                     style={{ width: "100%", height: "100%", objectFit: "cover" }}
                                     onClick={() => handlePlayReel(index)}
                                 ></video>
-
+                                {
+                                    isReelPaused[index] && // Show play icon only on paused video
+                                    <Box position={'absolute'} top={'50%'} left={'50%'} transform={'translate(-50%, -50%)'} zIndex={'99'} fontSize={'2rem'}>
+                                        <FaPlay color='white' />
+                                    </Box>
+                                }
                                 <Flex flexDir={'column'} gap={'.3rem'} color={'white'} position={'absolute'} bottom={'1rem'} p={'0 1rem'}>
                                     <Flex alignItems={'center'} gap={'.5rem'}>
                                         <Avatar src={reel.owner.profilePhoto} w={'2.2rem'} h={'2.2rem'} />
