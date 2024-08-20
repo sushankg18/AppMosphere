@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Center, Flex, HStack, Image, Input, InputGroup, InputLeftAddon, InputLeftElement, Text, useDisclosure, VStack } from '@chakra-ui/react'
+import { Avatar, Box, Button, Center, Flex, HStack, Image, Input, InputGroup, InputLeftAddon, InputLeftElement, SimpleGrid, Text, useDisclosure, VStack } from '@chakra-ui/react'
 import {
     Modal,
     ModalOverlay,
@@ -16,11 +16,12 @@ import { FiHeart, FiImage, FiSearch } from "react-icons/fi";
 import { AiOutlineRetweet } from "react-icons/ai";
 import { HiOutlineVideoCamera } from "react-icons/hi";
 import { MdOutlineHideImage } from "react-icons/md";
-import { FaRegComment, FaRegHeart } from 'react-icons/fa6'
+import { FaComment, FaHeart, FaRegComment, FaRegHeart } from 'react-icons/fa6'
 import { useDispatch, useSelector } from 'react-redux'
 import { setAuthUser } from '../redux/userSlice'
 const UsersProfile = () => {
     const [user, setUser] = useState([])
+    const [hoveredIndex, setHoveredIndex] = useState(null);
     const { username } = useParams();
     const { authUser } = useSelector(store => store.user)
     const dispatch = useDispatch()
@@ -106,21 +107,107 @@ const UsersProfile = () => {
                                     </HStack>
                                 </Flex>
 
-                                <Tabs borderTop={'1px solid #dadada'} variant='unstyled' h={'68%'}>
+                                <Tabs borderTop={'1px solid #dadada'} variant='unstyled' overflow={'hidden'} h={'68%'}>
 
                                     <TabList justifyContent={'space-evenly'} >
                                         <Tab _selected={{ color: 'black', bg: 'gray.100' }} fontSize={'1.3rem'}><FiImage /></Tab>
-                                        <Tab _selected={{ color: 'black', bg: 'gray.100' }} fontSize={'1.3rem'}><AiOutlineRetweet /></Tab>
                                         <Tab _selected={{ color: 'black', bg: 'gray.100' }} fontSize={'1.3rem'}><HiOutlineVideoCamera /></Tab>
+                                        <Tab _selected={{ color: 'black', bg: 'gray.100' }} fontSize={'1.3rem'}><AiOutlineRetweet /></Tab>
                                     </TabList>
 
                                     <TabPanels h={'100%'}>
 
-                                        <TabPanel h={'100%'} display={'flex'} flexDir={'column'} justifyContent={'center'} alignItems={'center'}>
-                                            <MdOutlineHideImage fontSize={'2rem'} />
-                                            <Text>No post yet</Text>
+                                        <TabPanel h={'100%'} display={'flex'} justifyContent={'space-evenly'}>
+                                            <SimpleGrid pb={'2rem'} columns={3} px={'1rem'} spacing={'1rem'} overflowY={'auto'}>
+                                                {i.posts.map((post, idx) => {
+                                                    return (
+                                                        post.post && (
+                                                            <Box
+                                                                key={idx}
+                                                                w={'12rem'}
+                                                                h={'12rem'}
+                                                                onMouseEnter={() => setHoveredIndex(idx)}
+                                                                onMouseLeave={() => setHoveredIndex(null)}
+                                                                position={'relative'}
+                                                                cursor={'pointer'}
+                                                                border={'1px solid #dadada'}
+                                                            >
+                                                                <Image src={post.post} muted style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                                                                {hoveredIndex === idx && (
+                                                                    <Flex
+                                                                        w={'100%'}
+                                                                        h={'100%'}
+                                                                        position={'absolute'}
+                                                                        bgColor={'rgba(0, 0, 0, 0.5)'}
+                                                                        top={'0'}
+                                                                        zIndex={'88'}
+                                                                        alignItems={'center'}
+                                                                        justifyContent={'center'}
+                                                                    >
+                                                                        <HStack color={'white'} gap={'1rem'} >
+                                                                            <HStack gap={'.3rem'}>
+                                                                                <FaHeart />
+                                                                                <Text color={'white'}>{post.likes.length}</Text>
+                                                                            </HStack>
+                                                                            <HStack gap={'.3rem'}>
+                                                                                <FaComment />
+                                                                                <Text color={'white'}>{post.comments.length}</Text>
+                                                                            </HStack>
+                                                                        </HStack>
+                                                                    </Flex>
+                                                                )}
+                                                            </Box>
+                                                        )
+                                                    );
+                                                })}
+                                            </SimpleGrid>
                                         </TabPanel>
 
+                                        <TabPanel h={'100%'} display={'flex'} gap={'1rem'} justifyContent={'space-around'}>
+                                            <SimpleGrid pb={'2rem'} columns={3} px={'1rem'} spacing={'1rem'} overflowY={'auto'}>
+                                                {i.posts.map((post, idx) => {
+                                                    return (
+                                                        post.video && (
+                                                            <Box
+                                                                key={idx}
+                                                                w={'12rem'}
+                                                                h={'12rem'}
+                                                                onMouseEnter={() => setHoveredIndex(idx)}
+                                                                onMouseLeave={() => setHoveredIndex(null)}
+                                                                position={'relative'}
+                                                                cursor={'pointer'}
+                                                                border={'1px solid #dadada'}
+                                                            >
+                                                                <video src={post.video} muted style={{ width: "100%", height: "100%", objectFit: "cover" }}></video>
+                                                                {hoveredIndex === idx && (
+                                                                    <Flex
+                                                                        w={'100%'}
+                                                                        h={'100%'}
+                                                                        position={'absolute'}
+                                                                        bgColor={'rgba(0, 0, 0, 0.5)'}
+                                                                        top={'0'}
+                                                                        zIndex={'88'}
+                                                                        alignItems={'center'}
+                                                                        justifyContent={'center'}
+                                                                    >
+                                                                        <HStack color={'white'} gap={'1rem'} >
+                                                                            <HStack gap={'.3rem'}>
+                                                                                <FaHeart />
+                                                                                <Text color={'white'}>{post.likes.length}</Text>
+                                                                            </HStack>
+                                                                            <HStack gap={'.3rem'}>
+                                                                                <FaComment />
+                                                                                <Text color={'white'}>{post.comments.length}</Text>
+                                                                            </HStack>
+                                                                        </HStack>
+                                                                    </Flex>
+                                                                )}
+                                                            </Box>
+                                                        )
+                                                    );
+                                                })}
+                                            </SimpleGrid>
+                                        </TabPanel>
                                         <TabPanel overflowY={'auto'} h={'90%'} gap={'1rem'} display={'flex'} flexDir={'column'} alignItems={'center'}>
                                             {
                                                 i.posts.map((post, idx) => {
@@ -156,9 +243,6 @@ const UsersProfile = () => {
                                             }
                                         </TabPanel>
 
-                                        <TabPanel h={'100%'} display={'flex'} flexDir={'column'} justifyContent={'center'} alignItems={'center'}>
-                                            <p>three!</p>
-                                        </TabPanel>
 
                                     </TabPanels>
 
@@ -213,10 +297,10 @@ function Basic({ length, message, following, followers, userId }) {
                                                 </Flex>
                                                 <Button
                                                     display={authUser?._id === follower?._id ? "none" : 'flex'}
-                                                    bgColor={isFollowing  ? '#dadada' : "black"}
+                                                    bgColor={isFollowing ? '#dadada' : "black"}
                                                     w={'6rem'}
-                                                    color={isFollowing ?"black" :'white'}
-                                                    _hover={ isFollowing ? { bgColor: "rgb(230, 230, 230)" } : {bgColor: "rgb(70, 70, 70)"}}
+                                                    color={isFollowing ? "black" : 'white'}
+                                                    _hover={isFollowing ? { bgColor: "rgb(230, 230, 230)" } : { bgColor: "rgb(70, 70, 70)" }}
                                                     p={' .9rem'}
                                                     fontSize={'.9rem'}
                                                     size={'xs'}

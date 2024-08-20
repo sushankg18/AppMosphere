@@ -48,32 +48,6 @@ const HomeUserProfile = () => {
           </Flex>
         </Flex>
 
-
-      </Flex>
-
-      <Flex flexDir={'column'} gap={'1rem'} h={'fit-content'} p={'.5rem 1rem'} boxShadow={'rgba(14, 30, 37, .1) 0px 2px 4px 0px, rgba(14, 30, 37, 0.1) 0px 2px 16px 0px'}>
-
-        <Link >
-          <Flex py={'.3rem'} cursor={'pointer'} gap={'.7rem'} >
-            <Image src={reelsLogo} w={'1.5rem'} h={'1.5rem'} />
-            <Text>Add to story</Text>
-          </Flex>
-        </Link>
-
-        <Link >
-          <Flex py={'.3rem'} cursor={'pointer'} gap={'.7rem'}>
-            <FiHome fontSize={'1.5rem'} />
-            <Text>upload post</Text>
-          </Flex>
-        </Link>
-        <Link >
-          <Flex py={'.3rem'} cursor={'pointer'} gap={'.7rem'}>
-            <FiHome fontSize={'1.5rem'} />
-            <Text>upload reel</Text>
-          </Flex>
-        </Link>
-      </Flex>
-
       <Flex flexDir={'column'} gap={'1rem'} h={'fit-content'} p={'.5rem 1rem'} boxShadow={'rgba(14, 30, 37, .1) 0px 2px 4px 0px, rgba(14, 30, 37, 0.1) 0px 2px 16px 0px'}>
 
 
@@ -90,6 +64,10 @@ const HomeUserProfile = () => {
           </Flex>
         </Link>
       </Flex>
+
+      </Flex>
+
+
 
     </Box >
   )

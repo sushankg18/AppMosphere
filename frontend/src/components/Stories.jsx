@@ -6,12 +6,12 @@ const Stories = () => {
     if(!otherUsers) return ;
 
     return (
-        <Box h={'fit-content'}fontWeight={'bold'} px={'1rem'} w={'100%'} className='storiesSection' >
+        <Box h={'fit-content'}fontWeight={'bold'} px={'1rem'} w={'100%'} >
 
-            <Flex gap={'1rem'} w={'fit-content'} >
+            <Flex gap={'1rem'} overflowX={'scroll'}  w={'fit-content'}>
                 {
                     otherUsers.map((i, idx) => {
-                        return (
+                        return(
                             <Flex w={'5rem'} key={idx} h={'fit-content'} flexDir={'column'} overflow={'hidden'}>
                                 <Circle w={'4rem'} h={'4rem'} border={'1px solid black'}  overflow={'hidden'}>
                                     <Image src={i.profilePhoto} w={'100%'} objectFit={'cover'} />

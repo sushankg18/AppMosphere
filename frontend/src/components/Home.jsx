@@ -8,7 +8,7 @@ import HomeUserProfile from './HomeUserProfile.jsx'
 const Home = () => {
   // GetOtherUsers()
   return (
-    <Box overflowY={'hidden'} maxH={'90vh'}>
+    <Box overflow={'hidden'} maxH={'90vh'}>
 
       <Flex justifyContent={'space-between'} p={'1rem 1rem'}>
         <HomeUserProfile />
