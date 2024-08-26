@@ -20,6 +20,7 @@ import {
     InputGroup,
     InputRightElement,
     Center,
+    AvatarBadge,
 } from '@chakra-ui/react'
 import { IoChatbubblesOutline, IoChevronBack } from 'react-icons/io5'
 import { IoIosInformationCircleOutline } from "react-icons/io";
@@ -36,7 +37,7 @@ const ChatScreen = () => {
     const btnRef = useRef()
 
     const dispatch = useDispatch()
-    const { authUser, otherUsers, selectedUser } = useSelector(store => store.user)
+    const { authUser, otherUsers, selectedUser, OnlineUsers } = useSelector(store => store.user)
     const { messages } = useSelector(store => store.message)
     // if(messages) console.log("Messages redux found : ",messages)
     const selectUserChat = async (user) => {
@@ -70,7 +71,7 @@ const ChatScreen = () => {
                 message: newMessage
             }, { withCredentials: true })
             console.log("Sent the message through frontend : ", response.data.newMessage)
-            dispatch(setMessages([...messages , response.data.newMessage]))
+            dispatch(setMessages([...messages, response.data.newMessage]))
             setNewMessage('')
         } catch (error) {
             console.log("Error while sending the message through frontend : ", error)
@@ -83,7 +84,7 @@ const ChatScreen = () => {
             <Drawer
                 isOpen={isOpen}
                 placement='right'
-                onClose={onClose }
+                onClose={onClose}
                 finalFocusRef={btnRef}
                 size={'xl'}
 
@@ -92,16 +93,23 @@ const ChatScreen = () => {
                 <DrawerContent>
 
                     <DrawerBody display={'flex'} >
-                        <Flex flexDir={'column'} py={'.8rem'}  w={'30%'} h={'100%'} borderRight={'1px solid #adadad'}>
+                        <Flex flexDir={'column'} py={'.8rem'} w={'30%'} h={'100%'} borderRight={'1px solid #adadad'}>
                             <HStack fontSize={'1.3rem'} mb={'2rem'}>
                                 <IoChevronBack fontWeight={'bold'} cursor={'pointer'} onClick={onClose} />
                                 <Text fontWeight={'bold'}>{authUser?.username}</Text>
                             </HStack>
                             {
                                 otherUsers?.map((user, idx) => {
+                                    const isOnline = OnlineUsers && OnlineUsers.includes(user?._id)
+                                    console.log("ONLINE USERS : ",OnlineUsers)
                                     return (
-                                        <Flex  onClick={() => selectUserChat(user)} bgColor={selectedUser?._id === user._id ? "#f2f2f2" : null}  cursor={'pointer'} p={'.5rem'} _hover={{ bgColor: "#f2f2f2" }} alignItems={'center'} gap={'.5rem'} >
-                                            <Avatar w={'2.5rem'} h={'2.5rem'} src={user?.profilePhoto} />
+                                        <Flex onClick={() => selectUserChat(user)} bgColor={selectedUser?._id === user._id ? "#f2f2f2" : null} cursor={'pointer'} p={'.5rem'} _hover={{ bgColor: "#f2f2f2" }} alignItems={'center'} gap={'.5rem'} >
+                                            <Avatar w={'2.5rem'} h={'2.5rem'} src={user?.profilePhoto} >
+                                                {
+                                                    isOnline &&
+                                                    <AvatarBadge boxSize='.9rem' bg='green.500' />
+                                                }
+                                            </Avatar>
                                             <Flex flexDir={'column'}>
                                                 <Text fontWeight={'bold'}>{user?.username}</Text>
                                                 <Text fontSize={'.9rem'} color={'gray'}>your last message..</Text>
@@ -134,7 +142,7 @@ const ChatScreen = () => {
                                                     <Flex
                                                         alignSelf={isUserSender ? "flex-end" : "flex-start"}
                                                         justifyContent={isUserSender ? 'flex-end' : "flex-start"}
-                                                         w={'60%'}>
+                                                        w={'60%'}>
                                                         <Text
                                                             key={idx}
                                                             borderRadius={'.9rem'}
@@ -174,7 +182,7 @@ const ChatScreen = () => {
                                             </InputRightElement>
                                         </InputGroup>
                                     </Flex>
- 
+
                                 </Flex>
                                 :
                                 <Flex w={'70%'} alignItems={'center'} justifyContent={'center'} h={'100%'} >

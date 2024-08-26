@@ -6,8 +6,7 @@ const Stories = () => {
     if(!otherUsers) return ;
 
     return (
-        <Box h={'fit-content'}fontWeight={'bold'} px={'1rem'} w={'100%'} >
-
+        <Box h={'fit-content'} fontWeight={'bold'} px={'1rem'} w={'100%'} >
             <Flex gap={'1rem'} overflowX={'scroll'}  w={'fit-content'}>
                 {
                     otherUsers.map((i, idx) => {
@@ -21,9 +20,8 @@ const Stories = () => {
                         )
                     })
                 }
-
-
             </Flex>
+
         </Box>
     )
 }

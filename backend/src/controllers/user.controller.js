@@ -266,6 +266,15 @@ export const deleteUser = async (req, res) => {
             await likedPost.save();
         }
         console.log("LIked posts deleted successfully")
+
+         //disliking the posts which the user liked, before Account Deletion
+         const commentsdByUser = await User.findById(userId).select("comments").populate("comments")
+         for (let i = 0; i < commentsdByUser.comments.length; i++) {
+             const commentPost = await createPost.findById(commentsdByUser.comments[i]._id)
+             commentPost.comments = commentPost.comments.filter(id => id.toString() !== userId.toString());
+             await commentPost.save();
+         }
+         console.log("comments deleted successfully")
         
         //unfollowing the user which the deleting user followed them
         const otherUsers_followed_by_deletingUser = await User.findById(userId).select("following").populate("following");
